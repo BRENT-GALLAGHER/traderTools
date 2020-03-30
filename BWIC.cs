@@ -139,7 +139,7 @@ namespace traderTools
             
             if (usingSQLServer ==  true)
             {
-                SqlConnection cn = new SqlConnection("Data Source=BMC-NY-ZM01;" +
+                SqlConnection cn = new SqlConnection("Data Source=ZM-SQL-1;" +
                     "Initial Catalog=ZM_GALLAGHER; Integrated Security=SSPI;");
 
                 cn.Open();
@@ -192,7 +192,7 @@ namespace traderTools
 
             if (usingSQLServer == true)
             {
-                SqlConnection cn = new SqlConnection("Data Source=BMC-NY-ZM01;" +
+                SqlConnection cn = new SqlConnection("Data Source=ZM-SQL-1;" +
                     "Initial Catalog=ZM_GALLAGHER; Integrated Security=SSPI;");
 
                 cn.Open();
@@ -239,7 +239,7 @@ namespace traderTools
 
             if (usingSQLServer == true)
             {
-                SqlConnection cn = new SqlConnection("Data Source=BMC-NY-ZM01;" +
+                SqlConnection cn = new SqlConnection("Data Source=ZM-SQL-1;" +
                     "Initial Catalog=ZM_GALLAGHER; Integrated Security=SSPI;");
 
                 cn.Open();
@@ -303,7 +303,7 @@ namespace traderTools
 
             if (usingSQLServer == true)
             {
-                SqlConnection cn = new SqlConnection("Data Source=BMC-NY-ZM01;" +
+                SqlConnection cn = new SqlConnection("Data Source=ZM-SQL-1;" +
                     "Initial Catalog=ZM_GALLAGHER; Integrated Security=SSPI;");
 
                 cn.Open();
@@ -340,7 +340,7 @@ namespace traderTools
 
             if (usingSQLServer == true)
             {
-                SqlConnection cn = new SqlConnection("Data Source=BMC-NY-ZM01;" +
+                SqlConnection cn = new SqlConnection("Data Source=ZM-SQL-1;" +
                     "Initial Catalog=ZM_GALLAGHER; Integrated Security=SSPI;");
 
                 cn.Open();
@@ -414,7 +414,7 @@ namespace traderTools
 
             if (usingSQLServer == true)
             {
-                SqlConnection cn = new SqlConnection("Data Source=BMC-NY-ZM01;" +
+                SqlConnection cn = new SqlConnection("Data Source=ZM-SQL-1;" +
                     "Initial Catalog=ZM_GALLAGHER; Integrated Security=SSPI;");
 
                 cn.Open();
@@ -461,7 +461,7 @@ namespace traderTools
 
             if (usingSQLServer == true)
             {
-                SqlConnection cn = new SqlConnection("Data Source=BMC-NY-ZM01;" +
+                SqlConnection cn = new SqlConnection("Data Source=ZM-SQL-1;" +
                     "Initial Catalog=ZM_GALLAGHER; Integrated Security=SSPI;");
 
                 cn.Open();
@@ -536,7 +536,7 @@ namespace traderTools
 
             if (usingSQLServer == true)
             {
-                SqlConnection cn = new SqlConnection("Data Source=BMC-NY-ZM01;" +
+                SqlConnection cn = new SqlConnection("Data Source=ZM-SQL-1;" +
                    "Initial Catalog=ZM_GALLAGHER; Integrated Security=SSPI;");
 
                 cn.Open();
@@ -690,7 +690,7 @@ namespace traderTools
             SQL += " GROUP BY BWIC_NAME ORDER BY BWIC_NAME ASC;";
             if (usingSQLServer == true)
             {
-                SqlConnection cn = new SqlConnection("Data Source=BMC-NY-ZM01;" +
+                SqlConnection cn = new SqlConnection("Data Source=ZM-SQL-1;" +
                    "Initial Catalog=ZM_GALLAGHER; Integrated Security=SSPI;");
 
                 cn.Open();

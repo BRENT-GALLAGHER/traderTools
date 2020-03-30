@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Configuration;
+
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -23,6 +25,7 @@ namespace traderTools
       public userLogInForm()
       {
          InitializeComponent();
+         fillDataConnections();
       }
 
       public bool userConnected
@@ -94,7 +97,7 @@ namespace traderTools
 
       private void logInButton_Click(object sender, EventArgs e)
       {
-         
+         //Save configuration settings
          verifyUser();
       }
 
@@ -108,6 +111,43 @@ namespace traderTools
 
       }
 
+      public void fillDataConnections()
+      {
+
+            SavedSettingslistBox.ClearSelected();
+
+            while (SavedSettingslistBox.Items.Count>0)
+            {
+                SavedSettingslistBox.Items.RemoveAt(0);
+            }
+            //READ CONFIG FILE AND LOAD CONNECTION NAMES!
+            System.Configuration.Configuration config =
+                ConfigurationManager.OpenExeConfiguration
+                (ConfigurationUserLevel.None) as Configuration;
+            CustomSection customSection = new CustomSection();
+
+            customSection = config.GetSection("DataConnections") as CustomSection;
+            
+
+            MessageBox.Show(customSection.ConnectionName);
+        //QS_swapIDdropDown.Items.Clear();
+
+        //while (QS_swapIDdropDown.Items.Count > 0)
+        //    QS_swapIDdropDown.Items.RemoveAt(0);
+
+        //RibbonDropDownItem fstItem = this.Factory.CreateRibbonDropDownItem();
+        //fstItem.Label = "Select Swap Name";
+        //QS_swapIDdropDown.Items.Add(fstItem);
+
+        //while (Rdr.Read())
+        //{
+        //    RibbonDropDownItem rbnItem = this.Factory.CreateRibbonDropDownItem();
+        //    rbnItem.Label = Rdr.GetValue(0).ToString();
+        //    QS_swapIDdropDown.Items.Add(rbnItem);
+        //}
+
+      }
+
       public bool testRun()
       {
          this.Show();
@@ -118,6 +158,8 @@ namespace traderTools
       {
          userID = userIDTextBox.Text.ToString();
          password = userPasswordTextBox.Text.ToString();
+
+            crtUser.SetDBSetting();
 
          if (userID.Equals("") || password.Equals(""))
             {
@@ -157,5 +199,54 @@ namespace traderTools
          userPasswordTextBox.Clear();
       }
 
-   }
+        private void Cancelbutton_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+        }
+
+        private void SavedSettingslistBox_SelectedValueChanged(object sender, EventArgs e)
+        {
+            //try
+            //{
+            //    savedNametextBox.Text = SavedSettingslistBox.Text.ToString();
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show(ex.ToString());
+            //}
+
+        }
+
+        private void SavedSettingslistBox_DisplayMemberChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void SavedSettingslistBox_MouseClick(object sender, MouseEventArgs e)
+        {
+
+        }
+
+        private void SavedSettingslistBox_DisplayMemberChanged_1(object sender, EventArgs e)
+        {
+            MessageBox.Show("HELLO");
+        }
+
+        private void SavedSettingslistBox_SelectedValueChanged_1(object sender, EventArgs e)
+        {
+            try
+            {
+                savedNametextBox.Text = SavedSettingslistBox.Text.ToString();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
+        private void SavedSettingslistBox_Click(object sender, EventArgs e)
+        {
+
+        }
+    }
 }

@@ -190,9 +190,9 @@ namespace traderTools
             {
                 //Wb.Application.Run("RegisterCallback", Wb);
             }
-            catch
+            catch(Exception er)
             {
-
+                MessageBox.Show(er.ToString());
             }
         }
 
@@ -264,6 +264,61 @@ namespace traderTools
                 showOptimizerParameters(Target.Value);
                 Cancel=true;
             }
+
+
+            if (Target.Worksheet.Name.ToString().Equals("CD Inventory")  && Target.Row == 6 && Target.Column >= 5)
+            {
+                optMin = "";
+                optMax = "";
+                optMinMaxComboItem = 0;
+
+                optPCol = Target.Column;
+
+                myString = sheet.Cells[1, Target.Column].Text;
+
+                if (myString.ToUpper().Equals("MIN"))
+                {
+                    optMinMaxComboItem = 0;
+                    optMin = sheet.Cells[2, Target.Column].Text;
+                    optMax = "0";
+                }
+
+                if (myString.ToUpper().Equals("MAX"))
+                {
+                    optMinMaxComboItem = 1;
+                    optMax = sheet.Cells[2, Target.Column].Text;
+                    optMin = "0";
+                }
+
+                if (myString.ToUpper().Contains("RANGE"))
+                    optMinMaxComboItem = 2;
+
+                if (myString.ToUpper().Contains("SIZE") || myString.ToUpper().Contains("TOTAL"))
+                    optMinMaxComboItem = 3;
+
+                myString = sheet.Cells[2, Target.Column].Text;
+
+                if (myString.Contains("|"))
+                {
+                    myMin = myString.Substring(0, myString.IndexOf("|"));
+                    myMax = myString.Substring(myString.IndexOf("|") + 1);
+                    optMin = myMin;
+                    optMax = myMax;
+                }
+
+                myString = sheet.Cells[3, Target.Column].Text;
+
+                if (myString.ToUpper().Contains("SUM"))
+                    optSumAvgIndex = 0;
+
+                if (myString.ToUpper().Contains("AVG"))
+                    optSumAvgIndex = 1;
+
+                showOptimizerParameters(Target.Value);
+                Cancel = true;
+            }
+
+
         }
 
         private void buttonGetCMO_Click(object sender, RibbonControlEventArgs e)
@@ -332,7 +387,7 @@ namespace traderTools
         {
             uLogIn.verifyUser();  //this verifys without displaying login screen.  No need with SQL Server windows authentication
 
-            //uLogIn.Show(); //use this if user must enter userID and password
+           // after DEMO uLogIn.Show(); //use this if user must enter userID and password
 
             //bool vbl;
             //vbl = uLogIn.testRun();
@@ -351,7 +406,7 @@ namespace traderTools
 
                 createPMdetail();
 
-                SqlConnection cn = new SqlConnection("Data Source=BMC-NY-ZM01;" +
+                SqlConnection cn = new SqlConnection("Data Source=ZM-SQL-1;" +
                    "Initial Catalog=ZM_GALLAGHER; Integrated Security=SSPI;");
 
                 cn.Open();
@@ -395,7 +450,7 @@ namespace traderTools
 
                 clientName = PortfoliodropDown.SelectedItem.ToString();
 
-                SqlConnection cn = new SqlConnection("Data Source=BMC-NY-ZM01;" +
+                SqlConnection cn = new SqlConnection("Data Source=ZM-SQL-1;" +
                    "Initial Catalog=ZM_GALLAGHER; Integrated Security=SSPI;");
 
                 cn.Open();
@@ -434,7 +489,7 @@ namespace traderTools
 
                 createPMdetail();
 
-                SqlConnection cn = new SqlConnection("Data Source=BMC-NY-ZM01;" +
+                SqlConnection cn = new SqlConnection("Data Source=ZM-SQL-1;" +
                    "Initial Catalog=ZM_GALLAGHER; Integrated Security=SSPI;");
 
                 cn.Open();
@@ -474,7 +529,7 @@ namespace traderTools
 
                 createPMdetail();
 
-                SqlConnection cn = new SqlConnection("Data Source=BMC-NY-ZM01;" +
+                SqlConnection cn = new SqlConnection("Data Source=ZM-SQL-1;" +
                    "Initial Catalog=" + Catalog + "; Integrated Security=SSPI;");
 
                 cn.Open();
@@ -522,7 +577,7 @@ namespace traderTools
 
                 swapName = QS_swapIDdropDown.SelectedItem.ToString();
 
-                SqlConnection cn = new SqlConnection("Data Source=BMC-NY-ZM01;" +
+                SqlConnection cn = new SqlConnection("Data Source=ZM-SQL-1;" +
                    "Initial Catalog=ZM_GALLAGHER; Integrated Security=SSPI;");
 
                 cn.Open();
@@ -624,7 +679,7 @@ namespace traderTools
                     pricingDate = "";
                 }
 
-                SqlConnection cn = new SqlConnection("Data Source=BMC-NY-ZM01;" +
+                SqlConnection cn = new SqlConnection("Data Source=ZM-SQL-1;" +
                    "Initial Catalog=ZM_GALLAGHER; Integrated Security=SSPI;");
 
                 cn.Open();
@@ -673,7 +728,7 @@ namespace traderTools
 
                 portName = ReportingPortfoliosdropDown.SelectedItem.ToString();
 
-                SqlConnection cn = new SqlConnection("Data Source=BMC-NY-ZM01;" +
+                SqlConnection cn = new SqlConnection("Data Source=ZM-SQL-1;" +
                    "Initial Catalog=ZM_GALLAGHER; Integrated Security=SSPI;");
 
                 cn.Open();
@@ -714,7 +769,7 @@ namespace traderTools
             {
                 createPMdetail();
 
-                SqlConnection cn = new SqlConnection("Data Source=BMC-NY-ZM01;" +
+                SqlConnection cn = new SqlConnection("Data Source=ZM-SQL-1;" +
                    "Initial Catalog=" + DB + "; Integrated Security=SSPI;");
 
 
@@ -765,7 +820,7 @@ namespace traderTools
             {
                 createPMdetail();
 
-                SqlConnection cn = new SqlConnection("Data Source=BMC-NY-ZM01;" +
+                SqlConnection cn = new SqlConnection("Data Source=ZM-SQL-1;" +
                    "Initial Catalog=ZM_GALLAGHER; Integrated Security=SSPI;");
 
                 cn.Open();
@@ -807,7 +862,7 @@ namespace traderTools
             {
                 createPMdetail();
 
-                SqlConnection cn = new SqlConnection("Data Source=BMC-NY-ZM01;" +
+                SqlConnection cn = new SqlConnection("Data Source=ZM-SQL-1;" +
                    "Initial Catalog=ZM_GALLAGHER; Integrated Security=SSPI;");
 
                 cn.Open();
@@ -816,7 +871,7 @@ namespace traderTools
                 cmd = cn.CreateCommand();
                 SqlDataReader Rdr;
 
-                cmd.CommandText = "select distinct PW_TEMPLATE_NAME from PW_TEMPLATES "
+                cmd.CommandText = "select distinct PW_TEMPLATE_NAME from PW_TEMPLATES  where pw_owner in ('SHARED','" + Environment.UserName + "') "
                    + " ORDER BY PW_TEMPLATE_NAME;";
 
                 Rdr = cmd.ExecuteReader();
@@ -855,7 +910,7 @@ namespace traderTools
 
                 clientName = FI_OptPortfoliodropDown.SelectedItem.ToString();
 
-                SqlConnection cn = new SqlConnection("Data Source=BMC-NY-ZM01;" +
+                SqlConnection cn = new SqlConnection("Data Source=ZM-SQL-1;" +
                    "Initial Catalog=" + DB + "; Integrated Security=SSPI;");
 
                 cn.Open();
@@ -889,6 +944,14 @@ namespace traderTools
 
                 Rdr.Close();
                 cn.Close();
+                try
+                {
+                    Globals.ThisAddIn.Application._Run2("port_Date", FI_OptAsOfdropDown.SelectedItem.ToString());
+                } catch (Exception er)
+                {
+                    MessageBox.Show(er.ToString());
+                }
+                
             }
 
         }
@@ -909,7 +972,7 @@ namespace traderTools
 
                 clientName = FI_OptPortfoliodropDown.SelectedItem.ToString();
 
-                SqlConnection cn = new SqlConnection("Data Source=BMC-NY-ZM01;" +
+                SqlConnection cn = new SqlConnection("Data Source=ZM-SQL-1;" +
                    "Initial Catalog=ZM_GALLAGHER; Integrated Security=SSPI;");
 
                 cn.Open();
@@ -978,7 +1041,7 @@ namespace traderTools
             {
                 createPMswaps();
 
-                SqlConnection cn = new SqlConnection("Data Source=BMC-NY-ZM01;" +
+                SqlConnection cn = new SqlConnection("Data Source=ZM-SQL-1;" +
                    "Initial Catalog=ZM_GALLAGHER; Integrated Security=SSPI;");
 
                 cn.Open();
@@ -1037,7 +1100,7 @@ namespace traderTools
             {
                 createPMswaps();
 
-                SqlConnection cn = new SqlConnection("Data Source=BMC-NY-ZM01;" +
+                SqlConnection cn = new SqlConnection("Data Source=ZM-SQL-1;" +
                    "Initial Catalog=ZM_GALLAGHER; Integrated Security=SSPI;");
 
                 cn.Open();
@@ -1083,7 +1146,7 @@ namespace traderTools
             {
                 createQSrowTasks();
 
-                SqlConnection cn = new SqlConnection("Data Source=BMC-NY-ZM01;" +
+                SqlConnection cn = new SqlConnection("Data Source=ZM-SQL-1;" +
                    "Initial Catalog=ZM_GALLAGHER; Integrated Security=SSPI;");
 
                 cn.Open();
@@ -1124,7 +1187,7 @@ namespace traderTools
             if (usingSQLServer == true)
             {
 
-                SqlConnection cn = new SqlConnection("Data Source=BMC-NY-ZM01;" +
+                SqlConnection cn = new SqlConnection("Data Source=ZM-SQL-1;" +
                    "Initial Catalog=ZM_GALLAGHER; Integrated Security=SSPI;");
 
                 cn.Open();
@@ -1166,7 +1229,7 @@ namespace traderTools
             if (usingSQLServer == true)
             {
 
-                SqlConnection cn = new SqlConnection("Data Source=BMC-NY-ZM01;" +
+                SqlConnection cn = new SqlConnection("Data Source=ZM-SQL-1;" +
                    "Initial Catalog=ZM_GALLAGHER; Integrated Security=SSPI;");
 
                 cn.Open();
@@ -1207,7 +1270,7 @@ namespace traderTools
             if (usingSQLServer == true)
             {
 
-                SqlConnection cn = new SqlConnection("Data Source=BMC-NY-ZM01;" +
+                SqlConnection cn = new SqlConnection("Data Source=ZM-SQL-1;" +
                    "Initial Catalog=ZM_GALLAGHER; Integrated Security=SSPI;");
 
                 cn.Open();
@@ -1249,7 +1312,7 @@ namespace traderTools
             if (usingSQLServer == true)
             {
 
-                SqlConnection cn = new SqlConnection("Data Source=BMC-NY-ZM01;" +
+                SqlConnection cn = new SqlConnection("Data Source=ZM-SQL-1;" +
                    "Initial Catalog=ZM_GALLAGHER; Integrated Security=SSPI;");
 
                 cn.Open();
@@ -1328,7 +1391,7 @@ namespace traderTools
             if (usingSQLServer == true)
             {
 
-                SqlConnection cn = new SqlConnection("Data Source=BMC-NY-ZM01;" +
+                SqlConnection cn = new SqlConnection("Data Source=ZM-SQL-1;" +
                    "Initial Catalog=ZM_GALLAGHER; Integrated Security=SSPI;");
 
                 cn.Open();
@@ -1394,7 +1457,7 @@ namespace traderTools
             {
                 clientName = FI_OptPortfoliodropDown.SelectedItem.ToString();
 
-                SqlConnection cn = new SqlConnection("Data Source=BMC-NY-ZM01;" +
+                SqlConnection cn = new SqlConnection("Data Source=ZM-SQL-1;" +
                    "Initial Catalog=ZM_GALLAGHER; Integrated Security=SSPI;");
 
                 cn.Open();
@@ -1463,7 +1526,7 @@ namespace traderTools
             {
                 clientName = FI_OptPortfoliodropDown.SelectedItem.ToString();
 
-                SqlConnection cn = new SqlConnection("Data Source=BMC-NY-ZM01;" +
+                SqlConnection cn = new SqlConnection("Data Source=ZM-SQL-1;" +
                    "Initial Catalog=" + DB + "; Integrated Security=SSPI;");
 
                 cn.Open();
@@ -1508,6 +1571,15 @@ namespace traderTools
                         AssetGrpMineditBox.Text = Rdr.GetValue(1).ToString();
                         AssetGrpMaxeditBox.Text = Rdr.GetValue(2).ToString();
 
+                        try
+                        {
+                            Globals.ThisAddIn.Application._Run2("SNLID_SET", Rdr.GetValue(0).ToString());
+                        }
+                        catch (Exception er)
+                        {
+                            MessageBox.Show(er.ToString());
+                        }
+                        
                         //PortfolioDatedropDown.Items.Add(rbnItem);
                         //FI_OptAsOfdropDown.Items.Add(rbnItem);
                     }
@@ -1523,6 +1595,15 @@ namespace traderTools
 
                     Rdr.Read();
                     SNLIDeditBox.Text = Rdr.GetValue(0).ToString();
+                    try
+                    {
+                        Globals.ThisAddIn.Application._Run2("SNLID_SET", Rdr.GetValue(0).ToString());
+                    }
+                    catch (Exception er)
+                    {
+                        MessageBox.Show(er.ToString());
+                    }
+
                     Rdr.Close();
 
                     cmd.CommandText = "select Cost_of_Funds from SNLBankData where SNL_Institution_Key='" + SNLIDeditBox.Text.ToString() + "';";
@@ -1534,11 +1615,25 @@ namespace traderTools
                         optTefraeditBox.Text = Rdr.GetValue(0).ToString();
                         if (OptimizationDataBasesdropDown.SelectedItem.ToString().ToUpper().Equals("ZM_HOURIET"))
                         {
-                            Globals.ThisAddIn.Application._Run2("tefra", optTefraeditBox.Text.ToString());
+                            try
+                            {
+                                Globals.ThisAddIn.Application._Run2("tefra", optTefraeditBox.Text.ToString());
+                            } catch (Exception er)
+                            {
+                                MessageBox.Show(er.ToString());
+                            }
+                            
                         }
                         if (OptimizationDataBasesdropDown.SelectedItem.ToString().ToUpper().Equals("ZM_PIGG"))
                         {
-                            Globals.ThisAddIn.Application._Run2("COF", optTefraeditBox.Text.ToString());
+                            try
+                            {
+                                Globals.ThisAddIn.Application._Run2("COF", optTefraeditBox.Text.ToString());
+                            } catch (Exception er)
+                            {
+                                MessageBox.Show(er.ToString());
+                            }
+                            
                         }
                     }
 
@@ -1566,7 +1661,7 @@ namespace traderTools
             {
                 clientName = FI_OptPortfoliodropDown.SelectedItem.ToString();
 
-                SqlConnection cn = new SqlConnection("Data Source=BMC-NY-ZM01;" +
+                SqlConnection cn = new SqlConnection("Data Source=ZM-SQL-1;" +
                    "Initial Catalog=" + DB + "; Integrated Security=SSPI;");
 
                 cn.Open();
@@ -1757,6 +1852,8 @@ namespace traderTools
                 QuickSwapcheckBox.Checked = true;
                 ZMinventorycheckBox.Visible = true;
                 ZMinventorycheckBox.Checked = true;
+                pullBloomBergcheckBox.Checked = true;
+                showSubTotalscheckBox.Checked = true;
 
                 QSuser = Environment.UserName.ToString();
                 fillQS_swapIDDropDown();
@@ -1790,13 +1887,14 @@ namespace traderTools
                 if (Environment.UserName.ToUpper().Equals("BRENT.GALLAGHER"))
                 {
                     StreetInventoriescheckBox.Visible = true;
+                    tabEquities.Visible = true;
                 }
 
                 if (Environment.UserName.ToUpper().Equals("BRENT.GALLAGHER") || Environment.UserName.ToUpper().Equals("SEAN.PIGG")
 					|| 1==1)
                 {
                     tabStrategy.Visible = true;
-                    AnalyticsGroup.Visible = true;
+                    AnalyticsGroup.Visible =false;
 
                     fill_userIDDropDown();
 
@@ -1912,6 +2010,9 @@ namespace traderTools
                 AnalyticsCommonTasksdropDown.Enabled = false;
                 StrategyTaskButton.Enabled = false;
 
+                showSubTotalscheckBox.Checked = false;
+                pullBloomBergcheckBox.Checked = false;
+
                 //SINGLE SECURITY CONTROLS
                 cusipEditBox.Enabled = false;
                 priceEditBox.Enabled = false;
@@ -1949,6 +2050,8 @@ namespace traderTools
 
                 UserdropDown.Visible =false;
                 templatesGroupcheckBox.Visible = false;
+
+                tabEquities.Visible =false;
 
             }
 
@@ -2691,7 +2794,7 @@ namespace traderTools
 
         private void bloomMappedFieldscomboBox_TextChanged(object sender, RibbonControlEventArgs e)
         {
-            SqlConnection cn = new SqlConnection("Data Source=BMC-NY-ZM01;" +
+            SqlConnection cn = new SqlConnection("Data Source=ZM-SQL-1;" +
                 "Initial Catalog=ZM_GALLAGHER; Integrated Security=SSPI;");
 
             cn.Open();
@@ -2720,7 +2823,7 @@ namespace traderTools
 
         private void fillMappedSector(string sector)
         {
-            SqlConnection cn = new SqlConnection("Data Source=BMC-NY-ZM01;" +
+            SqlConnection cn = new SqlConnection("Data Source=ZM-SQL-1;" +
                 "Initial Catalog=ZM_GALLAGHER; Integrated Security=SSPI;");
 
             cn.Open();
@@ -2760,7 +2863,7 @@ namespace traderTools
 
             createPMdetail();
 
-            SqlConnection cn = new SqlConnection("Data Source=BMC-NY-ZM01;" +
+            SqlConnection cn = new SqlConnection("Data Source=ZM-SQL-1;" +
     "Initial Catalog=ZM_GALLAGHER; Integrated Security=SSPI;");
 
             cn.Open();
@@ -2978,8 +3081,9 @@ namespace traderTools
                     Globals.ThisAddIn.Application._Run2("PM_MUNIdetail", PortfoliodropDown.SelectedItem.ToString(),
                         PortfolioDatedropDown.SelectedItem.ToString());
                 }
-                catch
+                catch(Exception er)
                 {
+                    MessageBox.Show(er.ToString());
                 }
 
             if (MuniSummarycheckBox.Checked)
@@ -2988,8 +3092,9 @@ namespace traderTools
                     Globals.ThisAddIn.Application._Run2("PM_MUNI", PortfoliodropDown.SelectedItem.ToString(),
                         PortfolioDatedropDown.SelectedItem.ToString());
                 }
-                catch
+                catch(Exception er)
                 {
+                    MessageBox.Show(er.ToString());
                 }
 
             if (LikelyCallcheckBox.Checked)
@@ -3009,8 +3114,9 @@ namespace traderTools
                     Globals.ThisAddIn.Application._Run2("PM_AGENCY", PortfoliodropDown.SelectedItem.ToString(),
                         PortfolioDatedropDown.SelectedItem.ToString());
                 }
-                catch
+                catch(Exception er)
                 {
+                    MessageBox.Show(er.ToString());
                 }
 
             if (CapitalImpactcheckBox.Checked)
@@ -3019,8 +3125,9 @@ namespace traderTools
                     Globals.ThisAddIn.Application._Run2("PM_CAPITAL_IMPACT", PortfoliodropDown.SelectedItem.ToString(),
                         PortfolioDatedropDown.SelectedItem.ToString());
                 }
-                catch
+                catch(Exception er)
                 {
+                    MessageBox.Show(er.ToString());
                 }
 
 
@@ -3032,8 +3139,9 @@ namespace traderTools
                     Globals.ThisAddIn.Application._Run2("PM_SectorDetail", PortfoliodropDown.SelectedItem.ToString(),
                         PortfolioDatedropDown.SelectedItem.ToString());
                 }
-                catch
+                catch( Exception er)
                 {
+                    MessageBox.Show(er.ToString());
                 }
             //sectorDetail = true;
 
@@ -3043,8 +3151,9 @@ namespace traderTools
                     Globals.ThisAddIn.Application._Run2("PM_IRS_Detail", PortfoliodropDown.SelectedItem.ToString(),
                         PortfolioDatedropDown.SelectedItem.ToString());
                 }
-                catch
+                catch(Exception er)
                 {
+                    MessageBox.Show(er.ToString());
                 }
             //IRSDetail = true;
 
@@ -3054,8 +3163,9 @@ namespace traderTools
                     Globals.ThisAddIn.Application._Run2("PM_IRS", PortfoliodropDown.SelectedItem.ToString(),
                         PortfolioDatedropDown.SelectedItem.ToString());
                 }
-                catch
+                catch( Exception er)
                 {
+                    MessageBox.Show(er.ToString());
                 }
             //IRSSummary = true;
 
@@ -3065,8 +3175,9 @@ namespace traderTools
                     Globals.ThisAddIn.Application._Run2("PM_SectorAllocation", PortfoliodropDown.SelectedItem.ToString(),
                         PortfolioDatedropDown.SelectedItem.ToString());
                 }
-                catch
+                catch(Exception er)
                 {
+                    MessageBox.Show(er.ToString());
                 }
             //sectorSummary = true;
 
@@ -3076,8 +3187,9 @@ namespace traderTools
                     Globals.ThisAddIn.Application._Run2("PM_Cash24", PortfoliodropDown.SelectedItem.ToString(),
                         PortfolioDatedropDown.SelectedItem.ToString());
                 }
-                catch
+                catch(Exception er)
                 {
+                    MessageBox.Show(er.ToString());
                 }
             //cash24 = true;
 
@@ -3087,8 +3199,9 @@ namespace traderTools
                     Globals.ThisAddIn.Application._Run2("PM_Cash_10YR", PortfoliodropDown.SelectedItem.ToString(),
                         PortfolioDatedropDown.SelectedItem.ToString());
                 }
-                catch
+                catch (Exception er)
                 {
+                    MessageBox.Show(er.ToString());
                 }
             //cashYrly = true;
 
@@ -3098,8 +3211,9 @@ namespace traderTools
                     Globals.ThisAddIn.Application._Run2("PM_Cash_By_Sector", PortfoliodropDown.SelectedItem.ToString(),
                         PortfolioDatedropDown.SelectedItem.ToString());
                 }
-                catch
+                catch(Exception er)
                 {
+                    MessageBox.Show(er.ToString());
                 }
             //cashSector = true;
 
@@ -3109,8 +3223,9 @@ namespace traderTools
                     Globals.ThisAddIn.Application._Run2("PM_CashSetup", PortfoliodropDown.SelectedItem.ToString(),
                         PortfolioDatedropDown.SelectedItem.ToString());
                 }
-                catch
+                catch (Exception er)
                 {
+                    MessageBox.Show(er.ToString());
                 }
             //prePaySetup = true;
 
@@ -3120,8 +3235,9 @@ namespace traderTools
                     Globals.ThisAddIn.Application._Run2("PM_WATCHLIST", PortfoliodropDown.SelectedItem.ToString(),
                         PortfolioDatedropDown.SelectedItem.ToString());
                 }
-                catch
+                catch(Exception er)
                 {
+                    MessageBox.Show(er.ToString());
                 }
             //watchlist = true;
 
@@ -3131,8 +3247,9 @@ namespace traderTools
                     Globals.ThisAddIn.Application._Run2("PM_MTGFACTOR_SETUP", PortfoliodropDown.SelectedItem.ToString(),
                         PortfolioDatedropDown.SelectedItem.ToString());
                 }
-                catch
+                catch(Exception er)
                 {
+                    MessageBox.Show(er.ToString()); 
                 }
             //mtgFactors = true;
 
@@ -3142,8 +3259,9 @@ namespace traderTools
                     PortfolioDatedropDown.SelectedItem.ToString(), sectorDetail, sectorSummary, cash24, cashYrly,
                     cashSector, prePaySetup, IRSSummary, IRSDetail, watchlist, mtgFactors);
             }
-            catch
+            catch(Exception er)
             {
+                MessageBox.Show(er.ToString());
             }
 
         }
@@ -3161,10 +3279,11 @@ namespace traderTools
                 Globals.ThisAddIn.Application._Run2("refreshPMdata", PortfoliodropDown.SelectedItem.ToString(),
                     PortfolioDatedropDown.SelectedItem.ToString());
             }
-            catch
+            catch (Exception er)
             {
+                MessageBox.Show(er.ToString());
             }
-
+             
         }
 
         private void UpdateSNLOptValues()
@@ -3178,10 +3297,10 @@ namespace traderTools
             SNLID = SNLIDeditBox.Text.ToString();
             SNLMIN = AssetGrpMineditBox.Text.ToString();
             SNLMAX = AssetGrpMaxeditBox.Text.ToString();
-
-            if (usingSQLServer == true)
+            
+            if (usingSQLServer == true && string.IsNullOrEmpty(SNLMAX)==false  && string.IsNullOrEmpty(CLIENT)==false )
             {
-                SqlConnection cn = new SqlConnection("Data Source=BMC-NY-ZM01;" +
+                SqlConnection cn = new SqlConnection("Data Source=ZM-SQL-1;" +
                     "Initial Catalog=ZM_GALLAGHER; Integrated Security=SSPI;");
 
                 cn.Open();
@@ -3190,7 +3309,15 @@ namespace traderTools
                 cmd = cn.CreateCommand();
                 cmd.CommandText = "update PW_BROKER SET PW_SNL_ID='" + SNLID + "', PW_ASSET_GROUP_MIN="
                     + SNLMIN + " , PW_ASSET_GROUP_MAX=" + SNLMAX + " where PW_CLIENT='" + CLIENT + "';";
-                cmd.ExecuteNonQuery();
+
+                try
+                {
+                    cmd.ExecuteNonQuery();
+                }
+                catch (Exception er)
+                {
+                    MessageBox.Show(er.ToString());
+                }
 
                 cn.Close();
 
@@ -3205,8 +3332,9 @@ namespace traderTools
             {
                 Globals.ThisAddIn.Application._Run2("fillPrepayMatrix", true);
             }
-            catch
+            catch(Exception er)
             {
+                MessageBox.Show(er.ToString());
             }
         }
 
@@ -3225,8 +3353,9 @@ namespace traderTools
                 }
 
             }
-            catch
+            catch(Exception er)
             {
+                MessageBox.Show(er.ToString());
             }
         }
 
@@ -3236,8 +3365,9 @@ namespace traderTools
             {
                 Globals.ThisAddIn.Application._Run2("blankPW_Load");
             }
-            catch
+            catch (Exception er)
             {
+                MessageBox.Show(er.ToString());
             }
         }
 
@@ -3247,8 +3377,9 @@ namespace traderTools
             {
                 Globals.ThisAddIn.Application._Run2("LOAD_PW_PORTFOLIO");
             }
-            catch
+            catch (Exception er)
             {
+                MessageBox.Show(er.ToString());
             }
         }
 
@@ -3256,10 +3387,12 @@ namespace traderTools
         {
             try
             {
-                Globals.ThisAddIn.Application._Run2("cleanUpPortToProcess");
+                //Globals.ThisAddIn.Application._Run2("cleanUpPortToProcess");
+                Globals.ThisAddIn.Application._Run2("BloombergWash");
             }
-            catch
+            catch(Exception er)
             {
+                MessageBox.Show(er.ToString());
             }
         }
 
@@ -3269,8 +3402,9 @@ namespace traderTools
             {
                 Globals.ThisAddIn.Application._Run2("runPMuserDefined");
             }
-            catch
+            catch(Exception er)
             {
+                MessageBox.Show(er.ToString());
             }
 
         }
@@ -3289,8 +3423,9 @@ namespace traderTools
                 }
 
             }
-            catch
+            catch(Exception er)
             {
+                MessageBox.Show(er.ToString());
             }
 
         }
@@ -3316,6 +3451,7 @@ namespace traderTools
 
         private void OptUpdateSNLbutton_Click(object sender, RibbonControlEventArgs e)
         {
+
             UpdateSNLOptValues();
         }
 
@@ -3330,8 +3466,9 @@ namespace traderTools
             {
                 Globals.ThisAddIn.Application._Run2("Refresh_Pivot");
             }
-            catch
+            catch (Exception er)
             {
+                MessageBox.Show(er.ToString());
             }
         }
 
@@ -3342,13 +3479,15 @@ namespace traderTools
             {
                 //Globals.ThisAddIn.Application._Run2("insert_RPT_Optimization", OptimizationDataBasesdropDown.SelectedItem.ToString(), 
                 //    SNLIDeditBox.Text.ToString(), FI_OptAsOfdropDown.SelectedItem.ToString(), FI_OptBuyorSelldropDown.SelectedItem.ToString() );
+                Globals.ThisAddIn.Application._Run2("port_Date", FI_OptAsOfdropDown.SelectedItem.ToString());
 
-				Globals.ThisAddIn.Application._Run2("insert_RPT_Optimization", OptimizationDataBasesdropDown.SelectedItem.ToString(),
+                Globals.ThisAddIn.Application._Run2("insert_RPT_Optimization", OptimizationDataBasesdropDown.SelectedItem.ToString(),
 					SNLIDeditBox.Text.ToString(), FI_OptAsOfdropDown.SelectedItem.ToString(),
 					FI_OptBuyorSelldropDown.SelectedItem.ToString(), FI_OptPortfoliodropDown.SelectedItem.ToString());
 			}
-			catch {
-
+			catch(Exception er)
+            {
+                MessageBox.Show(er.ToString());
             }
 
         }
@@ -3416,31 +3555,59 @@ namespace traderTools
             {
                 Globals.ThisAddIn.Application._Run2("BDFS_SWAPCandidates_Setup", "New");
             }
-            catch
+            catch (Exception er)
             {
-
+                MessageBox.Show(er.ToString());
             }
 
         }
 
         private void Loadbutton_Click(object sender, RibbonControlEventArgs e)
         {
-            Globals.ThisAddIn.Application._Run2("BDFS_DescriptiveGroup");
+            try
+            {
+                Globals.ThisAddIn.Application._Run2("BDFS_DescriptiveGroup");
+            }
+            catch (Exception er)
+            {
+                MessageBox.Show(er.ToString());
+            }
         }
 
         private void QS_CashPullbutton_Click(object sender, RibbonControlEventArgs e)
         {
-            Globals.ThisAddIn.Application._Run2("BDFS_CashGroup");
+            try
+            {
+                Globals.ThisAddIn.Application._Run2("BDFS_CashGroup");
+            }
+            catch (Exception er)
+            {
+                MessageBox.Show(er.ToString());
+            }
         }
 
         private void Incomebutton_Click(object sender, RibbonControlEventArgs e)
         {
-            Globals.ThisAddIn.Application._Run2("BDFS_SWAPBaseIncome");
+            try {
+                Globals.ThisAddIn.Application._Run2("BDFS_SWAPBaseIncome");
+
+            }
+            catch (Exception er)
+            {
+                MessageBox.Show(er.ToString());
+            }
         }
 
         private void QS_DisplaySheetsbutton_Click(object sender, RibbonControlEventArgs e)
         {
-            Globals.ThisAddIn.Application._Run2("BDFS_LOAD_SHEETS");
+            try
+            {
+                Globals.ThisAddIn.Application._Run2("BDFS_LOAD_SHEETS");
+            }
+            catch (Exception er)
+            {
+                MessageBox.Show(er.ToString());
+            }
         }
 
         private void QS_updateRowbutton_Click(object sender, RibbonControlEventArgs e)
@@ -3459,7 +3626,14 @@ namespace traderTools
 
         private void QS_RELOADbutton_Click(object sender, RibbonControlEventArgs e)
         {
-            Globals.ThisAddIn.Application._Run2("BDFS_RELOAD");
+            try
+            {
+                Globals.ThisAddIn.Application._Run2("BDFS_RELOAD");
+            }
+            catch (Exception er)
+            {
+                MessageBox.Show(er.ToString());
+            }
         }
 
         private void QS_swapIDdropDown_SelectionChanged(object sender, RibbonControlEventArgs e)
@@ -3475,9 +3649,9 @@ namespace traderTools
                     Globals.ThisAddIn.Application._Run2("QSwapID_SET", QS_swapIDdropDown.SelectedItem.ToString());
                 }
             }
-            catch
+            catch (Exception er)
             {
-
+                MessageBox.Show(er.ToString());
             }
 
             fillQS_AsOfDropDown();
@@ -3485,30 +3659,64 @@ namespace traderTools
 
         private void QS_PrePaybutton_Click(object sender, RibbonControlEventArgs e)
         {
-            //
-            Globals.ThisAddIn.Application._Run2("BDFS_PREPAY_ASSUMPTIONS");
+            try
+            {
+                Globals.ThisAddIn.Application._Run2("BDFS_PREPAY_ASSUMPTIONS");
+            }
+            catch (Exception er)
+            {
+                MessageBox.Show(er.ToString());
+            }
 
         }
 
         private void out_Issuesbutton_Click(object sender, RibbonControlEventArgs e)
         {
             createPMissues();
-            Globals.ThisAddIn.Application._Run2("OUTSTANDING_ISSUES");
+            try
+            {
+                Globals.ThisAddIn.Application._Run2("OUTSTANDING_ISSUES");
+            }
+            catch (Exception er)
+            {
+                MessageBox.Show(er.ToString());
+            }
 
         }
         private void submit_Issuebutton_Click(object sender, RibbonControlEventArgs e)
         {
-            Globals.ThisAddIn.Application._Run2("SUBMIT_ISSUES");
+            try
+            {
+                Globals.ThisAddIn.Application._Run2("SUBMIT_ISSUES");
+            }
+            catch (Exception er)
+            {
+                MessageBox.Show(er.ToString());
+            }
         }
 
         private void resolve_Issuebutton_Click(object sender, RibbonControlEventArgs e)
         {
-            Globals.ThisAddIn.Application._Run2("RESOLVE_ISSUES");
+            try
+            {
+                Globals.ThisAddIn.Application._Run2("RESOLVE_ISSUES");
+            }
+            catch (Exception er)
+            {
+                MessageBox.Show(er.ToString());
+            }
         }
 
         private void Resolved_Issuesbutton_Click(object sender, RibbonControlEventArgs e)
         {
-            Globals.ThisAddIn.Application._Run2("VIEW_RESOLVED_ISSUES");
+            try
+            {
+                Globals.ThisAddIn.Application._Run2("VIEW_RESOLVED_ISSUES");
+            }
+            catch (Exception er)
+            {
+                MessageBox.Show(er.ToString());
+            }
         }
 
         private void Chk_forUpdatesbutton_Click(object sender, RibbonControlEventArgs e)
@@ -3545,7 +3753,14 @@ namespace traderTools
 
         private void altIdSearchbutton_Click(object sender, RibbonControlEventArgs e)
         {
-            Globals.ThisAddIn.Application._Run2("BDFS_ALTid_SEARCH");
+            try
+            {
+                Globals.ThisAddIn.Application._Run2("BDFS_ALTid_SEARCH");
+            }
+            catch (Exception er)
+            {
+                MessageBox.Show(er.ToString());
+            }
         }
 
         private void ReportingPortfoliosdropDown_SelectionChanged(object sender, RibbonControlEventArgs e)
@@ -3556,7 +3771,14 @@ namespace traderTools
         private void ReportingInstrumentsbutton_Click(object sender, RibbonControlEventArgs e)
         {
             //getSNLid();
-            Globals.ThisAddIn.Application._Run2("SNLID_SET", getSNLid());
+            try
+            {
+                Globals.ThisAddIn.Application._Run2("SNLID_SET", getSNLid());
+            }
+            catch (Exception er)
+            {
+                MessageBox.Show(er.ToString());
+            }
 
             try
             {
@@ -3568,9 +3790,9 @@ namespace traderTools
             {
                 Globals.ThisAddIn.Application._Run2("PM_SECTORDETAIL_REPORT");
             }
-            catch
+            catch (Exception er)
             {
-
+                MessageBox.Show(er.ToString());
             }
 
         }
@@ -3585,14 +3807,21 @@ namespace traderTools
             {
                 Globals.ThisAddIn.Application._Run2("QSasOf_SET", QS_asOfdropDown.SelectedItem.ToString());
             }
-            catch
+            catch(Exception er)
             {
-
+                MessageBox.Show(er.ToString());
             }
 
             if (QS_asOfdropDown.SelectedItem == null)
             {
-                Globals.ThisAddIn.Application._Run2("BDFS_SWAPCandidates_Setup", QS_swapIDdropDown.SelectedItem.ToString());
+                try
+                {
+                    Globals.ThisAddIn.Application._Run2("BDFS_SWAPCandidates_Setup", QS_swapIDdropDown.SelectedItem.ToString());
+                }
+                catch (Exception er)
+                {
+                    MessageBox.Show(er.ToString());
+                }
             }
             else
             {
@@ -3604,7 +3833,14 @@ namespace traderTools
 
                     } else
                     {
-                        Globals.ThisAddIn.Application._Run2("BDFS_SWAPCandidates_Setup", QS_swapIDdropDown.SelectedItem.ToString(), QS_asOfdropDown.SelectedItem.ToString());
+                        try
+                        {
+                            Globals.ThisAddIn.Application._Run2("BDFS_SWAPCandidates_Setup", QS_swapIDdropDown.SelectedItem.ToString(), QS_asOfdropDown.SelectedItem.ToString());
+                        }
+                        catch (Exception er)
+                        {
+                            MessageBox.Show(er.ToString());
+                        }
                     }
 
                 }
@@ -3650,9 +3886,9 @@ namespace traderTools
             {
                 Globals.ThisAddIn.Application._Run2("QSuser_SET", UserdropDown.SelectedItem.ToString());
             }
-            catch
+            catch(Exception er)
             {
-
+                MessageBox.Show(er.ToString());
             }
 
         }
@@ -3663,21 +3899,28 @@ namespace traderTools
             {
                 Globals.ThisAddIn.Application._Run2("BDFS_Delete_Swap");
             }
-            catch
+            catch(Exception er)
             {
-
+                MessageBox.Show(er.ToString());
             }
 
             try
             {
                 fillQS_swapIDDropDown();
             }
-            catch { }
+            catch(Exception er)
+            {
+                MessageBox.Show(er.ToString());
+            }
+
             try
             {
                 fillReportingPortfolioDropDown();
             }
-            catch { }
+            catch(Exception er)
+            {
+                MessageBox.Show(er.ToString());
+            }
         }
 
         private void SingleSecuritycheckBox_Click(object sender, RibbonControlEventArgs e)
@@ -3716,9 +3959,9 @@ namespace traderTools
             {
                 Globals.ThisAddIn.Application._Run2("BDFS_RUNALL");
             }
-            catch
+            catch(Exception er)
             {
-
+                MessageBox.Show(er.ToString());
             }
         }
 
@@ -3752,7 +3995,10 @@ namespace traderTools
             {
                 fillReportingPortfolioDropDown(inventoryDBdropDown.SelectedItem.ToString());
             }
-            catch { }
+            catch( Exception er)
+            {
+                MessageBox.Show(er.ToString());
+            }
 
         }
 
@@ -3771,15 +4017,26 @@ namespace traderTools
                 {
                     optTefraeditBox.Label = "COF:";
                 }
+
                 fillFI_OptPortfolioDropDown(OptimizationDataBasesdropDown.SelectedItem.ToString());
             }
-            catch { }
+            catch( Exception er)
+            {
+                MessageBox.Show(er.ToString());
+            }
 
         }
 
 		private void optBuildOutputButton_Click(object sender, RibbonControlEventArgs e)
 		{
-			Globals.ThisAddIn.Application._Run2("opt_BuildOutput");
+            try
+            {
+                Globals.ThisAddIn.Application._Run2("opt_BuildOutput");
+            }
+            catch (Exception er)
+            {
+                MessageBox.Show(er.ToString());
+            }
 
 		}
 
@@ -3789,8 +4046,9 @@ namespace traderTools
             {
                 showOptimizerParameters();
             }
-            catch
+            catch( Exception er)
             {
+                MessageBox.Show(er.ToString());
             }
 
             //try
@@ -3815,7 +4073,6 @@ namespace traderTools
             {
                 optSettings = new OptimizerForm();
                 optSettings.Show();
-
             }
         }
 
@@ -3881,6 +4138,14 @@ namespace traderTools
             else
             {
                 //fillFI_OptAsOfDropDown(OptimizationDataBasesdropDown.SelectedItem.ToString());
+                try
+                {
+                    Globals.ThisAddIn.Application._Run2("port_Date", FI_OptAsOfdropDown.SelectedItem.ToString());
+                } catch(Exception er)
+                {
+                    MessageBox.Show(er.ToString());
+                }
+                
                 fillFI_OptSNL_ID(OptimizationDataBasesdropDown.SelectedItem.ToString(), FI_OptAsOfdropDown.SelectedItem.ToString());
             }
         }
@@ -3896,11 +4161,25 @@ namespace traderTools
             {
                 if (OptimizationDataBasesdropDown.SelectedItem.ToString().ToUpper().Equals("ZM_HOURIET"))
                 {
-                    Globals.ThisAddIn.Application._Run2("tefra", optTefraeditBox.Text.ToString());
+                    try
+                    {
+                        Globals.ThisAddIn.Application._Run2("tefra", optTefraeditBox.Text.ToString());
+                    } catch(Exception er)
+                    {
+                        MessageBox.Show( er.ToString());
+                    }
+                    
                 }
                 if (OptimizationDataBasesdropDown.SelectedItem.ToString().ToUpper().Equals("ZM_PIGG"))
                 {
-                    Globals.ThisAddIn.Application._Run2("COF", optTefraeditBox.Text.ToString());
+                    try
+                    {
+                        Globals.ThisAddIn.Application._Run2("COF", optTefraeditBox.Text.ToString());
+                    } catch(Exception er)
+                    {
+                        MessageBox.Show(er.ToString());
+                    }
+                    
                 }
             }
             catch
@@ -3915,9 +4194,9 @@ namespace traderTools
             {
                 Globals.ThisAddIn.Application._Run2("taxrate", optTaxRateeditBox.Text.ToString() );
             }
-            catch
+            catch (Exception er)
             {
-
+                MessageBox.Show(er.ToString());
             }
         }
 
@@ -3932,24 +4211,62 @@ namespace traderTools
             {
                 Globals.ThisAddIn.Application._Run2("MaxJobTime", optMaxTimeeditBox.Text.ToString());
             }
-            catch
+            catch (Exception er)
             {
-
+                MessageBox.Show(er.ToString());
             }
 
         }
 
         private void templatesButton_Click(object sender, RibbonControlEventArgs e)
         {
+            string tmplName;
+
+            tmplName = TemplatesDropDown.SelectedItem.ToString();
 
             try
             {
                 if (TemplatesDropDown.SelectedItem.ToString().Equals("DISCOUNT CALLABLE ANALYSIS"))
-                    Globals.ThisAddIn.Application._Run2("OAS_CALL");
+                {
+                    try
+                    {
+                        Globals.ThisAddIn.Application._Run2("OAS_CALL");
+                    }
+                    catch (Exception er)
+                    {
+                        MessageBox.Show(er.ToString());
+                    }
+                } else
+                {
+                    if (TemplatesDropDown.SelectedItem.ToString().Equals("LOAD TRADES"))
+                    {
+                        try
+                        {
+                            Globals.ThisAddIn.Application._Run2("TASKRUNNER", "LOAD_TRADES");
+                        }
+                        catch (Exception er)
+                        {
+                            MessageBox.Show(er.ToString());
+                        }
 
-                if (TemplatesDropDown.SelectedItem.ToString().Equals("LOAD TRADES"))
-                    Globals.ThisAddIn.Application._Run2("TASKRUNNER","LOAD_TRADES");
-                
+                    } else
+                    {
+                        try
+                        {
+                            tmplName = tmplName.Replace(" ", "");
+                            //MessageBox.Show(tmplName.ToString());
+
+                            Globals.ThisAddIn.Application._Run2("template_run_" + tmplName);
+                        } catch
+                        {
+
+                        }
+                    }
+
+                }
+
+
+
             }
             catch
             {
@@ -3961,8 +4278,64 @@ namespace traderTools
         {
             try
             {
+
                 if (TemplatesDropDown.SelectedItem.ToString().Equals("DISCOUNT CALLABLE ANALYSIS"))
-                    Globals.ThisAddIn.Application._Run2("OAS_CALL_SETUP");
+                {
+                    try
+                    {
+                        Globals.ThisAddIn.Application._Run2("OAS_CALL_SETUP");
+                    }
+                    catch (Exception er)
+                    {
+                        MessageBox.Show(er.ToString());
+                    }
+
+                } else
+                {
+                    if (TemplatesDropDown.SelectedItem.ToString().Equals("CD LADDER"))
+                    {
+                        try
+                        {
+                            Globals.ThisAddIn.Application._Run2("CD_openCDLadderTemplate");
+                        }
+                        catch (Exception er)
+                        {
+                            MessageBox.Show(er.ToString());
+                        }
+                    }
+                    else
+                    {
+                        if (TemplatesDropDown.SelectedItem.ToString().Equals("FIG Trading Revenue"))
+                        {
+                            try
+                            {
+                                Globals.ThisAddIn.Application._Run2("openBreanUserTemplate", TemplatesDropDown.SelectedItem.ToString());
+                            }
+                            catch (Exception er)
+                            {
+                                MessageBox.Show(er.ToString());
+                            }
+                        } else
+                        {
+                            try
+                            {
+                                Globals.ThisAddIn.Application._Run2("openBreanUserTemplate", TemplatesDropDown.SelectedItem.ToString());
+                            }
+                            catch (Exception er)
+                            {
+                                MessageBox.Show(er.ToString());
+                            }
+                        }
+                            
+                    }
+                        
+                }
+                    
+
+
+                
+
+                
 
             }
             catch
@@ -4001,6 +4374,66 @@ namespace traderTools
             else
             {
                 TemplatesGroup.Visible = false;
+            }
+        }
+
+        private void optPDFbutton_Click(object sender, RibbonControlEventArgs e)
+        {
+            try
+            {
+                Globals.ThisAddIn.Application._Run2("PrintPDF_OPT");
+            }
+            catch (Exception er)
+            {
+                MessageBox.Show(er.ToString());
+            }
+        }
+
+        private void optEmailbutton_Click(object sender, RibbonControlEventArgs e)
+        {
+            try
+            {
+                Globals.ThisAddIn.Application._Run2("EmailOptimization", "");
+            }
+            catch (Exception er)
+            {
+                MessageBox.Show(er.ToString());
+            }
+        }
+
+        private void PMSectorSummarycheckBox_Click(object sender, RibbonControlEventArgs e)
+        {
+
+        }
+
+
+
+        private void PMIRScheckBox_Click(object sender, RibbonControlEventArgs e)
+        {
+
+        }
+
+        private void pullBloomBergcheckBox_Click(object sender, RibbonControlEventArgs e)
+        {
+            if (pullBloomBergcheckBox.Checked==true )
+            {
+                Globals.ThisAddIn.Application._Run2("pullBloomberg", true );
+            }
+            else
+            {
+                Globals.ThisAddIn.Application._Run2("pullBloomberg", false);
+            }
+        }
+
+        private void showSubTotalscheckBox_Click(object sender, RibbonControlEventArgs e)
+        {
+            if (showSubTotalscheckBox.Checked == true)
+            {
+                Globals.ThisAddIn.Application._Run2("calculateSubTotals", true);
+            }
+            else
+            {
+                Globals.ThisAddIn.Application._Run2("calculateSubTotals", false);
             }
         }
     }

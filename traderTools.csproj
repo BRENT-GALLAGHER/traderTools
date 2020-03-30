@@ -42,7 +42,7 @@
     <PublishUrl>I:\BreanFIGribbon\</PublishUrl>
     <InstallUrl>\\BMC-NY-FS01\FIRM\FIXEDINCOME\BreanFIGribbon\</InstallUrl>
     <TargetCulture>en</TargetCulture>
-    <ApplicationVersion>1.0.0.29</ApplicationVersion>
+    <ApplicationVersion>1.0.0.37</ApplicationVersion>
     <AutoIncrementApplicationRevision>true</AutoIncrementApplicationRevision>
     <UpdateEnabled>true</UpdateEnabled>
     <UpdateInterval>0</UpdateInterval>
@@ -168,10 +168,10 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>traderTools_21_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>traderTools_25_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>2807D7053BEB66A38DF7A7E3E7455053FCBA37D1</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>6E67CD71EA0132307B113AD04DFCEFEE41D77A51</ManifestCertificateThumbprint>
   </PropertyGroup>
   <!--
     This section specifies references for the project.
@@ -188,6 +188,7 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.Tools.Applications.Runtime, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="MySql.Data, Version=8.0.16.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL" />
     <Reference Include="Office, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c">
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
@@ -195,8 +196,14 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.AddIn" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.OracleClient" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Windows.Controls.Ribbon" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
@@ -331,6 +338,7 @@
       <DependentUpon>userLogInForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <None Include="App.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -350,8 +358,6 @@
       <DependentUpon>ThisAddIn.Designer.xml</DependentUpon>
     </Compile>
     <AppDesigner Include="Properties\" />
-    <None Include="traderTools_10_TemporaryKey.pfx" />
-    <None Include="traderTools_11_TemporaryKey.pfx" />
     <None Include="traderTools_12_TemporaryKey.pfx" />
     <None Include="traderTools_13_TemporaryKey.pfx" />
     <None Include="traderTools_14_TemporaryKey.pfx" />
@@ -360,9 +366,12 @@
     <None Include="traderTools_17_TemporaryKey.pfx" />
     <None Include="traderTools_18_TemporaryKey.pfx" />
     <None Include="traderTools_19_TemporaryKey.pfx" />
-    <None Include="traderTools_1_TemporaryKey.pfx" />
     <None Include="traderTools_20_TemporaryKey.pfx" />
     <None Include="traderTools_21_TemporaryKey.pfx" />
+    <None Include="traderTools_22_TemporaryKey.pfx" />
+    <None Include="traderTools_23_TemporaryKey.pfx" />
+    <None Include="traderTools_24_TemporaryKey.pfx" />
+    <None Include="traderTools_25_TemporaryKey.pfx" />
     <None Include="traderTools_2_TemporaryKey.pfx" />
     <None Include="traderTools_3_TemporaryKey.pfx" />
     <None Include="traderTools_4_TemporaryKey.pfx" />
@@ -372,6 +381,9 @@
     <None Include="traderTools_8_TemporaryKey.pfx" />
     <None Include="traderTools_9_TemporaryKey.pfx" />
     <None Include="traderTools_TemporaryKey.pfx" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <!-- Include the build rules for a C# project. -->
   <PropertyGroup>

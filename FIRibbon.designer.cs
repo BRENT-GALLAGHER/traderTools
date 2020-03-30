@@ -201,6 +201,8 @@
             this.separator6 = this.Factory.CreateRibbonSeparator();
             this.PortfoliodropDown = this.Factory.CreateRibbonDropDown();
             this.PortfolioDatedropDown = this.Factory.CreateRibbonDropDown();
+            this.pullBloomBergcheckBox = this.Factory.CreateRibbonCheckBox();
+            this.showSubTotalscheckBox = this.Factory.CreateRibbonCheckBox();
             this.separator7 = this.Factory.CreateRibbonSeparator();
             this.PMSectorSummarycheckBox = this.Factory.CreateRibbonCheckBox();
             this.PMSectorDetailcheckBox = this.Factory.CreateRibbonCheckBox();
@@ -256,6 +258,9 @@
             this.optBuildOutputButton = this.Factory.CreateRibbonButton();
             this.separator13 = this.Factory.CreateRibbonSeparator();
             this.optParametersButton = this.Factory.CreateRibbonButton();
+            this.optPDFbutton = this.Factory.CreateRibbonButton();
+            this.optEmailbutton = this.Factory.CreateRibbonButton();
+            this.tabEquities = this.Factory.CreateRibbonTab();
             this.tabCort.SuspendLayout();
             this.userManagementGroup.SuspendLayout();
             this.Inventories.SuspendLayout();
@@ -277,6 +282,7 @@
             this.PM_group.SuspendLayout();
             this.tabOptimization.SuspendLayout();
             this.StrategiesOptgroup.SuspendLayout();
+            this.tabEquities.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabCort
@@ -309,7 +315,7 @@
             this.userManagementGroup.Items.Add(this.ZMinventorycheckBox);
             this.userManagementGroup.Items.Add(this.StreetInventoriescheckBox);
             this.userManagementGroup.Items.Add(this.templatesGroupcheckBox);
-            this.userManagementGroup.Label = "User Mngmt";
+            this.userManagementGroup.Label = "User Management";
             this.userManagementGroup.Name = "userManagementGroup";
             // 
             // loginButton
@@ -1269,6 +1275,8 @@
             this.PM_group.Items.Add(this.separator6);
             this.PM_group.Items.Add(this.PortfoliodropDown);
             this.PM_group.Items.Add(this.PortfolioDatedropDown);
+            this.PM_group.Items.Add(this.pullBloomBergcheckBox);
+            this.PM_group.Items.Add(this.showSubTotalscheckBox);
             this.PM_group.Items.Add(this.separator7);
             this.PM_group.Items.Add(this.PMSectorSummarycheckBox);
             this.PM_group.Items.Add(this.PMSectorDetailcheckBox);
@@ -1333,6 +1341,18 @@
             this.PortfolioDatedropDown.Label = "As of Date";
             this.PortfolioDatedropDown.Name = "PortfolioDatedropDown";
             // 
+            // pullBloomBergcheckBox
+            // 
+            this.pullBloomBergcheckBox.Label = "Pull Bloomberg";
+            this.pullBloomBergcheckBox.Name = "pullBloomBergcheckBox";
+            this.pullBloomBergcheckBox.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.pullBloomBergcheckBox_Click);
+            // 
+            // showSubTotalscheckBox
+            // 
+            this.showSubTotalscheckBox.Label = "Pull Subtotals";
+            this.showSubTotalscheckBox.Name = "showSubTotalscheckBox";
+            this.showSubTotalscheckBox.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.showSubTotalscheckBox_Click);
+            // 
             // separator7
             // 
             this.separator7.Name = "separator7";
@@ -1341,6 +1361,7 @@
             // 
             this.PMSectorSummarycheckBox.Label = "Sector Summary";
             this.PMSectorSummarycheckBox.Name = "PMSectorSummarycheckBox";
+            this.PMSectorSummarycheckBox.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.PMSectorSummarycheckBox_Click);
             // 
             // PMSectorDetailcheckBox
             // 
@@ -1351,6 +1372,7 @@
             // 
             this.PMIRScheckBox.Label = "IRS Summary";
             this.PMIRScheckBox.Name = "PMIRScheckBox";
+            this.PMIRScheckBox.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.PMIRScheckBox_Click);
             // 
             // PMIRSDetailcheckBox
             // 
@@ -1511,6 +1533,8 @@
             this.StrategiesOptgroup.Items.Add(this.optBuildOutputButton);
             this.StrategiesOptgroup.Items.Add(this.separator13);
             this.StrategiesOptgroup.Items.Add(this.optParametersButton);
+            this.StrategiesOptgroup.Items.Add(this.optPDFbutton);
+            this.StrategiesOptgroup.Items.Add(this.optEmailbutton);
             this.StrategiesOptgroup.Label = "Portfolio Optimization";
             this.StrategiesOptgroup.Name = "StrategiesOptgroup";
             // 
@@ -1641,6 +1665,7 @@
             this.optSwapSizeeditBox.Name = "optSwapSizeeditBox";
             this.optSwapSizeeditBox.SizeString = "AAAAAAAAA";
             this.optSwapSizeeditBox.Text = null;
+            this.optSwapSizeeditBox.Visible = false;
             this.optSwapSizeeditBox.TextChanged += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.optSwapSizeeditBox_TextChanged);
             // 
             // optSizeToleranceeditBox
@@ -1650,6 +1675,7 @@
             this.optSizeToleranceeditBox.Name = "optSizeToleranceeditBox";
             this.optSizeToleranceeditBox.SizeString = "AAAAAAAAA";
             this.optSizeToleranceeditBox.Text = null;
+            this.optSizeToleranceeditBox.Visible = false;
             // 
             // optSwapGainLosseditBox
             // 
@@ -1658,6 +1684,7 @@
             this.optSwapGainLosseditBox.Name = "optSwapGainLosseditBox";
             this.optSwapGainLosseditBox.SizeString = "AAAAAAAAA";
             this.optSwapGainLosseditBox.Text = null;
+            this.optSwapGainLosseditBox.Visible = false;
             // 
             // optMaxU300editBox
             // 
@@ -1666,6 +1693,7 @@
             this.optMaxU300editBox.Name = "optMaxU300editBox";
             this.optMaxU300editBox.SizeString = "AAAAAAAAA";
             this.optMaxU300editBox.Text = null;
+            this.optMaxU300editBox.Visible = false;
             // 
             // optMaxTimeeditBox
             // 
@@ -1694,9 +1722,29 @@
             // 
             // optParametersButton
             // 
+            this.optParametersButton.Enabled = false;
             this.optParametersButton.Label = "Parameters";
             this.optParametersButton.Name = "optParametersButton";
+            this.optParametersButton.Visible = false;
             this.optParametersButton.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.optParametersButton_Click);
+            // 
+            // optPDFbutton
+            // 
+            this.optPDFbutton.Label = "PDF";
+            this.optPDFbutton.Name = "optPDFbutton";
+            this.optPDFbutton.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.optPDFbutton_Click);
+            // 
+            // optEmailbutton
+            // 
+            this.optEmailbutton.Label = "Email";
+            this.optEmailbutton.Name = "optEmailbutton";
+            this.optEmailbutton.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.optEmailbutton_Click);
+            // 
+            // tabEquities
+            // 
+            this.tabEquities.Label = "Equities";
+            this.tabEquities.Name = "tabEquities";
+            this.tabEquities.Visible = false;
             // 
             // FixedIncome
             // 
@@ -1705,6 +1753,7 @@
             this.Tabs.Add(this.tabCort);
             this.Tabs.Add(this.tabStrategy);
             this.Tabs.Add(this.tabOptimization);
+            this.Tabs.Add(this.tabEquities);
             this.Load += new Microsoft.Office.Tools.Ribbon.RibbonUIEventHandler(this.Ribbon1_Load);
             this.tabCort.ResumeLayout(false);
             this.tabCort.PerformLayout();
@@ -1748,6 +1797,8 @@
             this.tabOptimization.PerformLayout();
             this.StrategiesOptgroup.ResumeLayout(false);
             this.StrategiesOptgroup.PerformLayout();
+            this.tabEquities.ResumeLayout(false);
+            this.tabEquities.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1944,6 +1995,11 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonButton TemplateOpenButton;
         internal Microsoft.Office.Tools.Ribbon.RibbonCheckBox StreetInventoriescheckBox;
         internal Microsoft.Office.Tools.Ribbon.RibbonCheckBox templatesGroupcheckBox;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton optPDFbutton;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton optEmailbutton;
+        internal Microsoft.Office.Tools.Ribbon.RibbonTab tabEquities;
+        internal Microsoft.Office.Tools.Ribbon.RibbonCheckBox pullBloomBergcheckBox;
+        internal Microsoft.Office.Tools.Ribbon.RibbonCheckBox showSubTotalscheckBox;
     }
 
     partial class ThisRibbonCollection
