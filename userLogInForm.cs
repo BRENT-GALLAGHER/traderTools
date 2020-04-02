@@ -129,7 +129,7 @@ namespace traderTools
             customSection = config.GetSection("DataConnections") as CustomSection;
             
 
-            MessageBox.Show(customSection.ConnectionName);
+            MessageBox.Show(customSection.provider);
         //QS_swapIDdropDown.Items.Clear();
 
         //while (QS_swapIDdropDown.Items.Count > 0)

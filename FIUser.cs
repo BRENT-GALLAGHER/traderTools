@@ -205,13 +205,12 @@ namespace traderTools
                 System.Configuration.Configuration config =
                     ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
 
-                
-                if (config.Sections["DataConnections"] ==null)
+                if (config.Sections["DataConnectionsBTG"] == null)
                 {
                     customSection.ConnectionName = "Default";
                     customSection.provider = "mySQL";
                     customSection.UserID = "Setup";
-                    config.Sections.Add("DataConnections", customSection);
+                    config.Sections.Add("DataConnectionsBTG", customSection);
                 }
 
                 ConnectionStringSettings connStrSettings = new ConnectionStringSettings();
