@@ -447,6 +447,7 @@ namespace traderTools
             if (usingSQLServer == true)
             {
                 createPMdetail();
+                
 
                 clientName = PortfoliodropDown.SelectedItem.ToString();
 
