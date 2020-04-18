@@ -261,6 +261,13 @@
             this.optPDFbutton = this.Factory.CreateRibbonButton();
             this.optEmailbutton = this.Factory.CreateRibbonButton();
             this.tabEquities = this.Factory.CreateRibbonTab();
+            this.equitySetupgroup = this.Factory.CreateRibbonGroup();
+            this.equityCreateTablesbutton = this.Factory.CreateRibbonButton();
+            this.EquityTicketgroup = this.Factory.CreateRibbonGroup();
+            this.tickerdropDown = this.Factory.CreateRibbonDropDown();
+            this.ticketDatedropDown = this.Factory.CreateRibbonDropDown();
+            this.ticketeditBox = this.Factory.CreateRibbonEditBox();
+            this.equityAccountdropDown = this.Factory.CreateRibbonDropDown();
             this.tabCort.SuspendLayout();
             this.userManagementGroup.SuspendLayout();
             this.Inventories.SuspendLayout();
@@ -283,6 +290,8 @@
             this.tabOptimization.SuspendLayout();
             this.StrategiesOptgroup.SuspendLayout();
             this.tabEquities.SuspendLayout();
+            this.equitySetupgroup.SuspendLayout();
+            this.EquityTicketgroup.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabCort
@@ -1742,9 +1751,54 @@
             // 
             // tabEquities
             // 
+            this.tabEquities.Groups.Add(this.equitySetupgroup);
+            this.tabEquities.Groups.Add(this.EquityTicketgroup);
             this.tabEquities.Label = "Equities";
             this.tabEquities.Name = "tabEquities";
             this.tabEquities.Visible = false;
+            // 
+            // equitySetupgroup
+            // 
+            this.equitySetupgroup.Items.Add(this.equityCreateTablesbutton);
+            this.equitySetupgroup.Label = "Setup";
+            this.equitySetupgroup.Name = "equitySetupgroup";
+            // 
+            // equityCreateTablesbutton
+            // 
+            this.equityCreateTablesbutton.Label = "Create Tables";
+            this.equityCreateTablesbutton.Name = "equityCreateTablesbutton";
+            this.equityCreateTablesbutton.Visible = false;
+            this.equityCreateTablesbutton.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.equityCreateTablesbutton_Click);
+            // 
+            // EquityTicketgroup
+            // 
+            this.EquityTicketgroup.Items.Add(this.equityAccountdropDown);
+            this.EquityTicketgroup.Items.Add(this.tickerdropDown);
+            this.EquityTicketgroup.Items.Add(this.ticketDatedropDown);
+            this.EquityTicketgroup.Items.Add(this.ticketeditBox);
+            this.EquityTicketgroup.Label = "Equity Ticket";
+            this.EquityTicketgroup.Name = "EquityTicketgroup";
+            // 
+            // tickerdropDown
+            // 
+            this.tickerdropDown.Label = "Ticker";
+            this.tickerdropDown.Name = "tickerdropDown";
+            // 
+            // ticketDatedropDown
+            // 
+            this.ticketDatedropDown.Label = "Open Date";
+            this.ticketDatedropDown.Name = "ticketDatedropDown";
+            // 
+            // ticketeditBox
+            // 
+            this.ticketeditBox.Label = "Ticket";
+            this.ticketeditBox.Name = "ticketeditBox";
+            this.ticketeditBox.Text = null;
+            // 
+            // equityAccountdropDown
+            // 
+            this.equityAccountdropDown.Label = "Account";
+            this.equityAccountdropDown.Name = "equityAccountdropDown";
             // 
             // FixedIncome
             // 
@@ -1799,6 +1853,10 @@
             this.StrategiesOptgroup.PerformLayout();
             this.tabEquities.ResumeLayout(false);
             this.tabEquities.PerformLayout();
+            this.equitySetupgroup.ResumeLayout(false);
+            this.equitySetupgroup.PerformLayout();
+            this.EquityTicketgroup.ResumeLayout(false);
+            this.EquityTicketgroup.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -2000,6 +2058,13 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonTab tabEquities;
         internal Microsoft.Office.Tools.Ribbon.RibbonCheckBox pullBloomBergcheckBox;
         internal Microsoft.Office.Tools.Ribbon.RibbonCheckBox showSubTotalscheckBox;
+        internal Microsoft.Office.Tools.Ribbon.RibbonGroup equitySetupgroup;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton equityCreateTablesbutton;
+        internal Microsoft.Office.Tools.Ribbon.RibbonGroup EquityTicketgroup;
+        internal Microsoft.Office.Tools.Ribbon.RibbonDropDown tickerdropDown;
+        internal Microsoft.Office.Tools.Ribbon.RibbonDropDown ticketDatedropDown;
+        internal Microsoft.Office.Tools.Ribbon.RibbonEditBox ticketeditBox;
+        internal Microsoft.Office.Tools.Ribbon.RibbonDropDown equityAccountdropDown;
     }
 
     partial class ThisRibbonCollection

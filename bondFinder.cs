@@ -10112,8 +10112,10 @@ namespace traderTools
 			SearchCORP();
 		}
 
+        private void CORPDeleteCriteriabutton_Click(object sender, EventArgs e)
+        {
 
-
+        }
     }
 }
 

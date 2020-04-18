@@ -7,7 +7,6 @@ using MySql.Data.MySqlClient;
 
 using System.Data.SqlClient;
 
-
 using Microsoft.Office.Interop.Excel;
 
 using System.Collections.Specialized;

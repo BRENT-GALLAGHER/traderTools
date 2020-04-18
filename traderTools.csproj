@@ -255,6 +255,7 @@
     <Compile Include="BWIC.Designer.cs">
       <DependentUpon>BWIC.cs</DependentUpon>
     </Compile>
+    <Compile Include="equity.cs" />
     <Compile Include="FIRibbon.cs">
       <SubType>Component</SubType>
     </Compile>

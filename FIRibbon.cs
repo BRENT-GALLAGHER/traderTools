@@ -41,6 +41,7 @@ namespace traderTools
         bondFinder bFinder = new bondFinder();
         OptimizerForm optSettings = new OptimizerForm();
         optParameters optParameter = new optParameters();
+        equity eqty = new equity();
 
         BWIC uBWIC = new BWIC();
         
@@ -57,6 +58,7 @@ namespace traderTools
         SqlDataAdapter SQLdaCriteria;
         DataSet dsCriteria;
         bool isSQLServer;
+        bool boolEquityExists;
         RibbonDropDownItem rbnItem;
 
         //private string optPFieldName;
@@ -67,6 +69,19 @@ namespace traderTools
             set { optParameter.optFieldName = value; }
         }
 
+        public bool equityExists
+        {
+            get
+            {
+                return boolEquityExists;
+            }
+            set
+            {
+                boolEquityExists = value;
+            }
+        }
+            
+        
         public string optMin
         {
             get
@@ -1646,6 +1661,52 @@ namespace traderTools
 
         }
 
+
+        public bool equity_checkForSetup()
+        {
+            
+            if (usingSQLServer == false)
+            {
+
+            }
+            if ( usingSQLServer==true)
+            {
+
+                SqlConnection cn = new SqlConnection("Data Source=ZM-SQL-1;" + "Initial Catalog=ZM_GALLAGHER; Integrated security=SSPI;");
+
+                cn.Open();
+
+                SqlCommand cmd = new SqlCommand();
+                try
+                {
+                    cmd = cn.CreateCommand();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.ToString());
+                }
+
+
+                SqlDataReader rdr;
+
+                cmd.CommandText = "IF OBJECT_ID (N'EQUITY_TICKET',N'U') IS NOT NULL SELECT 1 AS RES ELSE SELECT 0 AS RES;";
+                rdr = cmd.ExecuteReader();
+                rdr.Read();
+                if (rdr.GetValue(0).ToString()=="0")
+                {
+                    equityExists = false;
+                }
+                else
+                {
+                    equityExists = true;
+                }
+
+            }
+
+            return equityExists;
+        }
+
+        
         public void fillFI_OptSNL_ID(string DB, string pDate)
         {
             string clientName;
@@ -1889,10 +1950,19 @@ namespace traderTools
                 {
                     StreetInventoriescheckBox.Visible = true;
                     tabEquities.Visible = true;
+                    if (equity_checkForSetup() == false)
+                    {
+                        equityCreateTablesbutton.Visible = true;
+                    }
+                    else
+                    {
+                        equitySetupgroup.Visible = false;
+                    }
+                        
+
                 }
 
-                if (Environment.UserName.ToUpper().Equals("BRENT.GALLAGHER") || Environment.UserName.ToUpper().Equals("SEAN.PIGG")
-					|| 1==1)
+                if (Environment.UserName.ToUpper().Equals("BRENT.GALLAGHER") || 1==1)
                 {
                     tabStrategy.Visible = true;
                     AnalyticsGroup.Visible =false;
@@ -2053,6 +2123,9 @@ namespace traderTools
                 templatesGroupcheckBox.Visible = false;
 
                 tabEquities.Visible =false;
+
+                //---EQUITY TAB
+                equitySetupgroup.Visible = false;
 
             }
 
@@ -4437,5 +4510,20 @@ namespace traderTools
                 Globals.ThisAddIn.Application._Run2("calculateSubTotals", false);
             }
         }
+
+        private void equityCreateTablesbutton_Click(object sender, RibbonControlEventArgs e)
+        {
+            try
+            {
+                eqty.creatEquityTicket();
+                
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+
+        }
+        
     }
 }
