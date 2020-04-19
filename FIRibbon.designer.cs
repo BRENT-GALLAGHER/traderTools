@@ -264,10 +264,10 @@
             this.equitySetupgroup = this.Factory.CreateRibbonGroup();
             this.equityCreateTablesbutton = this.Factory.CreateRibbonButton();
             this.EquityTicketgroup = this.Factory.CreateRibbonGroup();
+            this.equityAccountdropDown = this.Factory.CreateRibbonDropDown();
             this.tickerdropDown = this.Factory.CreateRibbonDropDown();
             this.ticketDatedropDown = this.Factory.CreateRibbonDropDown();
             this.ticketeditBox = this.Factory.CreateRibbonEditBox();
-            this.equityAccountdropDown = this.Factory.CreateRibbonDropDown();
             this.tabCort.SuspendLayout();
             this.userManagementGroup.SuspendLayout();
             this.Inventories.SuspendLayout();
@@ -1779,6 +1779,11 @@
             this.EquityTicketgroup.Label = "Equity Ticket";
             this.EquityTicketgroup.Name = "EquityTicketgroup";
             // 
+            // equityAccountdropDown
+            // 
+            this.equityAccountdropDown.Label = "Account";
+            this.equityAccountdropDown.Name = "equityAccountdropDown";
+            // 
             // tickerdropDown
             // 
             this.tickerdropDown.Label = "Ticker";
@@ -1794,11 +1799,6 @@
             this.ticketeditBox.Label = "Ticket";
             this.ticketeditBox.Name = "ticketeditBox";
             this.ticketeditBox.Text = null;
-            // 
-            // equityAccountdropDown
-            // 
-            this.equityAccountdropDown.Label = "Account";
-            this.equityAccountdropDown.Name = "equityAccountdropDown";
             // 
             // FixedIncome
             // 
