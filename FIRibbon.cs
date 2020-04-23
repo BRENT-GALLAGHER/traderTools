@@ -409,6 +409,45 @@ namespace traderTools
             //MessageBox.Show(vbl.ToString());
         }
 
+        public void fillEquityAcctDropDown()
+        {
+            string user = Environment.UserName.ToString();
+
+            if (usingSQLServer == false)
+            { }
+
+            if (usingSQLServer==true)
+            {
+
+                equityAcctdropDown.Items.Clear();
+
+                RibbonDropDownItem rbnNew = this.Factory.CreateRibbonDropDownItem();
+                rbnNew.Label = "New Account";
+                equityAcctdropDown.Items.Add(rbnNew);
+
+                SqlConnection cn = new SqlConnection("Data Source=ZM-SQL-1;Initial Catalog=ZM_GALLAGHER; Integrated Security=SSPI;");
+
+                cn.Open();
+
+                SqlCommand cmd = new SqlCommand();
+                cmd = cn.CreateCommand();
+                SqlDataReader rdr;
+
+                cmd.CommandText = "SELECT distinct acct_account FROM EQUITY_ACCOUNT where acct_user='" + user.ToString() + "';";
+                rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    RibbonDropDownItem rbnItem = this.Factory.CreateRibbonDropDownItem();
+                    rbnItem.Label = rdr.GetValue(0).ToString();
+                    equityAcctdropDown.Items.Add(rbnItem);
+                }
+
+                rdr.Close();
+                cn.Close();
+            }
+
+        }
+
         public void fillPortfolioDropDown()
         {
             if (usingSQLServer == false)
@@ -443,7 +482,7 @@ namespace traderTools
 
                     PortfoliodropDown.Items.Add(rbnItem);
                 }
-
+                Rdr.Close();
                 cn.Close();
             }
 
@@ -1953,12 +1992,15 @@ namespace traderTools
                     if (equity_checkForSetup() == false)
                     {
                         equityCreateTablesbutton.Visible = true;
+                        equitySetupgroup.Visible = true;
                     }
                     else
                     {
-                        equitySetupgroup.Visible = false;
+                        equityCreateTablesbutton.Visible = false;
+                        equitySetupgroup.Visible =true;
                     }
-                        
+
+                    fillEquityAcctDropDown();
 
                 }
 
@@ -4516,6 +4558,9 @@ namespace traderTools
             try
             {
                 eqty.creatEquityTicket();
+                eqty.createEquityTicketOverview();
+                eqty.createEquityTicketOption();
+                eqty.createEquityAccount();
                 
             }
             catch(Exception ex)

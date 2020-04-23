@@ -263,11 +263,16 @@
             this.tabEquities = this.Factory.CreateRibbonTab();
             this.equitySetupgroup = this.Factory.CreateRibbonGroup();
             this.equityCreateTablesbutton = this.Factory.CreateRibbonButton();
+            this.EquityAccountgroup = this.Factory.CreateRibbonGroup();
+            this.equityAcctdropDown = this.Factory.CreateRibbonDropDown();
+            this.AcctBalancelabel = this.Factory.CreateRibbonLabel();
+            this.AcctReturnlabel = this.Factory.CreateRibbonLabel();
+            this.Acctbutton = this.Factory.CreateRibbonButton();
             this.EquityTicketgroup = this.Factory.CreateRibbonGroup();
-            this.equityAccountdropDown = this.Factory.CreateRibbonDropDown();
             this.tickerdropDown = this.Factory.CreateRibbonDropDown();
             this.ticketDatedropDown = this.Factory.CreateRibbonDropDown();
             this.ticketeditBox = this.Factory.CreateRibbonEditBox();
+            this.EquityAcctOwnerdropDown = this.Factory.CreateRibbonDropDown();
             this.tabCort.SuspendLayout();
             this.userManagementGroup.SuspendLayout();
             this.Inventories.SuspendLayout();
@@ -291,6 +296,7 @@
             this.StrategiesOptgroup.SuspendLayout();
             this.tabEquities.SuspendLayout();
             this.equitySetupgroup.SuspendLayout();
+            this.EquityAccountgroup.SuspendLayout();
             this.EquityTicketgroup.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -1752,6 +1758,7 @@
             // tabEquities
             // 
             this.tabEquities.Groups.Add(this.equitySetupgroup);
+            this.tabEquities.Groups.Add(this.EquityAccountgroup);
             this.tabEquities.Groups.Add(this.EquityTicketgroup);
             this.tabEquities.Label = "Equities";
             this.tabEquities.Name = "tabEquities";
@@ -1770,19 +1777,43 @@
             this.equityCreateTablesbutton.Visible = false;
             this.equityCreateTablesbutton.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.equityCreateTablesbutton_Click);
             // 
+            // EquityAccountgroup
+            // 
+            this.EquityAccountgroup.Items.Add(this.EquityAcctOwnerdropDown);
+            this.EquityAccountgroup.Items.Add(this.equityAcctdropDown);
+            this.EquityAccountgroup.Items.Add(this.AcctBalancelabel);
+            this.EquityAccountgroup.Items.Add(this.AcctReturnlabel);
+            this.EquityAccountgroup.Items.Add(this.Acctbutton);
+            this.EquityAccountgroup.Label = "Equity Account";
+            this.EquityAccountgroup.Name = "EquityAccountgroup";
+            // 
+            // equityAcctdropDown
+            // 
+            this.equityAcctdropDown.Label = "Account";
+            this.equityAcctdropDown.Name = "equityAcctdropDown";
+            // 
+            // AcctBalancelabel
+            // 
+            this.AcctBalancelabel.Label = "Balance:";
+            this.AcctBalancelabel.Name = "AcctBalancelabel";
+            // 
+            // AcctReturnlabel
+            // 
+            this.AcctReturnlabel.Label = "Return:";
+            this.AcctReturnlabel.Name = "AcctReturnlabel";
+            // 
+            // Acctbutton
+            // 
+            this.Acctbutton.Label = "Pull Account";
+            this.Acctbutton.Name = "Acctbutton";
+            // 
             // EquityTicketgroup
             // 
-            this.EquityTicketgroup.Items.Add(this.equityAccountdropDown);
             this.EquityTicketgroup.Items.Add(this.tickerdropDown);
             this.EquityTicketgroup.Items.Add(this.ticketDatedropDown);
             this.EquityTicketgroup.Items.Add(this.ticketeditBox);
             this.EquityTicketgroup.Label = "Equity Ticket";
             this.EquityTicketgroup.Name = "EquityTicketgroup";
-            // 
-            // equityAccountdropDown
-            // 
-            this.equityAccountdropDown.Label = "Account";
-            this.equityAccountdropDown.Name = "equityAccountdropDown";
             // 
             // tickerdropDown
             // 
@@ -1799,6 +1830,11 @@
             this.ticketeditBox.Label = "Ticket";
             this.ticketeditBox.Name = "ticketeditBox";
             this.ticketeditBox.Text = null;
+            // 
+            // EquityAcctOwnerdropDown
+            // 
+            this.EquityAcctOwnerdropDown.Label = "Owner";
+            this.EquityAcctOwnerdropDown.Name = "EquityAcctOwnerdropDown";
             // 
             // FixedIncome
             // 
@@ -1855,6 +1891,8 @@
             this.tabEquities.PerformLayout();
             this.equitySetupgroup.ResumeLayout(false);
             this.equitySetupgroup.PerformLayout();
+            this.EquityAccountgroup.ResumeLayout(false);
+            this.EquityAccountgroup.PerformLayout();
             this.EquityTicketgroup.ResumeLayout(false);
             this.EquityTicketgroup.PerformLayout();
             this.ResumeLayout(false);
@@ -2064,7 +2102,12 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonDropDown tickerdropDown;
         internal Microsoft.Office.Tools.Ribbon.RibbonDropDown ticketDatedropDown;
         internal Microsoft.Office.Tools.Ribbon.RibbonEditBox ticketeditBox;
-        internal Microsoft.Office.Tools.Ribbon.RibbonDropDown equityAccountdropDown;
+        internal Microsoft.Office.Tools.Ribbon.RibbonGroup EquityAccountgroup;
+        internal Microsoft.Office.Tools.Ribbon.RibbonDropDown equityAcctdropDown;
+        internal Microsoft.Office.Tools.Ribbon.RibbonLabel AcctBalancelabel;
+        internal Microsoft.Office.Tools.Ribbon.RibbonLabel AcctReturnlabel;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton Acctbutton;
+        internal Microsoft.Office.Tools.Ribbon.RibbonDropDown EquityAcctOwnerdropDown;
     }
 
     partial class ThisRibbonCollection

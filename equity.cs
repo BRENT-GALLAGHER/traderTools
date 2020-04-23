@@ -37,13 +37,99 @@ namespace traderTools
             {
                 RDR.Close();
                 CMD.CommandText = "CREATE TABLE EQUITY_TICKET( [ID][int] IDENTITY(1, 1) NOT NULL, TKT_USER[VARCHAR](255) NOT NULL, " +
-                    " TKT_ACCOUNT [VARCHAR](55) NOT NULL, TKT_TICKER[VARCHAR](10) NOT NULL, TKT_DATE[datetime] NOT NULL )";
+                    " TKT_ACCOUNT_ID [INT] NOT NULL, TKT_TICKER[VARCHAR](10) NOT NULL, TKT_DATE[datetime] NOT NULL )";
 
                 CMD.ExecuteNonQuery();
             }
 
             RDR.Close();
             cn.Close();
+        }
+
+        public void createEquityTicketOverview()
+        {
+
+            SqlConnection cn = new SqlConnection("Data Source=ZM-SQL-1;Initial Catalog=ZM_GALLAGHER; Integrated Security=SSPI;");
+
+            cn.Open();
+            SqlCommand cmd = new SqlCommand();
+            cmd = cn.CreateCommand();
+            SqlDataReader rdr;
+
+            cmd.CommandText = "IF OBJECT_ID (N'EQUITY_TICKET_OVERVIEW',N'U') IS NOT NULL SELECT 1 AS RES ELSE SELECT 0 AS RES;";
+
+            rdr = cmd.ExecuteReader();
+            rdr.Read();
+
+            if (rdr.GetValue(0).ToString()=="0")
+            {
+                rdr.Close();
+                cmd.CommandText = "CREATE TABLE [dbo].[EQUITY_TICKET_OVERVIEW]([OVR_TKT_ID][INT], [OVR_DATE][datetime]  NOT NULL, " +
+                    " [OVR_ACTION] [varchar] (6) NOT NULL, [OVR_NUMBER][INT] NOT NULL, [OVR_PRICE][DECIMAL] (8,4) NOT NULL, ) ON[PRIMARY]";
+
+                cmd.ExecuteNonQuery();
+            }
+
+            rdr.Close();
+            cn.Close();
+        }
+
+        public void createEquityTicketOption()
+        {
+            SqlConnection cn = new SqlConnection("Data Source=ZM-SQL-1;Initial Catalog=ZM_GALLAGHER; Integrated Security=SSPI;");
+
+            cn.Open();
+            SqlCommand cmd = new SqlCommand();
+            cmd = cn.CreateCommand();
+            SqlDataReader rdr;
+
+            cmd.CommandText = "IF OBJECT_ID (N'EQUITY_OPTION_DETAIL',N'U') IS NOT NULL SELECT 1 AS RES ELSE SELECT 0 AS RES;";
+
+            rdr = cmd.ExecuteReader();
+            rdr.Read();
+
+            if (rdr.GetValue(0).ToString()=="0")
+            {
+                rdr.Close();
+                cmd.CommandText = "CREATE TABLE [dbo].[EQUITY_OPTION_DETAIL]([OPT_TKT_ID][INT], [OPT_DATE][datetime] NOT NULL, " +
+                    " [OPT_ACTION] [varchar] (6) NOT NULL, [OPT_NUMBER][INT] NOT NULL, [OPT_PRICE][DECIMAL] (8,4) NOT NULL, " +
+                    " [OPT_STRIKE][DECIMAL] (8,4) NOT NULL, [OPT_EXDATE][DATETIME] NOT NULL) ON[PRIMARY]";
+
+                cmd.ExecuteNonQuery();
+            }
+
+            rdr.Close();
+            cn.Close();
+
+        }
+
+        public void createEquityAccount()
+        {
+            
+            SqlConnection cn = new SqlConnection("Data Source = ZM-SQL-1;Initial Catalog=ZM_GALLAGHER; Integrated Security=SSPI;");
+
+            cn.Open();
+            SqlCommand cmd = new SqlCommand();
+            cmd = cn.CreateCommand();
+            SqlDataReader rdr;
+
+            cmd.CommandText = "IF OBJECT_ID (N'EQUITY_ACCOUNT',N'U') IS NOT NULL SELECT 1 AS RES ELSE SELECT 0 AS RES;";
+
+            rdr = cmd.ExecuteReader();
+            rdr.Read();
+
+            if (rdr.GetValue(0).ToString()=="0")
+            {
+                rdr.Close();
+                cmd.CommandText = "CREATE TABLE [dbo].[EQUITY_ACCOUNT]( [ID][int] IDENTITY(1, 1) NOT NULL," +
+                    " [ACCT_USER] [varchar] (255) NOT NULL, [ACCT_ACCOUNT] [varchar] (55) NOT NULL, " +
+                    " [ACCT_OPEN_DATE] [datetime] NOT NULL, [ACCT_OPENING_BAL] [DECIMAL] (8,2) NOT NULL ) ON[PRIMARY]";
+
+                cmd.ExecuteNonQuery();
+            }
+            rdr.Close();
+            cn.Close();
+
         }
 
     }
