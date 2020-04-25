@@ -448,6 +448,53 @@ namespace traderTools
 
         }
 
+        public void fillEquityUserDropDown()
+        {
+            //EquityAcctOwnerdropDown
+            string user = Environment.UserName.ToString();
+
+            if (usingSQLServer==false)
+            { }
+
+            if (usingSQLServer==true)
+            {
+                EquityAcctOwnerdropDown.Items.Clear();
+
+                RibbonDropDownItem rbnNew = this.Factory.CreateRibbonDropDownItem();
+                rbnNew.Label = "New User";
+                EquityAcctOwnerdropDown.Items.Add(rbnNew);
+                
+                SqlConnection cn = new SqlConnection("Data Source=ZM-SQL-1;Initial Catalog=ZM_GALLAGHER; Integrated Security=SSPI;");
+
+                cn.Open();
+
+                SqlCommand cmd = new SqlCommand();
+                cmd = cn.CreateCommand();
+                SqlDataReader rdr;
+
+                cmd.CommandText = "select usr_id from equity_user;";
+                try
+                {
+                    rdr = cmd.ExecuteReader();
+                    while (rdr.Read())
+                    {
+                        RibbonDropDownItem rbnItem = this.Factory.CreateRibbonDropDownItem();
+                        rbnItem.Label = rdr.GetValue(0).ToString();
+                        EquityAcctOwnerdropDown.Items.Add(rbnItem);
+                    }
+                    rdr.Close();
+                }
+                catch(Exception ex)
+                {
+
+                }
+
+                
+                cn.Close();
+
+            }
+
+        }
         public void fillPortfolioDropDown()
         {
             if (usingSQLServer == false)
@@ -2001,7 +2048,7 @@ namespace traderTools
                     }
 
                     fillEquityAcctDropDown();
-
+                    fillEquityUserDropDown();
                 }
 
                 if (Environment.UserName.ToUpper().Equals("BRENT.GALLAGHER") || 1==1)
@@ -4561,6 +4608,7 @@ namespace traderTools
                 eqty.createEquityTicketOverview();
                 eqty.createEquityTicketOption();
                 eqty.createEquityAccount();
+                eqty.createEquityUser();
                 
             }
             catch(Exception ex)
@@ -4569,6 +4617,41 @@ namespace traderTools
             }
 
         }
-        
+
+        private void Acctbutton_Click(object sender, RibbonControlEventArgs e)
+        {
+           
+            if (EquityTieToTemplatecheckBox.Checked==true)
+            {
+                try
+                {
+                    Globals.ThisAddIn.Application._Run2("EAG_PULL_ACCOUNT", EquityAcctOwnerdropDown.SelectedItem.ToString(), equityAcctdropDown.SelectedItem.ToString());
+                }
+                catch
+                {
+
+                }
+
+            }
+
+        }
+
+        private void AcctSaveChangesbutton_Click(object sender, RibbonControlEventArgs e)
+        {
+            if (EquityTieToTemplatecheckBox.Checked == true)
+            {
+                try
+                {
+                    Globals.ThisAddIn.Application._Run2("EAG_SAVECHANGES", EquityAcctOwnerdropDown.SelectedItem.ToString(), equityAcctdropDown.SelectedItem.ToString());
+                    fillEquityUserDropDown();
+                    fillEquityAcctDropDown();    
+                }
+                catch
+                {
+
+                }
+
+            }
+        }
     }
 }

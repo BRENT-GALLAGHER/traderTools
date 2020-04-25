@@ -263,16 +263,18 @@
             this.tabEquities = this.Factory.CreateRibbonTab();
             this.equitySetupgroup = this.Factory.CreateRibbonGroup();
             this.equityCreateTablesbutton = this.Factory.CreateRibbonButton();
+            this.EquityTieToTemplatecheckBox = this.Factory.CreateRibbonCheckBox();
             this.EquityAccountgroup = this.Factory.CreateRibbonGroup();
+            this.EquityAcctOwnerdropDown = this.Factory.CreateRibbonDropDown();
             this.equityAcctdropDown = this.Factory.CreateRibbonDropDown();
             this.AcctBalancelabel = this.Factory.CreateRibbonLabel();
             this.AcctReturnlabel = this.Factory.CreateRibbonLabel();
             this.Acctbutton = this.Factory.CreateRibbonButton();
+            this.AcctSaveChangesbutton = this.Factory.CreateRibbonButton();
             this.EquityTicketgroup = this.Factory.CreateRibbonGroup();
             this.tickerdropDown = this.Factory.CreateRibbonDropDown();
             this.ticketDatedropDown = this.Factory.CreateRibbonDropDown();
             this.ticketeditBox = this.Factory.CreateRibbonEditBox();
-            this.EquityAcctOwnerdropDown = this.Factory.CreateRibbonDropDown();
             this.tabCort.SuspendLayout();
             this.userManagementGroup.SuspendLayout();
             this.Inventories.SuspendLayout();
@@ -1767,6 +1769,7 @@
             // equitySetupgroup
             // 
             this.equitySetupgroup.Items.Add(this.equityCreateTablesbutton);
+            this.equitySetupgroup.Items.Add(this.EquityTieToTemplatecheckBox);
             this.equitySetupgroup.Label = "Setup";
             this.equitySetupgroup.Name = "equitySetupgroup";
             // 
@@ -1777,6 +1780,11 @@
             this.equityCreateTablesbutton.Visible = false;
             this.equityCreateTablesbutton.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.equityCreateTablesbutton_Click);
             // 
+            // EquityTieToTemplatecheckBox
+            // 
+            this.EquityTieToTemplatecheckBox.Label = "Tie To Template";
+            this.EquityTieToTemplatecheckBox.Name = "EquityTieToTemplatecheckBox";
+            // 
             // EquityAccountgroup
             // 
             this.EquityAccountgroup.Items.Add(this.EquityAcctOwnerdropDown);
@@ -1784,8 +1792,14 @@
             this.EquityAccountgroup.Items.Add(this.AcctBalancelabel);
             this.EquityAccountgroup.Items.Add(this.AcctReturnlabel);
             this.EquityAccountgroup.Items.Add(this.Acctbutton);
+            this.EquityAccountgroup.Items.Add(this.AcctSaveChangesbutton);
             this.EquityAccountgroup.Label = "Equity Account";
             this.EquityAccountgroup.Name = "EquityAccountgroup";
+            // 
+            // EquityAcctOwnerdropDown
+            // 
+            this.EquityAcctOwnerdropDown.Label = "Owner";
+            this.EquityAcctOwnerdropDown.Name = "EquityAcctOwnerdropDown";
             // 
             // equityAcctdropDown
             // 
@@ -1806,6 +1820,15 @@
             // 
             this.Acctbutton.Label = "Pull Account";
             this.Acctbutton.Name = "Acctbutton";
+            this.Acctbutton.SuperTip = "EAG_PULL_ACCOUNT";
+            this.Acctbutton.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.Acctbutton_Click);
+            // 
+            // AcctSaveChangesbutton
+            // 
+            this.AcctSaveChangesbutton.Label = "Save Changes";
+            this.AcctSaveChangesbutton.Name = "AcctSaveChangesbutton";
+            this.AcctSaveChangesbutton.SuperTip = "EAG_SAVECHANGES";
+            this.AcctSaveChangesbutton.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.AcctSaveChangesbutton_Click);
             // 
             // EquityTicketgroup
             // 
@@ -1830,11 +1853,6 @@
             this.ticketeditBox.Label = "Ticket";
             this.ticketeditBox.Name = "ticketeditBox";
             this.ticketeditBox.Text = null;
-            // 
-            // EquityAcctOwnerdropDown
-            // 
-            this.EquityAcctOwnerdropDown.Label = "Owner";
-            this.EquityAcctOwnerdropDown.Name = "EquityAcctOwnerdropDown";
             // 
             // FixedIncome
             // 
@@ -2108,6 +2126,8 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonLabel AcctReturnlabel;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton Acctbutton;
         internal Microsoft.Office.Tools.Ribbon.RibbonDropDown EquityAcctOwnerdropDown;
+        internal Microsoft.Office.Tools.Ribbon.RibbonCheckBox EquityTieToTemplatecheckBox;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton AcctSaveChangesbutton;
     }
 
     partial class ThisRibbonCollection

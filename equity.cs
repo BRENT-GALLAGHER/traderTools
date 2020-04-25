@@ -46,6 +46,34 @@ namespace traderTools
             cn.Close();
         }
 
+        public void createEquityUser()
+        {
+            string user = Environment.UserName.ToString();
+
+            SqlConnection cn = new SqlConnection("Data Source=ZM-SQL-1;Initial Catalog=ZM_GALLAGHER; Integrated Security=SSPI;");
+
+            cn.Open();
+            SqlCommand cmd = new SqlCommand();
+            cmd = cn.CreateCommand();
+            SqlDataReader rdr;
+
+            cmd.CommandText = "IF OBJECT_ID (N'EQUITY_USER',N'U') IS NOT NULL SELECT 1 AS RES ELSE SELECT 0 AS RES;";
+
+            rdr = cmd.ExecuteReader();
+            rdr.Read();
+            if (rdr.GetValue(0).ToString()=="0")
+            {
+                rdr.Close();
+                cmd.CommandText = "CREATE TABLE [dbo].[EQUITY_USER]([ID][int] IDENTITY(1, 1) NOT NULL, [USR_ID] [varchar] (255) NOT NULL, " +
+                    " [USR_FIRST_NAME][VARCHAR](55) NOT NULL, [USR_LAST_NAME][VARCHAR] (55) NOT NULL, ) ON[PRIMARY]";
+                
+
+                cmd.ExecuteNonQuery();
+            }
+            rdr.Close();
+            cn.Close();
+        }
+
         public void createEquityTicketOverview()
         {
 
@@ -64,7 +92,8 @@ namespace traderTools
             if (rdr.GetValue(0).ToString()=="0")
             {
                 rdr.Close();
-                cmd.CommandText = "CREATE TABLE [dbo].[EQUITY_TICKET_OVERVIEW]([OVR_TKT_ID][INT], [OVR_DATE][datetime]  NOT NULL, " +
+                cmd.CommandText = "CREATE TABLE [dbo].[EQUITY_TICKET_OVERVIEW]([ID][int] IDENTITY(1, 1) NOT NULL, " +
+                    " [OVR_TKT_ID][INT], [OVR_DATE][datetime]  NOT NULL, " +
                     " [OVR_ACTION] [varchar] (6) NOT NULL, [OVR_NUMBER][INT] NOT NULL, [OVR_PRICE][DECIMAL] (8,4) NOT NULL, ) ON[PRIMARY]";
 
                 cmd.ExecuteNonQuery();
@@ -91,7 +120,8 @@ namespace traderTools
             if (rdr.GetValue(0).ToString()=="0")
             {
                 rdr.Close();
-                cmd.CommandText = "CREATE TABLE [dbo].[EQUITY_OPTION_DETAIL]([OPT_TKT_ID][INT], [OPT_DATE][datetime] NOT NULL, " +
+                cmd.CommandText = "CREATE TABLE [dbo].[EQUITY_OPTION_DETAIL]([ID][int] IDENTITY(1, 1) NOT NULL, [OPT_TKT_ID][INT] NOT NULL, " +
+                    " [OPT_DATE][datetime] NOT NULL, " +
                     " [OPT_ACTION] [varchar] (6) NOT NULL, [OPT_NUMBER][INT] NOT NULL, [OPT_PRICE][DECIMAL] (8,4) NOT NULL, " +
                     " [OPT_STRIKE][DECIMAL] (8,4) NOT NULL, [OPT_EXDATE][DATETIME] NOT NULL) ON[PRIMARY]";
 
