@@ -4653,5 +4653,30 @@ namespace traderTools
 
             }
         }
+
+        private void equityTicketPullbutton_Click(object sender, RibbonControlEventArgs e)
+        {
+            if (EquityTieToTemplatecheckBox.Checked==true)
+            {
+                try
+                {
+                    Globals.ThisAddIn.Application._Run2("ETG_PULL_TICKET",EquityAcctOwnerdropDown.SelectedItem.ToString(),equityAcctdropDown.SelectedItem.ToString(),
+                        tickerdropDown.SelectedItem.ToString());
+
+                }
+                catch
+                {
+
+                }
+            }
+        }
+
+        private void equityTicketUpdatebutton_Click(object sender, RibbonControlEventArgs e)
+        {
+            if (EquityTieToTemplatecheckBox.Checked==true)
+            {
+                Globals.ThisAddIn.Application._Run2("ETG_UPDATE_TICKET");
+            }
+        }
     }
 }

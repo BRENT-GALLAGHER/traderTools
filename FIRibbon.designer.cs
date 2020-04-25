@@ -274,7 +274,9 @@
             this.EquityTicketgroup = this.Factory.CreateRibbonGroup();
             this.tickerdropDown = this.Factory.CreateRibbonDropDown();
             this.ticketDatedropDown = this.Factory.CreateRibbonDropDown();
-            this.ticketeditBox = this.Factory.CreateRibbonEditBox();
+            this.separator14 = this.Factory.CreateRibbonSeparator();
+            this.equityTicketPullbutton = this.Factory.CreateRibbonButton();
+            this.equityTicketUpdatebutton = this.Factory.CreateRibbonButton();
             this.tabCort.SuspendLayout();
             this.userManagementGroup.SuspendLayout();
             this.Inventories.SuspendLayout();
@@ -1834,7 +1836,9 @@
             // 
             this.EquityTicketgroup.Items.Add(this.tickerdropDown);
             this.EquityTicketgroup.Items.Add(this.ticketDatedropDown);
-            this.EquityTicketgroup.Items.Add(this.ticketeditBox);
+            this.EquityTicketgroup.Items.Add(this.separator14);
+            this.EquityTicketgroup.Items.Add(this.equityTicketPullbutton);
+            this.EquityTicketgroup.Items.Add(this.equityTicketUpdatebutton);
             this.EquityTicketgroup.Label = "Equity Ticket";
             this.EquityTicketgroup.Name = "EquityTicketgroup";
             // 
@@ -1848,11 +1852,23 @@
             this.ticketDatedropDown.Label = "Open Date";
             this.ticketDatedropDown.Name = "ticketDatedropDown";
             // 
-            // ticketeditBox
+            // separator14
             // 
-            this.ticketeditBox.Label = "Ticket";
-            this.ticketeditBox.Name = "ticketeditBox";
-            this.ticketeditBox.Text = null;
+            this.separator14.Name = "separator14";
+            // 
+            // equityTicketPullbutton
+            // 
+            this.equityTicketPullbutton.Label = "Pull Ticket";
+            this.equityTicketPullbutton.Name = "equityTicketPullbutton";
+            this.equityTicketPullbutton.SuperTip = "ETG_PULL_TICKET";
+            this.equityTicketPullbutton.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.equityTicketPullbutton_Click);
+            // 
+            // equityTicketUpdatebutton
+            // 
+            this.equityTicketUpdatebutton.Label = "Update Ticket";
+            this.equityTicketUpdatebutton.Name = "equityTicketUpdatebutton";
+            this.equityTicketUpdatebutton.SuperTip = "ETG_UPDATE_TICKET";
+            this.equityTicketUpdatebutton.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.equityTicketUpdatebutton_Click);
             // 
             // FixedIncome
             // 
@@ -2119,7 +2135,6 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonGroup EquityTicketgroup;
         internal Microsoft.Office.Tools.Ribbon.RibbonDropDown tickerdropDown;
         internal Microsoft.Office.Tools.Ribbon.RibbonDropDown ticketDatedropDown;
-        internal Microsoft.Office.Tools.Ribbon.RibbonEditBox ticketeditBox;
         internal Microsoft.Office.Tools.Ribbon.RibbonGroup EquityAccountgroup;
         internal Microsoft.Office.Tools.Ribbon.RibbonDropDown equityAcctdropDown;
         internal Microsoft.Office.Tools.Ribbon.RibbonLabel AcctBalancelabel;
@@ -2128,6 +2143,9 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonDropDown EquityAcctOwnerdropDown;
         internal Microsoft.Office.Tools.Ribbon.RibbonCheckBox EquityTieToTemplatecheckBox;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton AcctSaveChangesbutton;
+        internal Microsoft.Office.Tools.Ribbon.RibbonSeparator separator14;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton equityTicketPullbutton;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton equityTicketUpdatebutton;
     }
 
     partial class ThisRibbonCollection
