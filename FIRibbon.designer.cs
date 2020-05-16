@@ -1802,11 +1802,13 @@
             // 
             this.EquityAcctOwnerdropDown.Label = "Owner";
             this.EquityAcctOwnerdropDown.Name = "EquityAcctOwnerdropDown";
+            this.EquityAcctOwnerdropDown.SelectionChanged += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.EquityAcctOwnerdropDown_SelectionChanged);
             // 
             // equityAcctdropDown
             // 
             this.equityAcctdropDown.Label = "Account";
             this.equityAcctdropDown.Name = "equityAcctdropDown";
+            this.equityAcctdropDown.SelectionChanged += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.equityAcctdropDown_SelectionChanged);
             // 
             // AcctBalancelabel
             // 
@@ -1846,6 +1848,7 @@
             // 
             this.tickerdropDown.Label = "Ticker";
             this.tickerdropDown.Name = "tickerdropDown";
+            this.tickerdropDown.SelectionChanged += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.tickerdropDown_SelectionChanged);
             // 
             // ticketDatedropDown
             // 

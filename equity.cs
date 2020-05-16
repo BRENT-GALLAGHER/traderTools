@@ -74,6 +74,37 @@ namespace traderTools
             cn.Close();
         }
 
+        public void createEquityFidelityRaw()
+        {
+            SqlConnection cn = new SqlConnection("Data Source=ZM-SQL-1;Initial Catalog=ZM_GALLAGHER; Integrated Security=SSPI;");
+
+            cn.Open();
+            SqlCommand cmd = new SqlCommand();
+            cmd = cn.CreateCommand();
+            SqlDataReader rdr;
+
+            cmd.CommandText = "IF OBJECT_ID (N'EQUITY_FIDELITY_RAW',N'U') IS NOT NULL SELECT 1 AS RES ELSE SELECT 0 AS RES;";
+
+            rdr = cmd.ExecuteReader();
+            rdr.Read();
+
+            if (rdr.GetValue(0).ToString() == "0")
+            {
+                rdr.Close();
+                cmd.CommandText = "CREATE TABLE [dbo].[EQUITY_FIDELITY_RAW]([ID][int] IDENTITY(1, 1) NOT NULL, [RAW_ACCT_ID] [INT] NOT NULL, [RAW_TKT_ID] [INT] NOT NULL," +
+                    " [RAW_SYMBOL][VARCHAR](255), [RAW_DESCRIPTION][VARCHAR](255) NOT NULL, [RAW_QUANTITY] [INT] NOT NULL, [RAW_BASIS_SHARE][DECIMAL](9,3)," +
+                    " [RAW_PROCEEDS_SHARE] [DECIMAL] (9,3), [RAW_BASIS][DECIMAL](9,3), [RAW_PROCEEDS][DECIMAL] (9,3) NOT NULL, [RAW_SHORT_GL][DECIMAL](9,3), " +
+                    " [RAW_LONG_GL] [DECIMAL](9,3), [RAW_UN_BASIS_SHARE][DECIMAL](9,3), [RAW_UN_BASIS][DECIMAL](9,3), [RAW_UN_SHORT_GL][DECIMAL](9,3), " +
+                    " [RAW_UN_LONG_GL][DECIMAL](9,3)) ON[PRIMARY]";
+
+                cmd.ExecuteNonQuery();
+            }
+
+            rdr.Close();
+            cn.Close();
+
+        }
+
         public void createEquityTicketOverview()
         {
 

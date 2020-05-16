@@ -409,6 +409,151 @@ namespace traderTools
             //MessageBox.Show(vbl.ToString());
         }
 
+        public void fillticketDatedropDown(int acctID, string ticker)
+        {
+            if(usingSQLServer==false)
+            {
+
+            }
+            if (usingSQLServer==true)
+            {
+                ticketDatedropDown.Items.Clear();
+
+                SqlConnection cn = new SqlConnection("Data Source=ZM-SQL-1;Initial Catalog=ZM_GALLAGHER; Integrated Security=SSPI;");
+                cn.Open();
+
+                SqlCommand cmd = new SqlCommand();
+                cmd = cn.CreateCommand();
+                SqlDataReader rdr;
+
+                cmd.CommandText = "select TKT_DATE from EQUITY_TICKET where tkt_account_id=" + acctID + " and tkt_ticker='" + ticker + "';";
+                rdr = cmd.ExecuteReader();
+
+                while (rdr.Read())
+                {
+                    RibbonDropDownItem rItem = this.Factory.CreateRibbonDropDownItem();
+                    rItem.Label = rdr.GetValue(0).ToString();
+                    ticketDatedropDown.Items.Add(rItem);
+                }
+                rdr.Close();
+                cn.Close();
+            }
+
+        }
+
+
+        public void fillticketDatedropDown(string acctOwner, string acctName, string ticker)
+        {
+            int acctID = 0;
+            string dLabel = "";
+
+            if (usingSQLServer == false)
+            {
+
+            }
+
+            if (usingSQLServer == true)
+            {
+                ticketDatedropDown.Items.Clear();
+                ticketDatedropDown.SelectedItemIndex=-1;
+
+                if (ticker.Equals("New Ticket"))
+                {
+                    RibbonDropDownItem rItem = this.Factory.CreateRibbonDropDownItem();
+                    rItem.Label = "";
+                    ticketDatedropDown.Items.Add(rItem);
+
+                    return;
+                }
+
+                SqlConnection cn = new SqlConnection("Data Source=ZM-SQL-1;Initial Catalog=ZM_GALLAGHER; Integrated Security=SSPI;");
+                cn.Open();
+
+                SqlCommand cmd = new SqlCommand();
+                cmd = cn.CreateCommand();
+                SqlDataReader rdr;
+
+                cmd.CommandText = "Select [id] from EQUITY_ACCOUNT WHERE ACCT_USER='" + acctOwner.ToString() + "' AND ACCT_ACCOUNT='" + acctName.ToString() + "';";
+                rdr = cmd.ExecuteReader();
+                try
+                {
+                    rdr.Read();
+                    acctID = Convert.ToInt32(rdr.GetValue(0));
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.ToString());
+                }
+                rdr.Close();
+
+                cmd.CommandText = "select TKT_DATE from EQUITY_TICKET where tkt_account_id=" + acctID + " and tkt_ticker='" + ticker + "';";
+                rdr = cmd.ExecuteReader();
+
+                while (rdr.Read())
+                {
+                    RibbonDropDownItem rItem = this.Factory.CreateRibbonDropDownItem();
+                    rItem.Label = Convert.ToDateTime( rdr.GetValue(0).ToString()).ToString("MM/dd/yyyy");
+                    ticketDatedropDown.Items.Add(rItem);
+                }
+                rdr.Close();
+                cn.Close();
+            }
+
+        }
+
+        public void fillTickerDropDown(string acctOwner, string acctName)
+        {
+            int acctId;
+            acctId = 0;
+
+            if (usingSQLServer==false)
+            {
+
+            }
+
+            if (usingSQLServer==true)
+            {
+                tickerdropDown.Items.Clear();
+
+                RibbonDropDownItem rbnNew = this.Factory.CreateRibbonDropDownItem();
+                rbnNew.Label = "New Ticket";
+                tickerdropDown.Items.Add(rbnNew);
+
+                SqlConnection cn = new SqlConnection("Data Source=ZM-SQL-1;Initial Catalog=ZM_GALLAGHER; Integrated Security=SSPI;");
+
+                cn.Open();
+
+                SqlCommand cmd = new SqlCommand();
+                cmd = cn.CreateCommand();
+                SqlDataReader rdr;
+                cmd.CommandText = "Select [id] from EQUITY_ACCOUNT WHERE ACCT_USER='" + acctOwner.ToString() + "' AND ACCT_ACCOUNT='" + acctName.ToString() + "';";
+                rdr = cmd.ExecuteReader();
+                rdr.Read();
+                try
+                {
+                    acctId = Convert.ToInt32(rdr.GetValue(0));
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.ToString());
+                }
+                rdr.Close();
+
+                cmd.CommandText = "Select distinct TKT_TICKER FROM EQUITY_TICKET WHERE TKT_USER='" + acctOwner.ToString() + "' AND TKT_ACCOUNT_ID=" + acctId + ";";
+                rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    RibbonDropDownItem rItem = this.Factory.CreateRibbonDropDownItem();
+                    rItem.Label = rdr.GetValue(0).ToString();
+                    tickerdropDown.Items.Add(rItem);
+                }
+                rdr.Close();
+                cn.Close();
+            }
+
+        }
+
         public void fillEquityAcctDropDown()
         {
             string user = Environment.UserName.ToString();
@@ -417,6 +562,44 @@ namespace traderTools
             { }
 
             if (usingSQLServer==true)
+            {
+
+                equityAcctdropDown.Items.Clear();
+
+                RibbonDropDownItem rbnNew = this.Factory.CreateRibbonDropDownItem();
+                rbnNew.Label = "New Account";
+                equityAcctdropDown.Items.Add(rbnNew);
+
+                SqlConnection cn = new SqlConnection("Data Source=ZM-SQL-1;Initial Catalog=ZM_GALLAGHER; Integrated Security=SSPI;");
+
+                cn.Open();
+
+                SqlCommand cmd = new SqlCommand();
+                cmd = cn.CreateCommand();
+                SqlDataReader rdr;
+
+                cmd.CommandText = "SELECT distinct acct_account FROM EQUITY_ACCOUNT where acct_user='" + user.ToString() + "';";
+                rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    RibbonDropDownItem rbnItem = this.Factory.CreateRibbonDropDownItem();
+                    rbnItem.Label = rdr.GetValue(0).ToString();
+                    equityAcctdropDown.Items.Add(rbnItem);
+                }
+
+                rdr.Close();
+                cn.Close();
+            }
+
+        }
+
+        public void fillEquityAcctDropDown(string user)
+        {
+
+            if (usingSQLServer == false)
+            { }
+
+            if (usingSQLServer == true)
             {
 
                 equityAcctdropDown.Items.Clear();
@@ -4660,8 +4843,19 @@ namespace traderTools
             {
                 try
                 {
-                    Globals.ThisAddIn.Application._Run2("ETG_PULL_TICKET",EquityAcctOwnerdropDown.SelectedItem.ToString(),equityAcctdropDown.SelectedItem.ToString(),
-                        tickerdropDown.SelectedItem.ToString());
+                    //if (string.IsNullOrEmpty(ticketDatedropDown.SelectedItem.ToString()))
+
+                    if ( ticketDatedropDown.SelectedItemIndex<0 )
+                    {
+                        Globals.ThisAddIn.Application._Run2("ETG_PULL_TICKET", EquityAcctOwnerdropDown.SelectedItem.ToString(), equityAcctdropDown.SelectedItem.ToString(),
+                            tickerdropDown.SelectedItem.ToString());
+
+                    }
+                    else
+                    {
+                        Globals.ThisAddIn.Application._Run2("ETG_PULL_TICKET", EquityAcctOwnerdropDown.SelectedItem.ToString(), equityAcctdropDown.SelectedItem.ToString(),
+                            tickerdropDown.SelectedItem.ToString(), ticketDatedropDown.SelectedItem.ToString());
+                    }
 
                 }
                 catch
@@ -4677,6 +4871,46 @@ namespace traderTools
             {
                 Globals.ThisAddIn.Application._Run2("ETG_UPDATE_TICKET");
             }
+        }
+
+        private void EquityAcctOwnerdropDown_SelectionChanged(object sender, RibbonControlEventArgs e)
+        {
+            //----fill equityAcctdropDown based on acctOwner selected
+            try
+            {
+                fillEquityAcctDropDown( EquityAcctOwnerdropDown.SelectedItem.ToString());
+            }
+            catch
+            {
+
+            }
+        }
+
+        private void equityAcctdropDown_SelectionChanged(object sender, RibbonControlEventArgs e)
+        {
+            try
+            {
+                fillTickerDropDown(EquityAcctOwnerdropDown.SelectedItem.ToString() , equityAcctdropDown.SelectedItem.ToString() );
+            }
+            catch
+            {
+
+            }
+
+        }
+
+        private void tickerdropDown_SelectionChanged(object sender, RibbonControlEventArgs e)
+        {
+            try
+            {
+                fillticketDatedropDown(EquityAcctOwnerdropDown.SelectedItem.ToString() , 
+                    equityAcctdropDown.SelectedItem.ToString(), tickerdropDown.SelectedItem.ToString());
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+
         }
     }
 }
