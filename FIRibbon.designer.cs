@@ -277,6 +277,7 @@
             this.separator14 = this.Factory.CreateRibbonSeparator();
             this.equityTicketPullbutton = this.Factory.CreateRibbonButton();
             this.equityTicketUpdatebutton = this.Factory.CreateRibbonButton();
+            this.deleteEquityTicketbutton = this.Factory.CreateRibbonButton();
             this.tabCort.SuspendLayout();
             this.userManagementGroup.SuspendLayout();
             this.Inventories.SuspendLayout();
@@ -1841,6 +1842,7 @@
             this.EquityTicketgroup.Items.Add(this.separator14);
             this.EquityTicketgroup.Items.Add(this.equityTicketPullbutton);
             this.EquityTicketgroup.Items.Add(this.equityTicketUpdatebutton);
+            this.EquityTicketgroup.Items.Add(this.deleteEquityTicketbutton);
             this.EquityTicketgroup.Label = "Equity Ticket";
             this.EquityTicketgroup.Name = "EquityTicketgroup";
             // 
@@ -1872,6 +1874,13 @@
             this.equityTicketUpdatebutton.Name = "equityTicketUpdatebutton";
             this.equityTicketUpdatebutton.SuperTip = "ETG_UPDATE_TICKET";
             this.equityTicketUpdatebutton.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.equityTicketUpdatebutton_Click);
+            // 
+            // deleteEquityTicketbutton
+            // 
+            this.deleteEquityTicketbutton.Label = "Delete Ticket";
+            this.deleteEquityTicketbutton.Name = "deleteEquityTicketbutton";
+            this.deleteEquityTicketbutton.SuperTip = "ETG_DELETE_TICKET";
+            this.deleteEquityTicketbutton.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.deleteEquityTicketbutton_Click);
             // 
             // FixedIncome
             // 
@@ -2149,6 +2158,7 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonSeparator separator14;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton equityTicketPullbutton;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton equityTicketUpdatebutton;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton deleteEquityTicketbutton;
     }
 
     partial class ThisRibbonCollection

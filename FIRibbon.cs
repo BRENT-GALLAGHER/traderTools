@@ -4763,11 +4763,21 @@ namespace traderTools
         {
             if (pullBloomBergcheckBox.Checked==true )
             {
-                Globals.ThisAddIn.Application._Run2("pullBloomberg", true );
+                try
+                {
+                    Globals.ThisAddIn.Application._Run2("pullBloomberg", true);
+                }
+                catch { }
+
             }
             else
             {
-                Globals.ThisAddIn.Application._Run2("pullBloomberg", false);
+                try
+                {
+                    Globals.ThisAddIn.Application._Run2("pullBloomberg", false);
+                }
+                catch { }
+
             }
         }
 
@@ -4775,7 +4785,12 @@ namespace traderTools
         {
             if (showSubTotalscheckBox.Checked == true)
             {
-                Globals.ThisAddIn.Application._Run2("calculateSubTotals", true);
+                try
+                {
+                    Globals.ThisAddIn.Application._Run2("calculateSubTotals", true);
+                }
+                catch { }
+
             }
             else
             {
@@ -4847,14 +4862,22 @@ namespace traderTools
 
                     if ( ticketDatedropDown.SelectedItemIndex<0 )
                     {
-                        Globals.ThisAddIn.Application._Run2("ETG_PULL_TICKET", EquityAcctOwnerdropDown.SelectedItem.ToString(), equityAcctdropDown.SelectedItem.ToString(),
-                            tickerdropDown.SelectedItem.ToString());
-
+                        try
+                        {
+                            Globals.ThisAddIn.Application._Run2("ETG_PULL_TICKET", EquityAcctOwnerdropDown.SelectedItem.ToString(), equityAcctdropDown.SelectedItem.ToString(),
+                                tickerdropDown.SelectedItem.ToString());
+                        }
+                        catch { }
                     }
                     else
                     {
-                        Globals.ThisAddIn.Application._Run2("ETG_PULL_TICKET", EquityAcctOwnerdropDown.SelectedItem.ToString(), equityAcctdropDown.SelectedItem.ToString(),
-                            tickerdropDown.SelectedItem.ToString(), ticketDatedropDown.SelectedItem.ToString());
+                        try
+                        {
+                            Globals.ThisAddIn.Application._Run2("ETG_PULL_TICKET", EquityAcctOwnerdropDown.SelectedItem.ToString(), equityAcctdropDown.SelectedItem.ToString(),
+                                tickerdropDown.SelectedItem.ToString(), ticketDatedropDown.SelectedItem.ToString());
+                        }
+                        catch { }
+
                     }
 
                 }
@@ -4869,7 +4892,14 @@ namespace traderTools
         {
             if (EquityTieToTemplatecheckBox.Checked==true)
             {
-                Globals.ThisAddIn.Application._Run2("ETG_UPDATE_TICKET");
+                try
+                {
+                    Globals.ThisAddIn.Application._Run2("ETG_UPDATE_TICKET");
+                }
+                catch
+                {
+
+                }
             }
         }
 
@@ -4909,6 +4939,23 @@ namespace traderTools
             catch(Exception ex)
             {
                 MessageBox.Show(ex.ToString());
+            }
+
+        }
+
+        private void deleteEquityTicketbutton_Click(object sender, RibbonControlEventArgs e)
+        {
+
+            if (EquityTieToTemplatecheckBox.Checked == true)
+            {
+                try
+                {
+                    Globals.ThisAddIn.Application._Run2("ETG_DELETE_TICKET");
+                }
+                catch
+                {
+
+                }
             }
 
         }
