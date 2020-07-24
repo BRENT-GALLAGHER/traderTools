@@ -278,6 +278,25 @@
             this.equityTicketPullbutton = this.Factory.CreateRibbonButton();
             this.equityTicketUpdatebutton = this.Factory.CreateRibbonButton();
             this.deleteEquityTicketbutton = this.Factory.CreateRibbonButton();
+            this.OptionEvaluatorgroup = this.Factory.CreateRibbonGroup();
+            this.optionMethoddropDown = this.Factory.CreateRibbonDropDown();
+            this.StockPriceeditBox = this.Factory.CreateRibbonEditBox();
+            this.DaysToeditBox = this.Factory.CreateRibbonEditBox();
+            this.VolatilityeditBox = this.Factory.CreateRibbonEditBox();
+            this.optionTrialseditBox = this.Factory.CreateRibbonEditBox();
+            this.StrikeeditBox = this.Factory.CreateRibbonEditBox();
+            this.risklessRateeditBox = this.Factory.CreateRibbonEditBox();
+            this.separator15 = this.Factory.CreateRibbonSeparator();
+            this.CalleditBox = this.Factory.CreateRibbonEditBox();
+            this.PuteditBox = this.Factory.CreateRibbonEditBox();
+            this.optionRunbutton = this.Factory.CreateRibbonButton();
+            this.Strike2editBox = this.Factory.CreateRibbonEditBox();
+            this.CallPrice2editBox = this.Factory.CreateRibbonEditBox();
+            this.putPrice2editBox = this.Factory.CreateRibbonEditBox();
+            this.putSpreadeditBox = this.Factory.CreateRibbonEditBox();
+            this.callSpreadeditBox = this.Factory.CreateRibbonEditBox();
+            this.collareditBox = this.Factory.CreateRibbonEditBox();
+            this.collarReturnEditBox = this.Factory.CreateRibbonEditBox();
             this.tabCort.SuspendLayout();
             this.userManagementGroup.SuspendLayout();
             this.Inventories.SuspendLayout();
@@ -303,6 +322,7 @@
             this.equitySetupgroup.SuspendLayout();
             this.EquityAccountgroup.SuspendLayout();
             this.EquityTicketgroup.SuspendLayout();
+            this.OptionEvaluatorgroup.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabCort
@@ -1765,6 +1785,7 @@
             this.tabEquities.Groups.Add(this.equitySetupgroup);
             this.tabEquities.Groups.Add(this.EquityAccountgroup);
             this.tabEquities.Groups.Add(this.EquityTicketgroup);
+            this.tabEquities.Groups.Add(this.OptionEvaluatorgroup);
             this.tabEquities.Label = "Equities";
             this.tabEquities.Name = "tabEquities";
             this.tabEquities.Visible = false;
@@ -1882,6 +1903,141 @@
             this.deleteEquityTicketbutton.SuperTip = "ETG_DELETE_TICKET";
             this.deleteEquityTicketbutton.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.deleteEquityTicketbutton_Click);
             // 
+            // OptionEvaluatorgroup
+            // 
+            this.OptionEvaluatorgroup.Items.Add(this.optionMethoddropDown);
+            this.OptionEvaluatorgroup.Items.Add(this.optionRunbutton);
+            this.OptionEvaluatorgroup.Items.Add(this.StockPriceeditBox);
+            this.OptionEvaluatorgroup.Items.Add(this.DaysToeditBox);
+            this.OptionEvaluatorgroup.Items.Add(this.VolatilityeditBox);
+            this.OptionEvaluatorgroup.Items.Add(this.optionTrialseditBox);
+            this.OptionEvaluatorgroup.Items.Add(this.StrikeeditBox);
+            this.OptionEvaluatorgroup.Items.Add(this.risklessRateeditBox);
+            this.OptionEvaluatorgroup.Items.Add(this.Strike2editBox);
+            this.OptionEvaluatorgroup.Items.Add(this.separator15);
+            this.OptionEvaluatorgroup.Items.Add(this.CalleditBox);
+            this.OptionEvaluatorgroup.Items.Add(this.PuteditBox);
+            this.OptionEvaluatorgroup.Items.Add(this.CallPrice2editBox);
+            this.OptionEvaluatorgroup.Items.Add(this.putPrice2editBox);
+            this.OptionEvaluatorgroup.Items.Add(this.putSpreadeditBox);
+            this.OptionEvaluatorgroup.Items.Add(this.callSpreadeditBox);
+            this.OptionEvaluatorgroup.Items.Add(this.collareditBox);
+            this.OptionEvaluatorgroup.Items.Add(this.collarReturnEditBox);
+            this.OptionEvaluatorgroup.Label = "Option Evaluator";
+            this.OptionEvaluatorgroup.Name = "OptionEvaluatorgroup";
+            // 
+            // optionMethoddropDown
+            // 
+            this.optionMethoddropDown.Label = "Method";
+            this.optionMethoddropDown.Name = "optionMethoddropDown";
+            // 
+            // StockPriceeditBox
+            // 
+            this.StockPriceeditBox.Label = "Price";
+            this.StockPriceeditBox.Name = "StockPriceeditBox";
+            this.StockPriceeditBox.Text = null;
+            this.StockPriceeditBox.TextChanged += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.StockPriceeditBox_TextChanged);
+            // 
+            // DaysToeditBox
+            // 
+            this.DaysToeditBox.Label = "Days To Strike";
+            this.DaysToeditBox.Name = "DaysToeditBox";
+            this.DaysToeditBox.Text = null;
+            this.DaysToeditBox.TextChanged += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.DaysToeditBox_TextChanged);
+            // 
+            // VolatilityeditBox
+            // 
+            this.VolatilityeditBox.Label = "Volatility";
+            this.VolatilityeditBox.Name = "VolatilityeditBox";
+            this.VolatilityeditBox.Text = null;
+            this.VolatilityeditBox.TextChanged += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.VolatilityeditBox_TextChanged);
+            // 
+            // optionTrialseditBox
+            // 
+            this.optionTrialseditBox.Label = "Trials";
+            this.optionTrialseditBox.Name = "optionTrialseditBox";
+            this.optionTrialseditBox.Text = null;
+            // 
+            // StrikeeditBox
+            // 
+            this.StrikeeditBox.Label = "Strike Price";
+            this.StrikeeditBox.Name = "StrikeeditBox";
+            this.StrikeeditBox.Text = null;
+            this.StrikeeditBox.TextChanged += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.StrikeeditBox_TextChanged);
+            // 
+            // risklessRateeditBox
+            // 
+            this.risklessRateeditBox.Label = "Riskless Rate";
+            this.risklessRateeditBox.Name = "risklessRateeditBox";
+            this.risklessRateeditBox.Text = null;
+            this.risklessRateeditBox.TextChanged += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.risklessRateeditBox_TextChanged);
+            // 
+            // separator15
+            // 
+            this.separator15.Name = "separator15";
+            // 
+            // CalleditBox
+            // 
+            this.CalleditBox.Label = "Call Price";
+            this.CalleditBox.Name = "CalleditBox";
+            this.CalleditBox.Text = null;
+            // 
+            // PuteditBox
+            // 
+            this.PuteditBox.Label = "Put Price";
+            this.PuteditBox.Name = "PuteditBox";
+            this.PuteditBox.Text = null;
+            // 
+            // optionRunbutton
+            // 
+            this.optionRunbutton.Label = "Run Scenario";
+            this.optionRunbutton.Name = "optionRunbutton";
+            this.optionRunbutton.SuperTip = "OEG_RUN";
+            this.optionRunbutton.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.optionRunbutton_Click);
+            // 
+            // Strike2editBox
+            // 
+            this.Strike2editBox.Label = "Strike Price 2";
+            this.Strike2editBox.Name = "Strike2editBox";
+            this.Strike2editBox.Text = null;
+            this.Strike2editBox.TextChanged += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.Strike2editBox_TextChanged);
+            // 
+            // CallPrice2editBox
+            // 
+            this.CallPrice2editBox.Label = "Call Price 2";
+            this.CallPrice2editBox.Name = "CallPrice2editBox";
+            this.CallPrice2editBox.Text = null;
+            // 
+            // putPrice2editBox
+            // 
+            this.putPrice2editBox.Label = "Put Price";
+            this.putPrice2editBox.Name = "putPrice2editBox";
+            this.putPrice2editBox.Text = null;
+            // 
+            // putSpreadeditBox
+            // 
+            this.putSpreadeditBox.Label = "Put Spread";
+            this.putSpreadeditBox.Name = "putSpreadeditBox";
+            this.putSpreadeditBox.Text = null;
+            // 
+            // callSpreadeditBox
+            // 
+            this.callSpreadeditBox.Label = "Call Spread";
+            this.callSpreadeditBox.Name = "callSpreadeditBox";
+            this.callSpreadeditBox.Text = null;
+            // 
+            // collareditBox
+            // 
+            this.collareditBox.Label = "Collar";
+            this.collareditBox.Name = "collareditBox";
+            this.collareditBox.Text = null;
+            // 
+            // collarReturnEditBox
+            // 
+            this.collarReturnEditBox.Label = "Collar Ret.%";
+            this.collarReturnEditBox.Name = "collarReturnEditBox";
+            this.collarReturnEditBox.Text = null;
+            // 
             // FixedIncome
             // 
             this.Name = "FixedIncome";
@@ -1941,6 +2097,8 @@
             this.EquityAccountgroup.PerformLayout();
             this.EquityTicketgroup.ResumeLayout(false);
             this.EquityTicketgroup.PerformLayout();
+            this.OptionEvaluatorgroup.ResumeLayout(false);
+            this.OptionEvaluatorgroup.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -2159,6 +2317,25 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonButton equityTicketPullbutton;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton equityTicketUpdatebutton;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton deleteEquityTicketbutton;
+        internal Microsoft.Office.Tools.Ribbon.RibbonGroup OptionEvaluatorgroup;
+        internal Microsoft.Office.Tools.Ribbon.RibbonDropDown optionMethoddropDown;
+        internal Microsoft.Office.Tools.Ribbon.RibbonEditBox DaysToeditBox;
+        internal Microsoft.Office.Tools.Ribbon.RibbonEditBox VolatilityeditBox;
+        internal Microsoft.Office.Tools.Ribbon.RibbonSeparator separator15;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton optionRunbutton;
+        internal Microsoft.Office.Tools.Ribbon.RibbonEditBox StockPriceeditBox;
+        internal Microsoft.Office.Tools.Ribbon.RibbonEditBox optionTrialseditBox;
+        internal Microsoft.Office.Tools.Ribbon.RibbonEditBox StrikeeditBox;
+        internal Microsoft.Office.Tools.Ribbon.RibbonEditBox CalleditBox;
+        internal Microsoft.Office.Tools.Ribbon.RibbonEditBox PuteditBox;
+        internal Microsoft.Office.Tools.Ribbon.RibbonEditBox risklessRateeditBox;
+        internal Microsoft.Office.Tools.Ribbon.RibbonEditBox Strike2editBox;
+        internal Microsoft.Office.Tools.Ribbon.RibbonEditBox CallPrice2editBox;
+        internal Microsoft.Office.Tools.Ribbon.RibbonEditBox putPrice2editBox;
+        internal Microsoft.Office.Tools.Ribbon.RibbonEditBox putSpreadeditBox;
+        internal Microsoft.Office.Tools.Ribbon.RibbonEditBox callSpreadeditBox;
+        internal Microsoft.Office.Tools.Ribbon.RibbonEditBox collareditBox;
+        internal Microsoft.Office.Tools.Ribbon.RibbonEditBox collarReturnEditBox;
     }
 
     partial class ThisRibbonCollection

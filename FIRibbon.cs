@@ -9,6 +9,7 @@ using Microsoft.Office.Interop.Excel;
 using System.Text.RegularExpressions;
 using System.Data.SqlClient;
 using System.Runtime.InteropServices;
+using System.Globalization;
 
 namespace traderTools
 {
@@ -500,6 +501,31 @@ namespace traderTools
                 cn.Close();
             }
 
+        }
+
+        public void fillOptionMethodDropDown()
+        {
+            if (usingSQLServer==false)
+            {
+
+            }
+            if (usingSQLServer==true)
+            {
+                optionMethoddropDown.Items.Clear();
+
+                RibbonDropDownItem rbnNew = this.Factory.CreateRibbonDropDownItem();
+                rbnNew.Label = "Select Method";
+                optionMethoddropDown.Items.Add(rbnNew);
+
+                RibbonDropDownItem rbnNew2 = this.Factory.CreateRibbonDropDownItem();
+                rbnNew2.Label = "Binomial Tree";
+                optionMethoddropDown.Items.Add(rbnNew2);
+
+                RibbonDropDownItem rbnNew3 = this.Factory.CreateRibbonDropDownItem();
+                rbnNew3.Label = "Black Scholes";
+                optionMethoddropDown.Items.Add(rbnNew3);
+
+            }
         }
 
         public void fillTickerDropDown(string acctOwner, string acctName)
@@ -2232,6 +2258,7 @@ namespace traderTools
 
                     fillEquityAcctDropDown();
                     fillEquityUserDropDown();
+                    fillOptionMethodDropDown();
                 }
 
                 if (Environment.UserName.ToUpper().Equals("BRENT.GALLAGHER") || 1==1)
@@ -4959,5 +4986,458 @@ namespace traderTools
             }
 
         }
+
+        private void optionRunbutton_Click(object sender, RibbonControlEventArgs e)
+        {
+            if (EquityTieToTemplatecheckBox.Checked==true)
+            {
+                try
+                {
+                    Globals.ThisAddIn.Application._Run2("OEG_RUN", optionMethoddropDown.SelectedItem.ToString(), StockPriceeditBox.Text.ToString(),
+                        DaysToeditBox.Text.ToString(), VolatilityeditBox.Text.ToString(), optionTrialseditBox.Text.ToString()) ;
+                }
+                catch
+                {
+
+                }
+
+            }
+        }
+
+        private void StrikeeditBox_TextChanged(object sender, RibbonControlEventArgs e)
+        {
+            if (!StockPriceeditBox.Equals("") && StockPriceeditBox.Text != null && !DaysToeditBox.Equals("") && DaysToeditBox != null
+                && !VolatilityeditBox.Equals("") && VolatilityeditBox.Text != null  && !StrikeeditBox.Equals("") && StrikeeditBox != null
+                && !risklessRateeditBox.Equals("") && risklessRateeditBox.Text != null)
+            {
+                try
+                {
+                    eqty.BlackScholes(Convert.ToDouble(StockPriceeditBox.Text.ToString()),Convert.ToDouble(StrikeeditBox.Text.ToString()),
+                        Convert.ToInt32(DaysToeditBox.Text.ToString()),Convert.ToDouble(VolatilityeditBox.Text.ToString()),
+                        Convert.ToDouble(risklessRateeditBox.Text.ToString()));
+
+                    //CalleditBox.Text = Convert.ToString(eqty.callPrice);
+                    //PuteditBox.Text = Convert.ToString(eqty.putPrice);
+                    CalleditBox.Text = eqty.callPrice.ToString("F3", CultureInfo.InvariantCulture);
+                    PuteditBox.Text = eqty.putPrice.ToString("F3", CultureInfo.InvariantCulture);
+
+                    if (!Strike2editBox.Equals("") && Strike2editBox.Text != null)
+                    {
+                        try
+                        {
+                            eqty.BlackScholes(Convert.ToDouble(StockPriceeditBox.Text.ToString()), Convert.ToDouble(Strike2editBox.Text.ToString()),
+                                Convert.ToInt32(DaysToeditBox.Text.ToString()), Convert.ToDouble(VolatilityeditBox.Text.ToString()),
+                                Convert.ToDouble(risklessRateeditBox.Text.ToString()));
+
+                            CallPrice2editBox.Text = eqty.callPrice.ToString("F3", CultureInfo.InvariantCulture);
+                            putPrice2editBox.Text = eqty.putPrice.ToString("F3", CultureInfo.InvariantCulture);
+
+                            callSpreadeditBox.Text = ( Convert.ToDouble(CallPrice2editBox.Text.ToString()) -
+                                Convert.ToDouble(CalleditBox.Text.ToString())).ToString("F3",CultureInfo.InvariantCulture);
+
+                            putSpreadeditBox.Text = (Convert.ToDouble(PuteditBox.Text.ToString()) -
+                                Convert.ToDouble(putPrice2editBox.Text.ToString())).ToString("F3", CultureInfo.InvariantCulture);
+
+                            collareditBox.Text = (Convert.ToDouble(CalleditBox.Text.ToString()) -
+                                Convert.ToDouble(putPrice2editBox.Text.ToString())).ToString("F3", CultureInfo.InvariantCulture);
+
+                            if (Convert.ToDouble(StrikeeditBox.Text.ToString()) > Convert.ToDouble(StockPriceeditBox.Text.ToString()))
+                            {
+                                collarReturnEditBox.Text = ((Convert.ToDouble(CalleditBox.Text.ToString()) - Convert.ToDouble(putPrice2editBox.Text.ToString()))
+                                    / Convert.ToDouble(StockPriceeditBox.Text.ToString()) /
+                                    Convert.ToDouble(DaysToeditBox.Text.ToString()) * 365 * 100).ToString("F3", CultureInfo.InvariantCulture);
+                            }
+                            else
+                            {
+                                collarReturnEditBox.Text = ((Convert.ToDouble(StrikeeditBox.Text.ToString()) - Convert.ToDouble(StockPriceeditBox.Text.ToString()) +
+                                    Convert.ToDouble(CalleditBox.Text.ToString()) - Convert.ToDouble(putPrice2editBox.Text.ToString()))
+                                    / Convert.ToDouble(StockPriceeditBox.Text.ToString()) /
+                                    Convert.ToDouble(DaysToeditBox.Text.ToString()) * 365 * 100).ToString("F3", CultureInfo.InvariantCulture);
+
+                            }
+                        }
+                        catch
+                        {
+
+                        }
+                    }
+                        
+                }
+                catch
+                {
+
+                }
+
+            }
+            else
+            {
+                CalleditBox.Text = "";
+                PuteditBox.Text = "";
+            }
+        }
+
+        private void risklessRateeditBox_TextChanged(object sender, RibbonControlEventArgs e)
+        {
+            if (!StockPriceeditBox.Equals("") && StockPriceeditBox.Text != null && !DaysToeditBox.Equals("") && DaysToeditBox != null
+                && !VolatilityeditBox.Equals("") && VolatilityeditBox.Text != null && !StrikeeditBox.Equals("") && StrikeeditBox != null
+                && !risklessRateeditBox.Equals("") && risklessRateeditBox.Text != null)
+            {
+                try
+                {
+                    eqty.BlackScholes(Convert.ToDouble(StockPriceeditBox.Text.ToString()), Convert.ToDouble(StrikeeditBox.Text.ToString()),
+                        Convert.ToInt32(DaysToeditBox.Text.ToString()), Convert.ToDouble(VolatilityeditBox.Text.ToString()),
+                        Convert.ToDouble(risklessRateeditBox.Text.ToString()));
+
+                    //CalleditBox.Text = Convert.ToString(eqty.callPrice);
+                    //PuteditBox.Text = Convert.ToString(eqty.putPrice);
+                    CalleditBox.Text = eqty.callPrice.ToString("F3", CultureInfo.InvariantCulture);
+                    PuteditBox.Text = eqty.putPrice.ToString("F3", CultureInfo.InvariantCulture);
+
+                    if (!Strike2editBox.Equals("") && Strike2editBox.Text != null)
+                    {
+                        try
+                        {
+                            eqty.BlackScholes(Convert.ToDouble(StockPriceeditBox.Text.ToString()), Convert.ToDouble(Strike2editBox.Text.ToString()),
+                                Convert.ToInt32(DaysToeditBox.Text.ToString()), Convert.ToDouble(VolatilityeditBox.Text.ToString()),
+                                Convert.ToDouble(risklessRateeditBox.Text.ToString()));
+
+                            CallPrice2editBox.Text = eqty.callPrice.ToString("F3", CultureInfo.InvariantCulture);
+                            putPrice2editBox.Text = eqty.putPrice.ToString("F3", CultureInfo.InvariantCulture);
+
+                            callSpreadeditBox.Text = (Convert.ToDouble(CallPrice2editBox.Text.ToString()) -
+                                Convert.ToDouble(CalleditBox.Text.ToString())).ToString("F3", CultureInfo.InvariantCulture);
+
+                            putSpreadeditBox.Text = (Convert.ToDouble(PuteditBox.Text.ToString()) -
+                                Convert.ToDouble(putPrice2editBox.Text.ToString())).ToString("F3", CultureInfo.InvariantCulture);
+
+                            collareditBox.Text = (Convert.ToDouble(CalleditBox.Text.ToString()) -
+                                Convert.ToDouble(putPrice2editBox.Text.ToString())).ToString("F3", CultureInfo.InvariantCulture);
+
+                            if (Convert.ToDouble(StrikeeditBox.Text.ToString()) > Convert.ToDouble(StockPriceeditBox.Text.ToString()))
+                            {
+                                collarReturnEditBox.Text = ((Convert.ToDouble(CalleditBox.Text.ToString()) - Convert.ToDouble(putPrice2editBox.Text.ToString()))
+                                    / Convert.ToDouble(StockPriceeditBox.Text.ToString()) /
+                                    Convert.ToDouble(DaysToeditBox.Text.ToString()) * 365 * 100).ToString("F3", CultureInfo.InvariantCulture);
+                            }
+                            else
+                            {
+                                collarReturnEditBox.Text = ((Convert.ToDouble(StrikeeditBox.Text.ToString()) - Convert.ToDouble(StockPriceeditBox.Text.ToString()) +
+                                    Convert.ToDouble(CalleditBox.Text.ToString()) - Convert.ToDouble(putPrice2editBox.Text.ToString()))
+                                    / Convert.ToDouble(StockPriceeditBox.Text.ToString()) /
+                                    Convert.ToDouble(DaysToeditBox.Text.ToString()) * 365 * 100).ToString("F3", CultureInfo.InvariantCulture);
+
+                            }
+                        }
+                        catch
+                        {
+
+                        }
+                    }
+
+                }
+                catch
+                {
+
+                }
+
+            }
+            else
+            {
+                CalleditBox.Text = "";
+                PuteditBox.Text = "";
+            }
+        }
+
+        private void VolatilityeditBox_TextChanged(object sender, RibbonControlEventArgs e)
+        {
+            if (!StockPriceeditBox.Equals("") && StockPriceeditBox.Text != null && !DaysToeditBox.Equals("") && DaysToeditBox != null
+                && !VolatilityeditBox.Equals("") && VolatilityeditBox.Text != null && !StrikeeditBox.Equals("") && StrikeeditBox != null
+                && !risklessRateeditBox.Equals("") && risklessRateeditBox.Text != null)
+            {
+                try
+                {
+                    eqty.BlackScholes(Convert.ToDouble(StockPriceeditBox.Text.ToString()), Convert.ToDouble(StrikeeditBox.Text.ToString()),
+                        Convert.ToInt32(DaysToeditBox.Text.ToString()), Convert.ToDouble(VolatilityeditBox.Text.ToString()),
+                        Convert.ToDouble(risklessRateeditBox.Text.ToString()));
+
+                    //CalleditBox.Text = Convert.ToString(eqty.callPrice);
+                    //PuteditBox.Text = Convert.ToString(eqty.putPrice);
+                    CalleditBox.Text = eqty.callPrice.ToString("F3", CultureInfo.InvariantCulture);
+                    PuteditBox.Text = eqty.putPrice.ToString("F3", CultureInfo.InvariantCulture);
+
+                    if (!Strike2editBox.Equals("") && Strike2editBox.Text != null)
+                    {
+                        try
+                        {
+                            eqty.BlackScholes(Convert.ToDouble(StockPriceeditBox.Text.ToString()), Convert.ToDouble(Strike2editBox.Text.ToString()),
+                                Convert.ToInt32(DaysToeditBox.Text.ToString()), Convert.ToDouble(VolatilityeditBox.Text.ToString()),
+                                Convert.ToDouble(risklessRateeditBox.Text.ToString()));
+
+                            CallPrice2editBox.Text = eqty.callPrice.ToString("F3", CultureInfo.InvariantCulture);
+                            putPrice2editBox.Text = eqty.putPrice.ToString("F3", CultureInfo.InvariantCulture);
+
+                            callSpreadeditBox.Text = (Convert.ToDouble(CallPrice2editBox.Text.ToString()) -
+                                Convert.ToDouble(CalleditBox.Text.ToString())).ToString("F3", CultureInfo.InvariantCulture);
+
+                            putSpreadeditBox.Text = (Convert.ToDouble(PuteditBox.Text.ToString()) -
+                                Convert.ToDouble(putPrice2editBox.Text.ToString())).ToString("F3", CultureInfo.InvariantCulture);
+
+                            collareditBox.Text = (Convert.ToDouble(CalleditBox.Text.ToString()) -
+                                Convert.ToDouble(putPrice2editBox.Text.ToString())).ToString("F3", CultureInfo.InvariantCulture);
+
+                            if (Convert.ToDouble(StrikeeditBox.Text.ToString()) > Convert.ToDouble(StockPriceeditBox.Text.ToString()))
+                            {
+                                collarReturnEditBox.Text = ((Convert.ToDouble(CalleditBox.Text.ToString()) - Convert.ToDouble(putPrice2editBox.Text.ToString()))
+                                    / Convert.ToDouble(StockPriceeditBox.Text.ToString()) /
+                                    Convert.ToDouble(DaysToeditBox.Text.ToString()) * 365 * 100).ToString("F3", CultureInfo.InvariantCulture);
+                            }
+                            else
+                            {
+                                collarReturnEditBox.Text = ((Convert.ToDouble(StrikeeditBox.Text.ToString()) - Convert.ToDouble(StockPriceeditBox.Text.ToString()) +
+                                    Convert.ToDouble(CalleditBox.Text.ToString()) - Convert.ToDouble(putPrice2editBox.Text.ToString()))
+                                    / Convert.ToDouble(StockPriceeditBox.Text.ToString()) /
+                                    Convert.ToDouble(DaysToeditBox.Text.ToString()) * 365 * 100).ToString("F3", CultureInfo.InvariantCulture);
+
+                            }
+                        }
+                        catch
+                        {
+
+                        }
+                    }
+
+                }
+                catch
+                {
+
+                }
+
+            }
+            else
+            {
+                CalleditBox.Text = "";
+                PuteditBox.Text = "";
+            }
+        }
+
+        private void DaysToeditBox_TextChanged(object sender, RibbonControlEventArgs e)
+        {
+            if (!StockPriceeditBox.Equals("") && StockPriceeditBox.Text != null && !DaysToeditBox.Equals("") && DaysToeditBox != null
+                && !VolatilityeditBox.Equals("") && VolatilityeditBox.Text != null && !StrikeeditBox.Equals("") && StrikeeditBox != null
+                && !risklessRateeditBox.Equals("") && risklessRateeditBox.Text != null)
+            {
+                try
+                {
+                    eqty.BlackScholes(Convert.ToDouble(StockPriceeditBox.Text.ToString()), Convert.ToDouble(StrikeeditBox.Text.ToString()),
+                        Convert.ToInt32(DaysToeditBox.Text.ToString()), Convert.ToDouble(VolatilityeditBox.Text.ToString()),
+                        Convert.ToDouble(risklessRateeditBox.Text.ToString()));
+
+                    //CalleditBox.Text = Convert.ToString(eqty.callPrice);
+                    //PuteditBox.Text = Convert.ToString(eqty.putPrice);
+                    CalleditBox.Text = eqty.callPrice.ToString("F3", CultureInfo.InvariantCulture);
+                    PuteditBox.Text = eqty.putPrice.ToString("F3", CultureInfo.InvariantCulture);
+
+                    if (!Strike2editBox.Equals("") && Strike2editBox.Text != null)
+                    {
+                        try
+                        {
+                            eqty.BlackScholes(Convert.ToDouble(StockPriceeditBox.Text.ToString()), Convert.ToDouble(Strike2editBox.Text.ToString()),
+                                Convert.ToInt32(DaysToeditBox.Text.ToString()), Convert.ToDouble(VolatilityeditBox.Text.ToString()),
+                                Convert.ToDouble(risklessRateeditBox.Text.ToString()));
+
+                            CallPrice2editBox.Text = eqty.callPrice.ToString("F3", CultureInfo.InvariantCulture);
+                            putPrice2editBox.Text = eqty.putPrice.ToString("F3", CultureInfo.InvariantCulture);
+
+                            callSpreadeditBox.Text = (Convert.ToDouble(CallPrice2editBox.Text.ToString()) -
+                                Convert.ToDouble(CalleditBox.Text.ToString())).ToString("F3", CultureInfo.InvariantCulture);
+
+                            putSpreadeditBox.Text = (Convert.ToDouble(PuteditBox.Text.ToString()) -
+                                Convert.ToDouble(putPrice2editBox.Text.ToString())).ToString("F3", CultureInfo.InvariantCulture);
+
+                            collareditBox.Text = (Convert.ToDouble(CalleditBox.Text.ToString()) -
+                                Convert.ToDouble(putPrice2editBox.Text.ToString())).ToString("F3", CultureInfo.InvariantCulture);
+
+                            if (Convert.ToDouble(StrikeeditBox.Text.ToString()) > Convert.ToDouble(StockPriceeditBox.Text.ToString()))
+                            {
+                                collarReturnEditBox.Text = ((Convert.ToDouble(CalleditBox.Text.ToString()) - Convert.ToDouble(putPrice2editBox.Text.ToString()))
+                                    / Convert.ToDouble(StockPriceeditBox.Text.ToString()) /
+                                    Convert.ToDouble(DaysToeditBox.Text.ToString()) * 365 * 100).ToString("F3", CultureInfo.InvariantCulture);
+                            }
+                            else
+                            {
+                                collarReturnEditBox.Text = ((Convert.ToDouble(StrikeeditBox.Text.ToString()) - Convert.ToDouble(StockPriceeditBox.Text.ToString()) +
+                                    Convert.ToDouble(CalleditBox.Text.ToString()) - Convert.ToDouble(putPrice2editBox.Text.ToString()))
+                                    / Convert.ToDouble(StockPriceeditBox.Text.ToString()) /
+                                    Convert.ToDouble(DaysToeditBox.Text.ToString()) * 365 * 100).ToString("F3", CultureInfo.InvariantCulture);
+
+                            }
+                        }
+                        catch
+                        {
+
+                        }
+                    }
+
+                }
+                catch
+                {
+
+                }
+
+            }
+            else
+            {
+                CalleditBox.Text = "";
+                PuteditBox.Text = "";
+            }
+        }
+
+        private void StockPriceeditBox_TextChanged(object sender, RibbonControlEventArgs e)
+        {
+            if (!StockPriceeditBox.Equals("") && StockPriceeditBox.Text != null && !DaysToeditBox.Equals("") && DaysToeditBox != null
+                && !VolatilityeditBox.Equals("") && VolatilityeditBox.Text != null && !StrikeeditBox.Equals("") && StrikeeditBox != null
+                && !risklessRateeditBox.Equals("") && risklessRateeditBox.Text != null)
+            {
+                try
+                {
+                    eqty.BlackScholes(Convert.ToDouble(StockPriceeditBox.Text.ToString()), Convert.ToDouble(StrikeeditBox.Text.ToString()),
+                        Convert.ToInt32(DaysToeditBox.Text.ToString()), Convert.ToDouble(VolatilityeditBox.Text.ToString()),
+                        Convert.ToDouble(risklessRateeditBox.Text.ToString()));
+
+                    //CalleditBox.Text = Convert.ToString(eqty.callPrice);
+                    //PuteditBox.Text = Convert.ToString(eqty.putPrice);
+                    CalleditBox.Text = eqty.callPrice.ToString("F3", CultureInfo.InvariantCulture);
+                    PuteditBox.Text = eqty.putPrice.ToString("F3", CultureInfo.InvariantCulture);
+
+                    if (!Strike2editBox.Equals("") && Strike2editBox.Text != null)
+                    {
+                        try
+                        {
+                            eqty.BlackScholes(Convert.ToDouble(StockPriceeditBox.Text.ToString()), Convert.ToDouble(Strike2editBox.Text.ToString()),
+                                Convert.ToInt32(DaysToeditBox.Text.ToString()), Convert.ToDouble(VolatilityeditBox.Text.ToString()),
+                                Convert.ToDouble(risklessRateeditBox.Text.ToString()));
+
+                            CallPrice2editBox.Text = eqty.callPrice.ToString("F3", CultureInfo.InvariantCulture);
+                            putPrice2editBox.Text = eqty.putPrice.ToString("F3", CultureInfo.InvariantCulture);
+
+                            callSpreadeditBox.Text = (Convert.ToDouble(CallPrice2editBox.Text.ToString()) -
+                                Convert.ToDouble(CalleditBox.Text.ToString())).ToString("F3", CultureInfo.InvariantCulture);
+
+                            putSpreadeditBox.Text = (Convert.ToDouble(PuteditBox.Text.ToString()) -
+                                Convert.ToDouble(putPrice2editBox.Text.ToString())).ToString("F3", CultureInfo.InvariantCulture);
+
+                            collareditBox.Text = (Convert.ToDouble(CalleditBox.Text.ToString()) -
+                                Convert.ToDouble(putPrice2editBox.Text.ToString())).ToString("F3", CultureInfo.InvariantCulture);
+
+                            if (Convert.ToDouble(StrikeeditBox.Text.ToString()) > Convert.ToDouble(StockPriceeditBox.Text.ToString()))
+                            {
+                                collarReturnEditBox.Text = ((Convert.ToDouble(CalleditBox.Text.ToString()) - Convert.ToDouble(putPrice2editBox.Text.ToString()))
+                                    / Convert.ToDouble(StockPriceeditBox.Text.ToString()) /
+                                    Convert.ToDouble(DaysToeditBox.Text.ToString()) * 365 * 100).ToString("F3", CultureInfo.InvariantCulture);
+                            }
+                            else
+                            {
+                                collarReturnEditBox.Text = ((Convert.ToDouble(StrikeeditBox.Text.ToString()) - Convert.ToDouble(StockPriceeditBox.Text.ToString()) +
+                                    Convert.ToDouble(CalleditBox.Text.ToString()) - Convert.ToDouble(putPrice2editBox.Text.ToString()))
+                                    / Convert.ToDouble(StockPriceeditBox.Text.ToString()) /
+                                    Convert.ToDouble(DaysToeditBox.Text.ToString()) * 365 * 100).ToString("F3", CultureInfo.InvariantCulture);
+
+                            }
+
+                        }
+                        catch
+                        {
+
+                        }
+                    }
+
+                }
+                catch
+                {
+
+                }
+
+            }
+            else
+            {
+                CalleditBox.Text = "";
+                PuteditBox.Text = "";
+            }
+        }
+
+        private void Strike2editBox_TextChanged(object sender, RibbonControlEventArgs e)
+        {
+            if (!StockPriceeditBox.Equals("") && StockPriceeditBox.Text != null && !DaysToeditBox.Equals("") && DaysToeditBox != null
+                && !VolatilityeditBox.Equals("") && VolatilityeditBox.Text != null && !StrikeeditBox.Equals("") && StrikeeditBox != null
+                && !risklessRateeditBox.Equals("") && risklessRateeditBox.Text != null)
+            {
+                try
+                {
+                    eqty.BlackScholes(Convert.ToDouble(StockPriceeditBox.Text.ToString()), Convert.ToDouble(StrikeeditBox.Text.ToString()),
+                        Convert.ToInt32(DaysToeditBox.Text.ToString()), Convert.ToDouble(VolatilityeditBox.Text.ToString()),
+                        Convert.ToDouble(risklessRateeditBox.Text.ToString()));
+
+                    //CalleditBox.Text = Convert.ToString(eqty.callPrice);
+                    //PuteditBox.Text = Convert.ToString(eqty.putPrice);
+                    CalleditBox.Text = eqty.callPrice.ToString("F3", CultureInfo.InvariantCulture);
+                    PuteditBox.Text = eqty.putPrice.ToString("F3", CultureInfo.InvariantCulture);
+
+                    if (!Strike2editBox.Equals("") && Strike2editBox.Text != null)
+                    {
+                        try
+                        {
+                            eqty.BlackScholes(Convert.ToDouble(StockPriceeditBox.Text.ToString()), Convert.ToDouble(Strike2editBox.Text.ToString()),
+                                Convert.ToInt32(DaysToeditBox.Text.ToString()), Convert.ToDouble(VolatilityeditBox.Text.ToString()),
+                                Convert.ToDouble(risklessRateeditBox.Text.ToString()));
+
+                            CallPrice2editBox.Text = eqty.callPrice.ToString("F3", CultureInfo.InvariantCulture);
+                            putPrice2editBox.Text = eqty.putPrice.ToString("F3", CultureInfo.InvariantCulture);
+
+                            callSpreadeditBox.Text = (Convert.ToDouble(CallPrice2editBox.Text.ToString()) -
+                                Convert.ToDouble(CalleditBox.Text.ToString())).ToString("F3", CultureInfo.InvariantCulture);
+
+                            putSpreadeditBox.Text = (Convert.ToDouble(PuteditBox.Text.ToString()) -
+                                Convert.ToDouble(putPrice2editBox.Text.ToString())).ToString("F3", CultureInfo.InvariantCulture);
+
+                            collareditBox.Text = (Convert.ToDouble(CalleditBox.Text.ToString()) -
+                                Convert.ToDouble(putPrice2editBox.Text.ToString())).ToString("F3", CultureInfo.InvariantCulture);
+
+                            if (Convert.ToDouble(StrikeeditBox.Text.ToString() ) >Convert.ToDouble(StockPriceeditBox.Text.ToString() ))
+                            {
+                                 collarReturnEditBox.Text = ((Convert.ToDouble(CalleditBox.Text.ToString()) - Convert.ToDouble(putPrice2editBox.Text.ToString()))
+                                     / Convert.ToDouble(StockPriceeditBox.Text.ToString()) /
+                                     Convert.ToDouble(DaysToeditBox.Text.ToString()) * 365 * 100).ToString("F3", CultureInfo.InvariantCulture);
+                            }
+                            else
+                            {
+                                collarReturnEditBox.Text = ((Convert.ToDouble(StrikeeditBox.Text.ToString())-Convert.ToDouble(StockPriceeditBox.Text.ToString()) +
+                                    Convert.ToDouble(CalleditBox.Text.ToString()) - Convert.ToDouble(putPrice2editBox.Text.ToString()))
+                                    / Convert.ToDouble(StockPriceeditBox.Text.ToString()) /
+                                    Convert.ToDouble(DaysToeditBox.Text.ToString()) * 365 * 100).ToString("F3", CultureInfo.InvariantCulture);
+
+                            }
+
+                        }
+                        catch
+                        {
+
+                        }
+                    }
+
+                }
+                catch
+                {
+
+                }
+
+            }
+            else
+            {
+                CalleditBox.Text = "";
+                PuteditBox.Text = "";
+            }
+
+        }
     }
 }
+

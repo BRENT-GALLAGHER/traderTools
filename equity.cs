@@ -6,14 +6,47 @@ using System.Threading.Tasks;
 using System.Data.SqlClient;
 using Microsoft.Office.Interop.Excel;
 
+//using MathNet.Numerics.Statistics;
+using MathNet.Numerics.Distributions;
+using MathNet.Numerics.Random;
+using MathNet.Numerics.Providers.LinearAlgebra;
+//using MathNet.Numerics.Providers.LinearAlgebra;
+
 namespace traderTools
 {
     public class equity
     {
+        double cPrice;
+        double pPrice;
 
         public equity()
         {
 
+        }
+
+
+        public double callPrice
+        {
+            get
+            {
+                return cPrice;
+            }
+            set
+            {
+                cPrice = value;
+            }
+        }
+
+        public double putPrice
+        {
+            get
+            {
+                return pPrice;
+            }
+            set
+            {
+                pPrice = value;
+            }
         }
 
         public void creatEquityTicket()
@@ -44,6 +77,39 @@ namespace traderTools
 
             RDR.Close();
             cn.Close();
+        }
+
+        public void BlackScholes(Double price, double optionStrike, int daysToStrike, double volatility, double risklessRate)
+        {
+            //double optionStrike;
+            //int daysToStrike;
+            //double volatility;
+            //double price;
+            //double risklessRate;
+
+            double db1;
+            double db2;
+
+            //price = 19.1;
+            //daysToStrike = 7;
+            //volatility = .93;
+            //risklessRate = .001;
+            //optionStrike = 19;
+
+            db1 = (Math.Log(price / optionStrike) + (risklessRate + Math.Pow(volatility,2)/2)* Convert.ToDouble(daysToStrike)/365)/(volatility*Math.Sqrt(Convert.ToDouble( daysToStrike)/365));
+            db2 = db1 - volatility * (Math.Sqrt(Convert.ToDouble(daysToStrike) / 365));
+
+            var gamma = new Gamma(2.0, 1.5);
+            double mean = gamma.Mean;
+
+            var normal = Normal.WithMeanVariance(0, 1);
+
+            callPrice = price * normal.CumulativeDistribution(db1) - optionStrike * Math.Exp(-risklessRate * daysToStrike / 365) 
+                * normal.CumulativeDistribution(db2);
+
+            putPrice = normal.CumulativeDistribution(-db2) * optionStrike * Math.Exp(-risklessRate * daysToStrike / 365)
+                    - normal.CumulativeDistribution(-db1) * price;
+            //return callPrice;
         }
 
         public void createEquityUser()
