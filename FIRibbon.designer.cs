@@ -280,17 +280,17 @@
             this.deleteEquityTicketbutton = this.Factory.CreateRibbonButton();
             this.OptionEvaluatorgroup = this.Factory.CreateRibbonGroup();
             this.optionMethoddropDown = this.Factory.CreateRibbonDropDown();
+            this.optionRunbutton = this.Factory.CreateRibbonButton();
             this.StockPriceeditBox = this.Factory.CreateRibbonEditBox();
             this.DaysToeditBox = this.Factory.CreateRibbonEditBox();
             this.VolatilityeditBox = this.Factory.CreateRibbonEditBox();
             this.optionTrialseditBox = this.Factory.CreateRibbonEditBox();
             this.StrikeeditBox = this.Factory.CreateRibbonEditBox();
             this.risklessRateeditBox = this.Factory.CreateRibbonEditBox();
+            this.Strike2editBox = this.Factory.CreateRibbonEditBox();
             this.separator15 = this.Factory.CreateRibbonSeparator();
             this.CalleditBox = this.Factory.CreateRibbonEditBox();
             this.PuteditBox = this.Factory.CreateRibbonEditBox();
-            this.optionRunbutton = this.Factory.CreateRibbonButton();
-            this.Strike2editBox = this.Factory.CreateRibbonEditBox();
             this.CallPrice2editBox = this.Factory.CreateRibbonEditBox();
             this.putPrice2editBox = this.Factory.CreateRibbonEditBox();
             this.putSpreadeditBox = this.Factory.CreateRibbonEditBox();
@@ -1931,6 +1931,13 @@
             this.optionMethoddropDown.Label = "Method";
             this.optionMethoddropDown.Name = "optionMethoddropDown";
             // 
+            // optionRunbutton
+            // 
+            this.optionRunbutton.Label = "Run Scenario";
+            this.optionRunbutton.Name = "optionRunbutton";
+            this.optionRunbutton.SuperTip = "OEG_RUN";
+            this.optionRunbutton.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.optionRunbutton_Click);
+            // 
             // StockPriceeditBox
             // 
             this.StockPriceeditBox.Label = "Price";
@@ -1972,29 +1979,6 @@
             this.risklessRateeditBox.Text = null;
             this.risklessRateeditBox.TextChanged += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.risklessRateeditBox_TextChanged);
             // 
-            // separator15
-            // 
-            this.separator15.Name = "separator15";
-            // 
-            // CalleditBox
-            // 
-            this.CalleditBox.Label = "Call Price";
-            this.CalleditBox.Name = "CalleditBox";
-            this.CalleditBox.Text = null;
-            // 
-            // PuteditBox
-            // 
-            this.PuteditBox.Label = "Put Price";
-            this.PuteditBox.Name = "PuteditBox";
-            this.PuteditBox.Text = null;
-            // 
-            // optionRunbutton
-            // 
-            this.optionRunbutton.Label = "Run Scenario";
-            this.optionRunbutton.Name = "optionRunbutton";
-            this.optionRunbutton.SuperTip = "OEG_RUN";
-            this.optionRunbutton.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.optionRunbutton_Click);
-            // 
             // Strike2editBox
             // 
             this.Strike2editBox.Label = "Strike Price 2";
@@ -2002,15 +1986,31 @@
             this.Strike2editBox.Text = null;
             this.Strike2editBox.TextChanged += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.Strike2editBox_TextChanged);
             // 
+            // separator15
+            // 
+            this.separator15.Name = "separator15";
+            // 
+            // CalleditBox
+            // 
+            this.CalleditBox.Label = "Call Value";
+            this.CalleditBox.Name = "CalleditBox";
+            this.CalleditBox.Text = null;
+            // 
+            // PuteditBox
+            // 
+            this.PuteditBox.Label = "Put Value";
+            this.PuteditBox.Name = "PuteditBox";
+            this.PuteditBox.Text = null;
+            // 
             // CallPrice2editBox
             // 
-            this.CallPrice2editBox.Label = "Call Price 2";
+            this.CallPrice2editBox.Label = "Call Value 2";
             this.CallPrice2editBox.Name = "CallPrice2editBox";
             this.CallPrice2editBox.Text = null;
             // 
             // putPrice2editBox
             // 
-            this.putPrice2editBox.Label = "Put Price";
+            this.putPrice2editBox.Label = "Put Value 2";
             this.putPrice2editBox.Name = "putPrice2editBox";
             this.putPrice2editBox.Text = null;
             // 

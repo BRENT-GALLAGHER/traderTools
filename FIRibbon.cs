@@ -5021,7 +5021,7 @@ namespace traderTools
                     CalleditBox.Text = eqty.callPrice.ToString("F3", CultureInfo.InvariantCulture);
                     PuteditBox.Text = eqty.putPrice.ToString("F3", CultureInfo.InvariantCulture);
 
-                    if (!Strike2editBox.Equals("") && Strike2editBox.Text != null)
+                    if (!Strike2editBox.Text.ToString().Equals("") && Strike2editBox.Text != null)  
                     {
                         try
                         {
@@ -5056,12 +5056,26 @@ namespace traderTools
 
                             }
                         }
-                        catch
+                        catch 
                         {
-
                         }
                     }
-                        
+                    else
+                    {
+                        try
+                        {
+                            CallPrice2editBox.Text = "";
+                            putPrice2editBox.Text = "";
+                            callSpreadeditBox.Text = "";
+                            putSpreadeditBox.Text = "";
+                            collareditBox.Text = "";
+                            collarReturnEditBox.Text = "";
+
+                        }
+                        catch
+                        { }
+                    }
+
                 }
                 catch
                 {
@@ -5093,7 +5107,7 @@ namespace traderTools
                     CalleditBox.Text = eqty.callPrice.ToString("F3", CultureInfo.InvariantCulture);
                     PuteditBox.Text = eqty.putPrice.ToString("F3", CultureInfo.InvariantCulture);
 
-                    if (!Strike2editBox.Equals("") && Strike2editBox.Text != null)
+                    if (!Strike2editBox.Text.ToString().Equals("") && Strike2editBox.Text != null)
                     {
                         try
                         {
@@ -5133,6 +5147,22 @@ namespace traderTools
 
                         }
                     }
+                    else
+                    {
+                        try
+                        {
+                            CallPrice2editBox.Text = "";
+                            putPrice2editBox.Text = "";
+                            callSpreadeditBox.Text = "";
+                            putSpreadeditBox.Text = "";
+                            collareditBox.Text = "";
+                            collarReturnEditBox.Text = "";
+
+                        }
+                        catch
+                        { }
+                    }
+
 
                 }
                 catch
@@ -5165,7 +5195,7 @@ namespace traderTools
                     CalleditBox.Text = eqty.callPrice.ToString("F3", CultureInfo.InvariantCulture);
                     PuteditBox.Text = eqty.putPrice.ToString("F3", CultureInfo.InvariantCulture);
 
-                    if (!Strike2editBox.Equals("") && Strike2editBox.Text != null)
+                    if (!Strike2editBox.Text.ToString().Equals("") && Strike2editBox.Text != null)
                     {
                         try
                         {
@@ -5205,6 +5235,22 @@ namespace traderTools
 
                         }
                     }
+                    else
+                    {
+                        try
+                        {
+                            CallPrice2editBox.Text = "";
+                            putPrice2editBox.Text = "";
+                            callSpreadeditBox.Text = "";
+                            putSpreadeditBox.Text = "";
+                            collareditBox.Text = "";
+                            collarReturnEditBox.Text = "";
+
+                        }
+                        catch
+                        { }
+                    }
+
 
                 }
                 catch
@@ -5237,7 +5283,7 @@ namespace traderTools
                     CalleditBox.Text = eqty.callPrice.ToString("F3", CultureInfo.InvariantCulture);
                     PuteditBox.Text = eqty.putPrice.ToString("F3", CultureInfo.InvariantCulture);
 
-                    if (!Strike2editBox.Equals("") && Strike2editBox.Text != null)
+                    if (!Strike2editBox.Text.ToString().Equals("") && Strike2editBox.Text != null)
                     {
                         try
                         {
@@ -5277,6 +5323,22 @@ namespace traderTools
 
                         }
                     }
+                    else
+                    {
+                        try
+                        {
+                            CallPrice2editBox.Text = "";
+                            putPrice2editBox.Text = "";
+                            callSpreadeditBox.Text = "";
+                            putSpreadeditBox.Text = "";
+                            collareditBox.Text = "";
+                            collarReturnEditBox.Text = "";
+
+                        }
+                        catch
+                        { }
+                    }
+
 
                 }
                 catch
@@ -5309,7 +5371,7 @@ namespace traderTools
                     CalleditBox.Text = eqty.callPrice.ToString("F3", CultureInfo.InvariantCulture);
                     PuteditBox.Text = eqty.putPrice.ToString("F3", CultureInfo.InvariantCulture);
 
-                    if (!Strike2editBox.Equals("") && Strike2editBox.Text != null)
+                    if (!Strike2editBox.Text.ToString().Equals("") && Strike2editBox.Text != null)
                     {
                         try
                         {
@@ -5350,6 +5412,22 @@ namespace traderTools
 
                         }
                     }
+                    else
+                    {
+                        try
+                        {
+                            CallPrice2editBox.Text = "";
+                            putPrice2editBox.Text = "";
+                            callSpreadeditBox.Text = "";
+                            putSpreadeditBox.Text = "";
+                            collareditBox.Text = "";
+                            collarReturnEditBox.Text = "";
+
+                        }
+                        catch
+                        { }
+                    }
+
 
                 }
                 catch
@@ -5382,7 +5460,7 @@ namespace traderTools
                     CalleditBox.Text = eqty.callPrice.ToString("F3", CultureInfo.InvariantCulture);
                     PuteditBox.Text = eqty.putPrice.ToString("F3", CultureInfo.InvariantCulture);
 
-                    if (!Strike2editBox.Equals("") && Strike2editBox.Text != null)
+                    if (!Strike2editBox.Text.ToString().Equals("") && Strike2editBox.Text != null)
                     {
                         try
                         {
@@ -5423,6 +5501,22 @@ namespace traderTools
 
                         }
                     }
+                    else
+                    {
+                        try
+                        {
+                            CallPrice2editBox.Text = "";
+                            putPrice2editBox.Text = "";
+                            callSpreadeditBox.Text = "";
+                            putSpreadeditBox.Text = "";
+                            collareditBox.Text = "";
+                            collarReturnEditBox.Text = "";
+
+                        }
+                        catch
+                        { }
+                    }
+
 
                 }
                 catch
