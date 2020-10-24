@@ -124,7 +124,7 @@ namespace traderTools
       private string uRole;
       private bool isConnected;
 
-      private string MyCnString = "SERVER=10.20.0.141;" + "DATABASE=FIG;" + "UID=brent;" +
+      private string MyCnString = "DRIVER={MySql ODBC 8.0 ANSI Driver};SERVER=127.0.0.1;" + "DATABASE=equities;" + "UID=brent;" +
         "PASSWORD=S1m0n3001;";
       private bool isSQLServer;
 
@@ -136,7 +136,7 @@ namespace traderTools
        
       public string getConnectionString()
       {
-         MyCnString = "SERVER=10.20.0.141;" + "DATABASE=FIG;" + "UID=" + user
+         MyCnString = "DRIVER={MySql ODBC 8.0 ANSI Driver};SERVER=127.0.0.1;" + "DATABASE=equities;" + "UID=" + user
              + ";PASSWORD=" + password + ";";
 
          return MyCnString;
@@ -146,7 +146,7 @@ namespace traderTools
       {
          get
          {
-            return "SERVER=10.20.0.141;" + "DATABASE=FIG;"
+            return "DRIVER={MySql ODBC 8.0 ANSI Driver};SERVER=127.0.0.1;" + "DATABASE=equities;"
            + "UID=" + user + ";PASSWORD=" + password + ";";
          }
       }

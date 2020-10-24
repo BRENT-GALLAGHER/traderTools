@@ -91,7 +91,7 @@ namespace traderTools
         {
             get
             {
-                return "SERVER=10.20.0.141;" + "DATABASE=FIG;"
+                return "DRIVER={MySql ODBC 8.0 ANSI Driver};SERVER=127.0.0.1;" + "DATABASE=equities;"
                + "UID=" + userID + ";PASSWORD=" + userPassword + ";";
             }
         }

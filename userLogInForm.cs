@@ -80,7 +80,7 @@ namespace traderTools
       {
          get
          {
-            return "SERVER=10.20.0.141;" + "DATABASE=FIG;"
+            return "DRIVER={MySql ODBC 8.0 ANSI Driver};SERVER=127.0.0.1;" + "DATABASE=equities;"
            + "UID=" + userID + ";PASSWORD=" + password + ";";
          }
       }
@@ -128,8 +128,9 @@ namespace traderTools
 
             customSection = config.GetSection("DataConnections") as CustomSection;
             
+            
+            //MessageBox.Show(customSection.provider);
 
-            MessageBox.Show(customSection.provider);
         //QS_swapIDdropDown.Items.Clear();
 
         //while (QS_swapIDdropDown.Items.Count > 0)
