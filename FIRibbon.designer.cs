@@ -297,6 +297,8 @@
             this.callSpreadeditBox = this.Factory.CreateRibbonEditBox();
             this.collareditBox = this.Factory.CreateRibbonEditBox();
             this.collarReturnEditBox = this.Factory.CreateRibbonEditBox();
+            this.CallSpreadKellyEditBox = this.Factory.CreateRibbonEditBox();
+            this.putSpreadKellyeditBox = this.Factory.CreateRibbonEditBox();
             this.tabCort.SuspendLayout();
             this.userManagementGroup.SuspendLayout();
             this.Inventories.SuspendLayout();
@@ -1923,6 +1925,8 @@
             this.OptionEvaluatorgroup.Items.Add(this.callSpreadeditBox);
             this.OptionEvaluatorgroup.Items.Add(this.collareditBox);
             this.OptionEvaluatorgroup.Items.Add(this.collarReturnEditBox);
+            this.OptionEvaluatorgroup.Items.Add(this.CallSpreadKellyEditBox);
+            this.OptionEvaluatorgroup.Items.Add(this.putSpreadKellyeditBox);
             this.OptionEvaluatorgroup.Label = "Option Evaluator";
             this.OptionEvaluatorgroup.Name = "OptionEvaluatorgroup";
             // 
@@ -2019,12 +2023,14 @@
             this.putSpreadeditBox.Label = "Put Spread";
             this.putSpreadeditBox.Name = "putSpreadeditBox";
             this.putSpreadeditBox.Text = null;
+            this.putSpreadeditBox.TextChanged += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.putSpreadeditBox_TextChanged);
             // 
             // callSpreadeditBox
             // 
             this.callSpreadeditBox.Label = "Call Spread";
             this.callSpreadeditBox.Name = "callSpreadeditBox";
             this.callSpreadeditBox.Text = null;
+            this.callSpreadeditBox.TextChanged += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.callSpreadeditBox_TextChanged);
             // 
             // collareditBox
             // 
@@ -2037,6 +2043,18 @@
             this.collarReturnEditBox.Label = "Collar Ret.%";
             this.collarReturnEditBox.Name = "collarReturnEditBox";
             this.collarReturnEditBox.Text = null;
+            // 
+            // CallSpreadKellyEditBox
+            // 
+            this.CallSpreadKellyEditBox.Label = "Call Kelly%";
+            this.CallSpreadKellyEditBox.Name = "CallSpreadKellyEditBox";
+            this.CallSpreadKellyEditBox.Text = null;
+            // 
+            // putSpreadKellyeditBox
+            // 
+            this.putSpreadKellyeditBox.Label = "Put Kelly%";
+            this.putSpreadKellyeditBox.Name = "putSpreadKellyeditBox";
+            this.putSpreadKellyeditBox.Text = null;
             // 
             // FixedIncome
             // 
@@ -2336,6 +2354,8 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonEditBox callSpreadeditBox;
         internal Microsoft.Office.Tools.Ribbon.RibbonEditBox collareditBox;
         internal Microsoft.Office.Tools.Ribbon.RibbonEditBox collarReturnEditBox;
+        internal Microsoft.Office.Tools.Ribbon.RibbonEditBox CallSpreadKellyEditBox;
+        internal Microsoft.Office.Tools.Ribbon.RibbonEditBox putSpreadKellyeditBox;
     }
 
     partial class ThisRibbonCollection

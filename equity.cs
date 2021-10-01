@@ -18,6 +18,7 @@ namespace traderTools
     {
         double cPrice;
         double pPrice;
+        double kCS;
 
         public equity()
         {
@@ -49,6 +50,18 @@ namespace traderTools
             }
         }
 
+        public double kellyCallSpread
+        {
+            get
+            {
+                return kCS;
+            }
+            set
+            {
+                kCS = value;
+            }
+        }
+
         public void creatEquityTicket()
         {
 
@@ -77,6 +90,30 @@ namespace traderTools
 
             RDR.Close();
             cn.Close();
+        }
+
+        public void KellyCriterion(Double price, double optionStrike, int daysToStrike, double volatility, double d1, double d2, Boolean isCall)
+        {
+            //double optionStrike;
+            //int daysToStrike;
+            //double volatility;
+            //double price;
+            //double risklessRate;
+
+            double db1;
+            
+            db1 = 1 / (Math.Sqrt(252 - Convert.ToDouble(daysToStrike))) * volatility * price;
+            d1 = d1 / (optionStrike - d2 - d1);
+            var normal = Normal.WithMeanVariance(price, Math.Pow( db1,2));
+            //d1 = normal.CumulativeDistribution(optionStrike);
+            if (isCall==true )
+            {
+                kellyCallSpread = (normal.CumulativeDistribution(d2) * (d1 + 1) - 1) / d1;
+            } else
+            {
+                kellyCallSpread = ((1-normal.CumulativeDistribution(optionStrike)) * (d1 + 1) - 1) / d1;
+            }
+
         }
 
         public void BlackScholes(Double price, double optionStrike, int daysToStrike, double volatility, double risklessRate)

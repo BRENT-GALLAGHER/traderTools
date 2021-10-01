@@ -5041,6 +5041,18 @@ namespace traderTools
                             collareditBox.Text = (Convert.ToDouble(CalleditBox.Text.ToString()) -
                                 Convert.ToDouble(putPrice2editBox.Text.ToString())).ToString("F3", CultureInfo.InvariantCulture);
 
+                            eqty.KellyCriterion(Convert.ToDouble(StockPriceeditBox.Text.ToString()), Convert.ToDouble(StrikeeditBox.Text.ToString()),
+                                Convert.ToInt32(DaysToeditBox.Text.ToString()), Convert.ToDouble(VolatilityeditBox.Text.ToString()),
+                                Convert.ToDouble(callSpreadeditBox.Text.ToString()), Convert.ToDouble(Strike2editBox.Text.ToString()), true);
+
+                            CallSpreadKellyEditBox.Text = eqty.kellyCallSpread.ToString("F3", CultureInfo.InvariantCulture);
+
+                            eqty.KellyCriterion(Convert.ToDouble(StockPriceeditBox.Text.ToString()), Convert.ToDouble(StrikeeditBox.Text.ToString()),
+                                Convert.ToInt32(DaysToeditBox.Text.ToString()), Convert.ToDouble(VolatilityeditBox.Text.ToString()),
+                                Convert.ToDouble(putSpreadeditBox.Text.ToString()), Convert.ToDouble(Strike2editBox.Text.ToString()), false);
+
+                            putSpreadKellyeditBox.Text = eqty.kellyCallSpread.ToString("F3", CultureInfo.InvariantCulture);
+
                             if (Convert.ToDouble(StrikeeditBox.Text.ToString()) > Convert.ToDouble(StockPriceeditBox.Text.ToString()))
                             {
                                 collarReturnEditBox.Text = ((Convert.ToDouble(CalleditBox.Text.ToString()) - Convert.ToDouble(putPrice2editBox.Text.ToString()))
@@ -5107,6 +5119,7 @@ namespace traderTools
                     CalleditBox.Text = eqty.callPrice.ToString("F3", CultureInfo.InvariantCulture);
                     PuteditBox.Text = eqty.putPrice.ToString("F3", CultureInfo.InvariantCulture);
 
+                     
                     if (!Strike2editBox.Text.ToString().Equals("") && Strike2editBox.Text != null)
                     {
                         try
@@ -5126,6 +5139,18 @@ namespace traderTools
 
                             collareditBox.Text = (Convert.ToDouble(CalleditBox.Text.ToString()) -
                                 Convert.ToDouble(putPrice2editBox.Text.ToString())).ToString("F3", CultureInfo.InvariantCulture);
+
+                            eqty.KellyCriterion(Convert.ToDouble(StockPriceeditBox.Text.ToString()), Convert.ToDouble(StrikeeditBox.Text.ToString()),
+                                Convert.ToInt32(DaysToeditBox.Text.ToString()), Convert.ToDouble(VolatilityeditBox.Text.ToString()),
+                                Convert.ToDouble(callSpreadeditBox.Text.ToString()), Convert.ToDouble(Strike2editBox.Text.ToString()), true);
+
+                            CallSpreadKellyEditBox.Text = eqty.kellyCallSpread.ToString("F3", CultureInfo.InvariantCulture);
+
+                            eqty.KellyCriterion(Convert.ToDouble(StockPriceeditBox.Text.ToString()), Convert.ToDouble(StrikeeditBox.Text.ToString()),
+                                Convert.ToInt32(DaysToeditBox.Text.ToString()), Convert.ToDouble(VolatilityeditBox.Text.ToString()),
+                                Convert.ToDouble(putSpreadeditBox.Text.ToString()), Convert.ToDouble(Strike2editBox.Text.ToString()), false);
+
+                            putSpreadKellyeditBox.Text = eqty.kellyCallSpread.ToString("F3", CultureInfo.InvariantCulture);
 
                             if (Convert.ToDouble(StrikeeditBox.Text.ToString()) > Convert.ToDouble(StockPriceeditBox.Text.ToString()))
                             {
@@ -5215,6 +5240,18 @@ namespace traderTools
                             collareditBox.Text = (Convert.ToDouble(CalleditBox.Text.ToString()) -
                                 Convert.ToDouble(putPrice2editBox.Text.ToString())).ToString("F3", CultureInfo.InvariantCulture);
 
+                            eqty.KellyCriterion(Convert.ToDouble(StockPriceeditBox.Text.ToString()), Convert.ToDouble(StrikeeditBox.Text.ToString()),
+                                Convert.ToInt32(DaysToeditBox.Text.ToString()), Convert.ToDouble(VolatilityeditBox.Text.ToString()),
+                                Convert.ToDouble(callSpreadeditBox.Text.ToString()), Convert.ToDouble(Strike2editBox.Text.ToString()), true);
+
+                            CallSpreadKellyEditBox.Text = eqty.kellyCallSpread.ToString("F3", CultureInfo.InvariantCulture);
+
+                            eqty.KellyCriterion(Convert.ToDouble(StockPriceeditBox.Text.ToString()), Convert.ToDouble(StrikeeditBox.Text.ToString()),
+                                Convert.ToInt32(DaysToeditBox.Text.ToString()), Convert.ToDouble(VolatilityeditBox.Text.ToString()),
+                                Convert.ToDouble(putSpreadeditBox.Text.ToString()), Convert.ToDouble(Strike2editBox.Text.ToString()), false);
+
+                            putSpreadKellyeditBox.Text = eqty.kellyCallSpread.ToString("F3", CultureInfo.InvariantCulture);
+
                             if (Convert.ToDouble(StrikeeditBox.Text.ToString()) > Convert.ToDouble(StockPriceeditBox.Text.ToString()))
                             {
                                 collarReturnEditBox.Text = ((Convert.ToDouble(CalleditBox.Text.ToString()) - Convert.ToDouble(putPrice2editBox.Text.ToString()))
@@ -5303,6 +5340,18 @@ namespace traderTools
                             collareditBox.Text = (Convert.ToDouble(CalleditBox.Text.ToString()) -
                                 Convert.ToDouble(putPrice2editBox.Text.ToString())).ToString("F3", CultureInfo.InvariantCulture);
 
+                            eqty.KellyCriterion(Convert.ToDouble(StockPriceeditBox.Text.ToString()), Convert.ToDouble(StrikeeditBox.Text.ToString()),
+                                Convert.ToInt32(DaysToeditBox.Text.ToString()), Convert.ToDouble(VolatilityeditBox.Text.ToString()),
+                                Convert.ToDouble(callSpreadeditBox.Text.ToString()), Convert.ToDouble(Strike2editBox.Text.ToString()), true);
+
+                            CallSpreadKellyEditBox.Text = eqty.kellyCallSpread.ToString("F3", CultureInfo.InvariantCulture);
+
+                            eqty.KellyCriterion(Convert.ToDouble(StockPriceeditBox.Text.ToString()), Convert.ToDouble(StrikeeditBox.Text.ToString()),
+                                Convert.ToInt32(DaysToeditBox.Text.ToString()), Convert.ToDouble(VolatilityeditBox.Text.ToString()),
+                                Convert.ToDouble(putSpreadeditBox.Text.ToString()), Convert.ToDouble(Strike2editBox.Text.ToString()), false);
+
+                            putSpreadKellyeditBox.Text = eqty.kellyCallSpread.ToString("F3", CultureInfo.InvariantCulture);
+
                             if (Convert.ToDouble(StrikeeditBox.Text.ToString()) > Convert.ToDouble(StockPriceeditBox.Text.ToString()))
                             {
                                 collarReturnEditBox.Text = ((Convert.ToDouble(CalleditBox.Text.ToString()) - Convert.ToDouble(putPrice2editBox.Text.ToString()))
@@ -5390,6 +5439,18 @@ namespace traderTools
 
                             collareditBox.Text = (Convert.ToDouble(CalleditBox.Text.ToString()) -
                                 Convert.ToDouble(putPrice2editBox.Text.ToString())).ToString("F3", CultureInfo.InvariantCulture);
+
+                            eqty.KellyCriterion(Convert.ToDouble(StockPriceeditBox.Text.ToString()), Convert.ToDouble(StrikeeditBox.Text.ToString()),
+                                Convert.ToInt32(DaysToeditBox.Text.ToString()), Convert.ToDouble(VolatilityeditBox.Text.ToString()),
+                                Convert.ToDouble(callSpreadeditBox.Text.ToString()), Convert.ToDouble(Strike2editBox.Text.ToString()), true);
+
+                            CallSpreadKellyEditBox.Text = eqty.kellyCallSpread.ToString("F3", CultureInfo.InvariantCulture);
+
+                            eqty.KellyCriterion(Convert.ToDouble(StockPriceeditBox.Text.ToString()), Convert.ToDouble(StrikeeditBox.Text.ToString()),
+                                Convert.ToInt32(DaysToeditBox.Text.ToString()), Convert.ToDouble(VolatilityeditBox.Text.ToString()),
+                                Convert.ToDouble(putSpreadeditBox.Text.ToString()), Convert.ToDouble(Strike2editBox.Text.ToString()), false);
+
+                            putSpreadKellyeditBox.Text = eqty.kellyCallSpread.ToString("F3", CultureInfo.InvariantCulture);
 
                             if (Convert.ToDouble(StrikeeditBox.Text.ToString()) > Convert.ToDouble(StockPriceeditBox.Text.ToString()))
                             {
@@ -5480,6 +5541,18 @@ namespace traderTools
                             collareditBox.Text = (Convert.ToDouble(CalleditBox.Text.ToString()) -
                                 Convert.ToDouble(putPrice2editBox.Text.ToString())).ToString("F3", CultureInfo.InvariantCulture);
 
+                            eqty.KellyCriterion(Convert.ToDouble(StockPriceeditBox.Text.ToString()), Convert.ToDouble(StrikeeditBox.Text.ToString()),
+                                Convert.ToInt32(DaysToeditBox.Text.ToString()), Convert.ToDouble(VolatilityeditBox.Text.ToString()),
+                                Convert.ToDouble(callSpreadeditBox.Text.ToString()), Convert.ToDouble(Strike2editBox.Text.ToString()),true);
+
+                            CallSpreadKellyEditBox.Text = eqty.kellyCallSpread.ToString("F3", CultureInfo.InvariantCulture);
+
+                            eqty.KellyCriterion(Convert.ToDouble(StockPriceeditBox.Text.ToString()), Convert.ToDouble(StrikeeditBox.Text.ToString()),
+                                Convert.ToInt32(DaysToeditBox.Text.ToString()), Convert.ToDouble(VolatilityeditBox.Text.ToString()),
+                                Convert.ToDouble(putSpreadeditBox.Text.ToString()), Convert.ToDouble(Strike2editBox.Text.ToString()),false);
+
+                            putSpreadKellyeditBox.Text = eqty.kellyCallSpread.ToString("F3", CultureInfo.InvariantCulture);
+
                             if (Convert.ToDouble(StrikeeditBox.Text.ToString() ) >Convert.ToDouble(StockPriceeditBox.Text.ToString() ))
                             {
                                  collarReturnEditBox.Text = ((Convert.ToDouble(CalleditBox.Text.ToString()) - Convert.ToDouble(putPrice2editBox.Text.ToString()))
@@ -5530,6 +5603,27 @@ namespace traderTools
                 CalleditBox.Text = "";
                 PuteditBox.Text = "";
             }
+
+        }
+
+        private void callSpreadeditBox_TextChanged(object sender, RibbonControlEventArgs e)
+        {
+            eqty.KellyCriterion(Convert.ToDouble(StockPriceeditBox.Text.ToString()), Convert.ToDouble(StrikeeditBox.Text.ToString()),
+                Convert.ToInt32(DaysToeditBox.Text.ToString()), Convert.ToDouble(VolatilityeditBox.Text.ToString()),
+                Convert.ToDouble(callSpreadeditBox.Text.ToString()), Convert.ToDouble(Strike2editBox.Text.ToString()),true);
+
+            CallSpreadKellyEditBox.Text = eqty.kellyCallSpread.ToString("F3", CultureInfo.InvariantCulture);
+
+        }
+
+        private void putSpreadeditBox_TextChanged(object sender, RibbonControlEventArgs e)
+        {
+
+            eqty.KellyCriterion(Convert.ToDouble(StockPriceeditBox.Text.ToString()), Convert.ToDouble(StrikeeditBox.Text.ToString()),
+                Convert.ToInt32(DaysToeditBox.Text.ToString()), Convert.ToDouble(VolatilityeditBox.Text.ToString()),
+                Convert.ToDouble(putSpreadeditBox.Text.ToString()), Convert.ToDouble(Strike2editBox.Text.ToString()), false);
+
+            putSpreadKellyeditBox.Text = eqty.kellyCallSpread.ToString("F3", CultureInfo.InvariantCulture);
 
         }
     }
