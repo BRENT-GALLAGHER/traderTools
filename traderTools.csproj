@@ -39,10 +39,10 @@
     <OldToolsVersion>12.0</OldToolsVersion>
     <VSTO_TrustAssembliesLocation>true</VSTO_TrustAssembliesLocation>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <PublishUrl>I:\BreanFIGribbon\</PublishUrl>
+    <PublishUrl>U:\Trader-Install\</PublishUrl>
     <InstallUrl>\\BMC-NY-FS01\FIRM\FIXEDINCOME\BreanFIGribbon\</InstallUrl>
     <TargetCulture>en</TargetCulture>
-    <ApplicationVersion>1.0.0.37</ApplicationVersion>
+    <ApplicationVersion>1.0.0.39</ApplicationVersion>
     <AutoIncrementApplicationRevision>true</AutoIncrementApplicationRevision>
     <UpdateEnabled>true</UpdateEnabled>
     <UpdateInterval>0</UpdateInterval>
@@ -168,10 +168,10 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>traderTools_25_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>traderTools_26_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>6E67CD71EA0132307B113AD04DFCEFEE41D77A51</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>A8C3889BAA5FFF642605DC909011FD3FCEDD0F50</ManifestCertificateThumbprint>
   </PropertyGroup>
   <!--
     This section specifies references for the project.
@@ -442,6 +442,7 @@
     <None Include="traderTools_23_TemporaryKey.pfx" />
     <None Include="traderTools_24_TemporaryKey.pfx" />
     <None Include="traderTools_25_TemporaryKey.pfx" />
+    <None Include="traderTools_26_TemporaryKey.pfx" />
     <None Include="traderTools_2_TemporaryKey.pfx" />
     <None Include="traderTools_3_TemporaryKey.pfx" />
     <None Include="traderTools_4_TemporaryKey.pfx" />

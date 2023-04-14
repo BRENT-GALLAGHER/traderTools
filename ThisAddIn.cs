@@ -13,12 +13,12 @@ namespace traderTools
 {
     public partial class ThisAddIn
     {
-        private FixedIncome FI;
+        private FIGribbon FI;
 
         protected override object RequestComAddInAutomationService()
         {
             if (FI == null)
-                FI = new FixedIncome();
+                FI = new FIGribbon();
 
             return FI;
         }

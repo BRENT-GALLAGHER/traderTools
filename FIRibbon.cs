@@ -33,7 +33,7 @@ namespace traderTools
 
     [ComVisible(true)]
     [ClassInterface(ClassInterfaceType.None)]
-    public partial class FixedIncome : IFixedIncome
+    public partial class FIGribbon : IFixedIncome
     {
         //clientInfoForm cInfo = new clientInfoForm();
         userLogInForm uLogIn = new userLogInForm();
@@ -580,6 +580,116 @@ namespace traderTools
 
         }
 
+        public void fillAxeDropDowns(string acctOwner)
+        {
+
+            if (usingSQLServer == false)
+            {
+
+            }
+
+            if (usingSQLServer == true)
+            {
+
+                SqlConnection cn = new SqlConnection("Data Source=ZM-SQL-1;Initial Catalog=ZM_GALLAGHER; Integrated Security=SSPI;");
+
+                cn.Open();
+
+                SqlCommand cmd = new SqlCommand();
+                cmd = cn.CreateCommand();
+
+                dropDownAxeList.Items.Clear();
+                dropDownAcctMgmtAxeList.Items.Clear();
+
+                RibbonDropDownItem rbnNew = this.Factory.CreateRibbonDropDownItem();
+                rbnNew.Label = "";
+
+                RibbonDropDownItem rbnAxes = this.Factory.CreateRibbonDropDownItem();
+                //rbnAxes.Label = "";
+
+                //dropDownAxeList.Items.Add(rbnAxes);
+                dropDownAcctMgmtAxeList.Items.Add(rbnNew);
+                
+                //SqlCommand cmd = new SqlCommand();
+                //cmd = cn.CreateCommand();
+                SqlDataReader rdr;
+                cmd.CommandText = "Select * FROM ACCOUNT_AXELIST WHERE AXEKLIST_BROKER='" + acctOwner.ToString() + "';";
+                rdr = cmd.ExecuteReader();
+
+                while (rdr.Read())
+                {
+                    RibbonDropDownItem rItem = this.Factory.CreateRibbonDropDownItem();
+                    RibbonDropDownItem rAxe = this.Factory.CreateRibbonDropDownItem();
+                    rItem.Label = rdr.GetValue(2).ToString();
+                    rAxe.Label = rdr.GetValue(2).ToString();
+                    dropDownAxeList.Items.Add(rAxe);
+                    dropDownAcctMgmtAxeList.Items.Add(rItem);
+                }
+                rdr.Close();
+                cn.Close();
+            }
+
+        }
+
+        public void createAxe(string acctOwner, string acctName)
+        {
+
+            if (usingSQLServer == false)
+            {
+
+            }
+
+            if (usingSQLServer == true)
+            {
+
+                SqlConnection cn = new SqlConnection("Data Source=ZM-SQL-1;Initial Catalog=ZM_GALLAGHER; Integrated Security=SSPI;");
+
+                cn.Open();
+
+                SqlCommand cmd = new SqlCommand();
+                cmd = cn.CreateCommand();
+                cmd.CommandText = "delete from ACCOUNT_AXELIST where AXEKLIST_BROKER='" + acctOwner.ToString() + "' and AXELIST_AXE='" + acctName.ToString() + "';";
+                cmd.ExecuteNonQuery();
+                
+                cmd.CommandText = "insert into ACCOUNT_AXELIST VALUES ('" + acctOwner.ToString() + "','" + acctName.ToString() + "');";
+                cmd.ExecuteNonQuery();
+                cn.Close();
+
+                dropDownAxeList.Items.Clear();
+                dropDownAcctMgmtAxeList.Items.Clear();
+
+                RibbonDropDownItem rbnNew = this.Factory.CreateRibbonDropDownItem();
+                rbnNew.Label = "";
+
+                RibbonDropDownItem rbnAxes = this.Factory.CreateRibbonDropDownItem();
+                //rbnAxes.Label = "";
+
+                //dropDownAxeList.Items.Add(rbnAxes);
+                dropDownAcctMgmtAxeList.Items.Add(rbnNew);
+
+                cn.Open();
+
+                //SqlCommand cmd = new SqlCommand();
+                //cmd = cn.CreateCommand();
+                SqlDataReader rdr;
+                cmd.CommandText = "Select * FROM ACCOUNT_AXELIST WHERE AXEKLIST_BROKER='" + acctOwner.ToString() + "';";
+                rdr = cmd.ExecuteReader();
+                
+                while (rdr.Read())
+                {
+                    RibbonDropDownItem rItem = this.Factory.CreateRibbonDropDownItem();
+                    RibbonDropDownItem rAxe = this.Factory.CreateRibbonDropDownItem();
+                    rItem.Label = rdr.GetValue(2).ToString();
+                    rAxe.Label = rdr.GetValue(2).ToString();
+                    dropDownAxeList.Items.Add(rAxe);
+                    dropDownAcctMgmtAxeList.Items.Add(rItem);
+                }
+                rdr.Close();
+                cn.Close();
+            }
+
+        }
+
         public void fillEquityAcctDropDown()
         {
             string user = Environment.UserName.ToString();
@@ -1067,6 +1177,62 @@ namespace traderTools
 
         }
 
+        public void fill_PortfolioDropDown(string DB)
+        {
+            DB = DB.ToUpper();
+
+            if (usingSQLServer == false)
+            {
+
+            }
+
+            if (usingSQLServer == true)
+            {
+                createPMdetail();
+
+                SqlConnection cn = new SqlConnection("Data Source=ZM-SQL-1;" +
+                   "Initial Catalog=" + DB + "; Integrated Security=SSPI;");
+
+
+                cn.Open();
+
+                SqlCommand cmd = new SqlCommand();
+                cmd = cn.CreateCommand();
+                SqlDataReader Rdr;
+
+                if (DB.Equals("ZM_GALLAGHER"))
+                {
+                    cmd.CommandText = "select distinct PW_CLIENT from PW_SECURITYDETAIL "
+                       + " ORDER BY PW_CLIENT;";
+
+                }
+                else
+                {
+                    cmd.CommandText = "select distinct SNLinstitution from rptInstrument "
+                       + " ORDER BY SNLinstitution;";
+
+                }
+
+                Rdr = cmd.ExecuteReader();
+                //PortfoliodropDown.Items.Clear();
+                PortfoliodropDown.Items.Clear();
+
+                while (Rdr.Read())
+                {
+                    RibbonDropDownItem rbnItem = this.Factory.CreateRibbonDropDownItem();
+                    rbnItem.Label = Rdr.GetValue(0).ToString();
+
+                    //PortfoliodropDown.Items.Add(rbnItem);
+                    PortfoliodropDown.Items.Add(rbnItem);
+                }
+
+                Rdr.Close();
+                cn.Close();
+            }
+
+        }
+
+
         public void fillFI_OptPortfolioDropDown(string DB)
         {
             DB = DB.ToUpper();
@@ -1162,6 +1328,98 @@ namespace traderTools
 
         }
 
+        public void fillAcctMgmt_ClientTypeDropDown()
+        {
+            //dropDownAcctMgmtType
+            if (usingSQLServer == false)
+            {
+
+            }
+
+            if (usingSQLServer == true)
+            {
+                //createPMdetail();
+
+                SqlConnection cn = new SqlConnection("Data Source=ZM-SQL-1;" +
+                   "Initial Catalog=ZM_GALLAGHER; Integrated Security=SSPI;");
+
+                cn.Open();
+
+                SqlCommand cmd = new SqlCommand();
+                cmd = cn.CreateCommand();
+                SqlDataReader Rdr;
+
+                cmd.CommandText = "select 'All' union all select 'Credit Union' "
+                    + " union all select 'Bank' as AcctType;";  //TEMPORARY
+
+                //cmd.CommandText = "select distinct PW_CLIENT from PW_SECURITYDETAIL "
+                //   + " ORDER BY PW_CLIENT;";
+
+                Rdr = cmd.ExecuteReader();
+                //PortfoliodropDown.Items.Clear();
+                dropDownAcctMgmtType.Items.Clear();
+
+                while (Rdr.Read())
+                {
+                    RibbonDropDownItem rbnItem = this.Factory.CreateRibbonDropDownItem();
+                    rbnItem.Label = Rdr.GetValue(0).ToString();
+
+                    //PortfoliodropDown.Items.Add(rbnItem);
+                    dropDownAcctMgmtType.Items.Add(rbnItem);
+                }
+
+                Rdr.Close();
+                cn.Close();
+            }
+
+        }
+
+        public void fillAcctMgmt_ClientStatusDropDown()
+        {
+            //dropDownAcctMgmtType
+            if (usingSQLServer == false)
+            {
+
+            }
+
+            if (usingSQLServer == true)
+            {
+                //createPMdetail();
+
+                SqlConnection cn = new SqlConnection("Data Source=ZM-SQL-1;" +
+                   "Initial Catalog=ZM_GALLAGHER; Integrated Security=SSPI;");
+
+                cn.Open();
+
+                SqlCommand cmd = new SqlCommand();
+                cmd = cn.CreateCommand();
+                SqlDataReader Rdr;
+
+                cmd.CommandText = "select 'All' union all select 'Assigned' "
+                    + " union all select 'Talking' union all select 'Trading' as AcctType;";  //TEMPORARY
+
+                //cmd.CommandText = "select distinct PW_CLIENT from PW_SECURITYDETAIL "
+                //   + " ORDER BY PW_CLIENT;";
+
+                Rdr = cmd.ExecuteReader();
+                //PortfoliodropDown.Items.Clear();
+                dropDownAcctMgmtStatus.Items.Clear();
+
+                while (Rdr.Read())
+                {
+                    RibbonDropDownItem rbnItem = this.Factory.CreateRibbonDropDownItem();
+                    rbnItem.Label = Rdr.GetValue(0).ToString();
+
+                    //PortfoliodropDown.Items.Add(rbnItem);
+                    dropDownAcctMgmtStatus.Items.Add(rbnItem);
+                }
+
+                Rdr.Close();
+                cn.Close();
+            }
+
+        }
+
         public void fill_TemplatesDropDown()
         {
             if (usingSQLServer == false)
@@ -1202,6 +1460,115 @@ namespace traderTools
             }
 
         }
+
+        public void fill_TemplatesDropDown_FROMDIRECTORY()
+        {
+            if (usingSQLServer == false)
+            {
+
+            }
+
+            if (usingSQLServer == true)
+            {
+                createPMdetail();
+
+                SqlConnection cn = new SqlConnection("Data Source=ZM-SQL-1;" +
+                   "Initial Catalog=ZM_GALLAGHER; Integrated Security=SSPI;");
+
+                cn.Open();
+
+                SqlCommand cmd = new SqlCommand();
+                cmd = cn.CreateCommand();
+                SqlDataReader Rdr;
+
+                cmd.CommandText = "select distinct PW_TEMPLATE_NAME from PW_TEMPLATES  where pw_owner in ('SHARED','" + Environment.UserName + "') "
+                   + " ORDER BY PW_TEMPLATE_NAME;";
+
+                Rdr = cmd.ExecuteReader();
+                TemplatesDropDown.Items.Clear();
+
+                while (Rdr.Read())
+                {
+                    RibbonDropDownItem rbnItem = this.Factory.CreateRibbonDropDownItem();
+                    rbnItem.Label = Rdr.GetValue(0).ToString();
+
+                    //PortfoliodropDown.Items.Add(rbnItem);
+                    TemplatesDropDown.Items.Add(rbnItem);
+                }
+
+                Rdr.Close();
+                cn.Close();
+            }
+
+        }
+
+        public void fill_PortfolioDateDropDown(string DB)
+        {
+            string clientName;
+            clientName = "";
+
+            DB = DB.ToUpper();
+
+            if (usingSQLServer == false)
+            {
+
+            }
+
+            if (usingSQLServer == true)
+            {
+                createPMdetail();
+
+                clientName = PortfoliodropDown.SelectedItem.ToString();
+
+                SqlConnection cn = new SqlConnection("Data Source=ZM-SQL-1;" +
+                   "Initial Catalog=" + DB + "; Integrated Security=SSPI;");
+
+                cn.Open();
+
+                SqlCommand cmd = new SqlCommand();
+                cmd = cn.CreateCommand();
+                SqlDataReader Rdr;
+
+                if (DB.Equals("ZM_GALLAGHER"))
+                {
+                    cmd.CommandText = "select distinct PW_ASOF_DATE from PW_SECURITYDETAIL WHERE PW_CLIENT='" + clientName
+                       + "' ORDER BY PW_ASOF_DATE;";
+                }
+                else
+                {
+                    cmd.CommandText = "select distinct PORTDATE from RPTINSTRUMENT WHERE SNLinstitution='" + clientName
+                       + "' ORDER BY PORTDATE;";
+                }
+
+                Rdr = cmd.ExecuteReader();
+                //PortfolioDatedropDown.Items.Clear();
+                PortfolioDatedropDown.Items.Clear();
+
+                while (Rdr.Read())
+                {
+                    RibbonDropDownItem rbnItem = this.Factory.CreateRibbonDropDownItem();
+                    rbnItem.Label = Rdr.GetValue(0).ToString();
+
+                    //PortfolioDatedropDown.Items.Add(rbnItem);
+                    PortfolioDatedropDown.Items.Add(rbnItem);
+                }
+
+                Rdr.Close();
+                cn.Close();
+                try
+                {
+                    Globals.ThisAddIn.Application._Run2("port_Date", PortfolioDatedropDown.SelectedItem.ToString());
+                }
+                catch (Exception er)
+                {
+                    MessageBox.Show(er.ToString());
+                }
+
+            }
+
+        }
+
+
 
         public void fillFI_OptAsOfDropDown(string DB)
         {
@@ -1821,6 +2188,144 @@ namespace traderTools
 
         }
 
+        public void fillFI_StratSNL_ID(string DB)
+        {
+            string clientName;
+            clientName = "";
+
+            DB = DB.ToUpper();
+
+            if (usingSQLServer == false)
+            {
+
+            }
+
+            if (usingSQLServer == true)
+            {
+                clientName = PortfoliodropDown.SelectedItem.ToString();
+
+                SqlConnection cn = new SqlConnection("Data Source=ZM-SQL-1;" +
+                   "Initial Catalog=" + DB + "; Integrated Security=SSPI;");
+
+                cn.Open();
+
+                SqlCommand cmd = new SqlCommand();
+                cmd = cn.CreateCommand();
+                SqlDataReader Rdr;
+
+                if (DB.Equals("ZM_GALLAGHER"))
+                {
+                    cmd.CommandText = "IF OBJECT_ID (N'PW_BROKER', N'U') IS NOT NULL SELECT 1 AS res ELSE SELECT 0 AS res;";
+                    Rdr = cmd.ExecuteReader();
+                    Rdr.Read();
+                    //MessageBox.Show(Rdr.GetValue(0).ToString());
+                    if (Rdr.GetValue(0).ToString() == "0")
+                    {
+                        Rdr.Close();
+                        cmd.CommandText = "create table PW_BROKER (id INT IDENTITY(1,1) PRIMARY KEY, " +
+                            " PW_BROKER VARCHAR(255), PW_CLIENT VARCHAR(255), PW_CLIENTID VARCHAR(25), PW_ASOF_DATE CHAR(8), PW_SNL_ID CHAR(7), " +
+                            " PW_ASSET_GROUP_MIN INT,  PW_ASSET_GROUP_MAX INT);";
+                        cmd.ExecuteNonQuery();
+
+                    }
+                    else
+                    {
+                    }
+                    Rdr.Close();
+
+                    cmd.CommandText = "select distinct PW_SNL_ID, PW_ASSET_GROUP_MIN,  PW_ASSET_GROUP_MAX " +
+                    " from PW_BROKER WHERE PW_CLIENT='" + clientName + "';";
+
+                    Rdr = cmd.ExecuteReader();
+                    //PortfolioDatedropDown.Items.Clear();
+                    SNLIDeditBox.Text = "";
+
+                    //Rdr.Read();
+                    while (Rdr.Read())
+                    {
+                        //RibbonDropDownItem rbnItem = this.Factory.CreateRibbonDropDownItem();
+                        //rbnItem.Label = Rdr.GetValue(0).ToString();
+                        SNLIDeditBox.Text = Rdr.GetValue(0).ToString();
+                        AssetGrpMineditBox.Text = Rdr.GetValue(1).ToString();
+                        AssetGrpMaxeditBox.Text = Rdr.GetValue(2).ToString();
+
+                        try
+                        {
+                            Globals.ThisAddIn.Application._Run2("SNLID_SET", Rdr.GetValue(0).ToString());
+                        }
+                        catch (Exception er)
+                        {
+                            MessageBox.Show(er.ToString());
+                        }
+
+                        //PortfolioDatedropDown.Items.Add(rbnItem);
+                        //FI_OptAsOfdropDown.Items.Add(rbnItem);
+                    }
+
+                    Rdr.Close();
+                }
+                else
+                {
+                    // a ZM system database
+                    cmd.CommandText = "select distinct SNLID from rptInstrument where SNLinstitution='" + PortfoliodropDown.SelectedItem.ToString() + "';";
+                    Rdr = cmd.ExecuteReader();
+                    FI_StratSNLeditBox.Text = "";
+
+                    Rdr.Read();
+                    FI_StratSNLeditBox.Text = Rdr.GetValue(0).ToString();
+                    try
+                    {
+                        Globals.ThisAddIn.Application._Run2("SNLID_SET", Rdr.GetValue(0).ToString());
+                    }
+                    catch (Exception er)
+                    {
+                        MessageBox.Show(er.ToString());
+                    }
+
+                    Rdr.Close();
+
+                    //cmd.CommandText = "select Cost_of_Funds from SNLBankData where SNL_Institution_Key='" + SNLIDeditBox.Text.ToString() + "';";
+                    //Rdr = cmd.ExecuteReader();
+
+                    //Rdr.Read();
+                    //if (Rdr.HasRows)
+                    //{
+                    //    optTefraeditBox.Text = Rdr.GetValue(0).ToString();
+                    //    if (OptimizationDataBasesdropDown.SelectedItem.ToString().ToUpper().Equals("ZM_HOURIET"))
+                    //    {
+                    //        try
+                    //        {
+                    //            Globals.ThisAddIn.Application._Run2("tefra", optTefraeditBox.Text.ToString());
+                    //        }
+                    //        catch (Exception er)
+                    //        {
+                    //            MessageBox.Show(er.ToString());
+                    //        }
+
+                    //    }
+                    //    if (OptimizationDataBasesdropDown.SelectedItem.ToString().ToUpper().Equals("ZM_PIGG"))
+                    //    {
+                    //        try
+                    //        {
+                    //            Globals.ThisAddIn.Application._Run2("COF", optTefraeditBox.Text.ToString());
+                    //        }
+                    //        catch (Exception er)
+                    //        {
+                    //            MessageBox.Show(er.ToString());
+                    //        }
+
+                    //    }
+                    //}
+
+                    Rdr.Close();
+                }
+
+                cn.Close();
+            }
+
+        }
+
+
         public void fillFI_OptSNL_ID(string DB)
         {
             string clientName;
@@ -2091,7 +2596,6 @@ namespace traderTools
             {
                 //uProfile.userId = uLogIn.userID;
                 //uProfile.userPassword = uLogIn.password;
-
                 //uProfile.Show();
             }
             else
@@ -2129,10 +2633,7 @@ namespace traderTools
                 
                 //bFinder.fillSavedSearchesCombo();  
                 //bFinder.fillCMOcriteraiList();
-
                 //bFinder.fillClientcriteraiList();
-
-
                 ////bFinder.fillMBSsearchesComboBox();
                 //bFinder.fillMBSTypeList();//***   MAYBE TEMP  ***
                 ////bFinder.fillMBSClientList();
@@ -2222,7 +2723,9 @@ namespace traderTools
                 templatesGroupcheckBox.Visible = true;
                 //TemplatesGroup.Visible = true;
                 fill_TemplatesDropDown();
+                TemplatesGroup.Visible = true;
 
+                fillAxeDropDowns(Environment.UserName.ToUpper().ToString());
                 //BondModelingButton.Enabled =true;
                 // dropSector.Enabled = true;
                 // buttonPublicHolders.Enabled = true;
@@ -2259,11 +2762,17 @@ namespace traderTools
                     fillEquityAcctDropDown();
                     fillEquityUserDropDown();
                     fillOptionMethodDropDown();
+                    fillAcctMgmt_ClientTypeDropDown();
+                    fillAcctMgmt_ClientStatusDropDown();
                 }
 
                 if (Environment.UserName.ToUpper().Equals("BRENT.GALLAGHER") || 1==1)
                 {
                     tabStrategy.Visible = true;
+                    
+                    labelUser.Label = Environment.UserName; 
+
+                    tabAccountManagement.Visible = true;
                     AnalyticsGroup.Visible =false;
 
                     fill_userIDDropDown();
@@ -2296,6 +2805,9 @@ namespace traderTools
                     fillFI_OptPortfolioDropDown();
                     fillFI_OptAsOfDropDown();
                     fillFI_OptSNL_ID();
+
+                    fillAcctMgmt_ClientTypeDropDown();
+                    fillAcctMgmt_ClientStatusDropDown();
 
                     resolve_Issuebutton.Visible = true;
                 }
@@ -2356,6 +2868,8 @@ namespace traderTools
             }
             else
             {
+                tabAccountManagement.Visible = false;
+
                 Issuesgroup.Visible = false;
                 Reportinggroup.Visible = false;
                 clientInfoButton.Enabled = false;
@@ -3448,200 +3962,419 @@ namespace traderTools
             mtgFactors = false;
 
 
-            if (MuniDetailcheckBox.Checked)
+            if (dropDownStrategyDB.SelectedItem.ToString().Equals("ZM_GALLAGHER"))
+            {
+                if (MuniDetailcheckBox.Checked)
+                    try
+                    {
+                        Globals.ThisAddIn.Application._Run2("PM_MUNIdetail", PortfoliodropDown.SelectedItem.ToString(),
+                            PortfolioDatedropDown.SelectedItem.ToString());
+                    }
+                    catch (Exception er)
+                    {
+                        MessageBox.Show(er.ToString());
+                    }
+
+                if (MuniSummarycheckBox.Checked)
+                    try
+                    {
+                        Globals.ThisAddIn.Application._Run2("PM_MUNI", PortfoliodropDown.SelectedItem.ToString(),
+                            PortfolioDatedropDown.SelectedItem.ToString());
+                    }
+                    catch (Exception er)
+                    {
+                        MessageBox.Show(er.ToString());
+                    }
+
+                if (LikelyCallcheckBox.Checked)
+                    try
+                    {
+                        Globals.ThisAddIn.Application._Run2("PM_LIKELY_CALL", PortfoliodropDown.SelectedItem.ToString(),
+                            PortfolioDatedropDown.SelectedItem.ToString());
+                    }
+                    catch
+                    {
+                    }
+
+
+                if (AgencySummarycheckBox.Checked)
+                    try
+                    {
+                        Globals.ThisAddIn.Application._Run2("PM_AGENCY", PortfoliodropDown.SelectedItem.ToString(),
+                            PortfolioDatedropDown.SelectedItem.ToString());
+                    }
+                    catch (Exception er)
+                    {
+                        MessageBox.Show(er.ToString());
+                    }
+
+                if (CapitalImpactcheckBox.Checked)
+                    try
+                    {
+                        Globals.ThisAddIn.Application._Run2("PM_CAPITAL_IMPACT", PortfoliodropDown.SelectedItem.ToString(),
+                            PortfolioDatedropDown.SelectedItem.ToString());
+                    }
+                    catch (Exception er)
+                    {
+                        MessageBox.Show(er.ToString());
+                    }
+
+
+                if (PMSectorDetailcheckBox.Checked)
+                    try
+                    {
+                        Globals.ThisAddIn.Application._Run2("PM_SectorDetail_Setup", PortfoliodropDown.SelectedItem.ToString(),
+                            PortfolioDatedropDown.SelectedItem.ToString());
+                        Globals.ThisAddIn.Application._Run2("PM_SectorDetail", PortfoliodropDown.SelectedItem.ToString(),
+                            PortfolioDatedropDown.SelectedItem.ToString());
+                    }
+                    catch (Exception er)
+                    {
+                        MessageBox.Show(er.ToString());
+                    }
+                //sectorDetail = true;
+
+                if (PMIRSDetailcheckBox.Checked)
+                    try
+                    {
+                        Globals.ThisAddIn.Application._Run2("PM_IRS_Detail", PortfoliodropDown.SelectedItem.ToString(),
+                            PortfolioDatedropDown.SelectedItem.ToString());
+                    }
+                    catch (Exception er)
+                    {
+                        MessageBox.Show(er.ToString());
+                    }
+                //IRSDetail = true;
+
+                if (PMIRScheckBox.Checked)
+                    try
+                    {
+                        Globals.ThisAddIn.Application._Run2("PM_IRS", PortfoliodropDown.SelectedItem.ToString(),
+                            PortfolioDatedropDown.SelectedItem.ToString());
+                    }
+                    catch (Exception er)
+                    {
+                        MessageBox.Show(er.ToString());
+                    }
+                //IRSSummary = true;
+
+                if (PMSectorSummarycheckBox.Checked)
+                    try
+                    {
+                        Globals.ThisAddIn.Application._Run2("PM_SectorAllocation", PortfoliodropDown.SelectedItem.ToString(),
+                            PortfolioDatedropDown.SelectedItem.ToString());
+                    }
+                    catch (Exception er)
+                    {
+                        MessageBox.Show(er.ToString());
+                    }
+                //sectorSummary = true;
+
+                if (cash24checkBox.Checked)
+                    try
+                    {
+                        Globals.ThisAddIn.Application._Run2("PM_Cash24", PortfoliodropDown.SelectedItem.ToString(),
+                            PortfolioDatedropDown.SelectedItem.ToString());
+                    }
+                    catch (Exception er)
+                    {
+                        MessageBox.Show(er.ToString());
+                    }
+                //cash24 = true;
+
+                if (cashYrlyCheckBox.Checked)
+                    try
+                    {
+                        Globals.ThisAddIn.Application._Run2("PM_Cash_10YR", PortfoliodropDown.SelectedItem.ToString(),
+                            PortfolioDatedropDown.SelectedItem.ToString());
+                    }
+                    catch (Exception er)
+                    {
+                        MessageBox.Show(er.ToString());
+                    }
+                //cashYrly = true;
+
+                if (cashSectorCheckBox.Checked)
+                    try
+                    {
+                        Globals.ThisAddIn.Application._Run2("PM_Cash_By_Sector", PortfoliodropDown.SelectedItem.ToString(),
+                            PortfolioDatedropDown.SelectedItem.ToString());
+                    }
+                    catch (Exception er)
+                    {
+                        MessageBox.Show(er.ToString());
+                    }
+                //cashSector = true;
+
+                if (PrePaycheckBox.Checked)
+                    try
+                    {
+                        Globals.ThisAddIn.Application._Run2("PM_CashSetup", PortfoliodropDown.SelectedItem.ToString(),
+                            PortfolioDatedropDown.SelectedItem.ToString());
+                    }
+                    catch (Exception er)
+                    {
+                        MessageBox.Show(er.ToString());
+                    }
+                //prePaySetup = true;
+
+                if (WatchlistcheckBox.Checked)
+                    try
+                    {
+                        Globals.ThisAddIn.Application._Run2("PM_WATCHLIST", PortfoliodropDown.SelectedItem.ToString(),
+                            PortfolioDatedropDown.SelectedItem.ToString());
+                    }
+                    catch (Exception er)
+                    {
+                        MessageBox.Show(er.ToString());
+                    }
+                //watchlist = true;
+
+                if (mtgFactorscheckBox.Checked)
+                    try
+                    {
+                        Globals.ThisAddIn.Application._Run2("PM_MTGFACTOR_SETUP", PortfoliodropDown.SelectedItem.ToString(),
+                            PortfolioDatedropDown.SelectedItem.ToString());
+                    }
+                    catch (Exception er)
+                    {
+                        MessageBox.Show(er.ToString());
+                    }
+                //mtgFactors = true;
+
                 try
                 {
-                    Globals.ThisAddIn.Application._Run2("PM_MUNIdetail", PortfoliodropDown.SelectedItem.ToString(),
-                        PortfolioDatedropDown.SelectedItem.ToString());
-                }
-                catch(Exception er)
-                {
-                    MessageBox.Show(er.ToString());
-                }
-
-            if (MuniSummarycheckBox.Checked)
-                try
-                {
-                    Globals.ThisAddIn.Application._Run2("PM_MUNI", PortfoliodropDown.SelectedItem.ToString(),
-                        PortfolioDatedropDown.SelectedItem.ToString());
-                }
-                catch(Exception er)
-                {
-                    MessageBox.Show(er.ToString());
-                }
-
-            if (LikelyCallcheckBox.Checked)
-                try
-                {
-                    Globals.ThisAddIn.Application._Run2("PM_LIKELY_CALL", PortfoliodropDown.SelectedItem.ToString(),
-                        PortfolioDatedropDown.SelectedItem.ToString());
-                }
-                catch
-                {
-                }
-
-
-            if (AgencySummarycheckBox.Checked)
-                try
-                {
-                    Globals.ThisAddIn.Application._Run2("PM_AGENCY", PortfoliodropDown.SelectedItem.ToString(),
-                        PortfolioDatedropDown.SelectedItem.ToString());
-                }
-                catch(Exception er)
-                {
-                    MessageBox.Show(er.ToString());
-                }
-
-            if (CapitalImpactcheckBox.Checked)
-                try
-                {
-                    Globals.ThisAddIn.Application._Run2("PM_CAPITAL_IMPACT", PortfoliodropDown.SelectedItem.ToString(),
-                        PortfolioDatedropDown.SelectedItem.ToString());
-                }
-                catch(Exception er)
-                {
-                    MessageBox.Show(er.ToString());
-                }
-
-
-            if (PMSectorDetailcheckBox.Checked)
-                try
-                {
-                    Globals.ThisAddIn.Application._Run2("PM_SectorDetail_Setup", PortfoliodropDown.SelectedItem.ToString(),
-                        PortfolioDatedropDown.SelectedItem.ToString());
-                    Globals.ThisAddIn.Application._Run2("PM_SectorDetail", PortfoliodropDown.SelectedItem.ToString(),
-                        PortfolioDatedropDown.SelectedItem.ToString());
-                }
-                catch( Exception er)
-                {
-                    MessageBox.Show(er.ToString());
-                }
-            //sectorDetail = true;
-
-            if (PMIRSDetailcheckBox.Checked)
-                try
-                {
-                    Globals.ThisAddIn.Application._Run2("PM_IRS_Detail", PortfoliodropDown.SelectedItem.ToString(),
-                        PortfolioDatedropDown.SelectedItem.ToString());
-                }
-                catch(Exception er)
-                {
-                    MessageBox.Show(er.ToString());
-                }
-            //IRSDetail = true;
-
-            if (PMIRScheckBox.Checked)
-                try
-                {
-                    Globals.ThisAddIn.Application._Run2("PM_IRS", PortfoliodropDown.SelectedItem.ToString(),
-                        PortfolioDatedropDown.SelectedItem.ToString());
-                }
-                catch( Exception er)
-                {
-                    MessageBox.Show(er.ToString());
-                }
-            //IRSSummary = true;
-
-            if (PMSectorSummarycheckBox.Checked)
-                try
-                {
-                    Globals.ThisAddIn.Application._Run2("PM_SectorAllocation", PortfoliodropDown.SelectedItem.ToString(),
-                        PortfolioDatedropDown.SelectedItem.ToString());
-                }
-                catch(Exception er)
-                {
-                    MessageBox.Show(er.ToString());
-                }
-            //sectorSummary = true;
-
-            if (cash24checkBox.Checked)
-                try
-                {
-                    Globals.ThisAddIn.Application._Run2("PM_Cash24", PortfoliodropDown.SelectedItem.ToString(),
-                        PortfolioDatedropDown.SelectedItem.ToString());
-                }
-                catch(Exception er)
-                {
-                    MessageBox.Show(er.ToString());
-                }
-            //cash24 = true;
-
-            if (cashYrlyCheckBox.Checked)
-                try
-                {
-                    Globals.ThisAddIn.Application._Run2("PM_Cash_10YR", PortfoliodropDown.SelectedItem.ToString(),
-                        PortfolioDatedropDown.SelectedItem.ToString());
+                    Globals.ThisAddIn.Application._Run2("runPMreports", PortfoliodropDown.SelectedItem.ToString(),
+                        PortfolioDatedropDown.SelectedItem.ToString(), sectorDetail, sectorSummary, cash24, cashYrly,
+                        cashSector, prePaySetup, IRSSummary, IRSDetail, watchlist, mtgFactors);
                 }
                 catch (Exception er)
                 {
                     MessageBox.Show(er.ToString());
                 }
-            //cashYrly = true;
+            }
+            else
+            {
+                //ZM_HOURIET
+                if (MuniDetailcheckBox.Checked)
+                    try
+                    {
+                        Globals.ThisAddIn.Application._Run2("PM_MUNIdetail", PortfoliodropDown.SelectedItem.ToString(),
+                            PortfolioDatedropDown.SelectedItem.ToString());
+                    }
+                    catch (Exception er)
+                    {
+                        MessageBox.Show(er.ToString());
+                    }
 
-            if (cashSectorCheckBox.Checked)
+                if (MuniSummarycheckBox.Checked)
+                    try
+                    {
+                        Globals.ThisAddIn.Application._Run2("PM_MUNI", PortfoliodropDown.SelectedItem.ToString(),
+                            PortfolioDatedropDown.SelectedItem.ToString());
+                    }
+                    catch (Exception er)
+                    {
+                        MessageBox.Show(er.ToString());
+                    }
+
+                if (LikelyCallcheckBox.Checked)
+                    try
+                    {
+                        Globals.ThisAddIn.Application._Run2("PM_LIKELY_CALL", PortfoliodropDown.SelectedItem.ToString(),
+                            PortfolioDatedropDown.SelectedItem.ToString());
+                    }
+                    catch
+                    {
+                    }
+
+
+                if (AgencySummarycheckBox.Checked)
+                    try
+                    {
+                        Globals.ThisAddIn.Application._Run2("PM_AGENCY", PortfoliodropDown.SelectedItem.ToString(),
+                            PortfolioDatedropDown.SelectedItem.ToString());
+                    }
+                    catch (Exception er)
+                    {
+                        MessageBox.Show(er.ToString());
+                    }
+
+                if (CapitalImpactcheckBox.Checked)
+                    try
+                    {
+                        Globals.ThisAddIn.Application._Run2("PM_CAPITAL_IMPACT", PortfoliodropDown.SelectedItem.ToString(),
+                            PortfolioDatedropDown.SelectedItem.ToString());
+                    }
+                    catch (Exception er)
+                    {
+                        MessageBox.Show(er.ToString());
+                    }
+
+
+                if (PMSectorDetailcheckBox.Checked)
+                    try
+                    {
+                        //dropDownStrategyDB.SelectedItem.ToString()
+                        Globals.ThisAddIn.Application._Run2("PM_SectorDetail_Setup", PortfoliodropDown.SelectedItem.ToString(),
+                            PortfolioDatedropDown.SelectedItem.ToString());
+                        Globals.ThisAddIn.Application._Run2("ZM_SectorDetail", dropDownStrategyDB.SelectedItem.ToString(), FI_StratSNLeditBox.Text.ToString(),
+                            PortfolioDatedropDown.SelectedItem.ToString());
+                    }
+                    catch (Exception er)
+                    {
+                        MessageBox.Show(er.ToString());
+                    }
+                //sectorDetail = true;
+
+                if (PMIRSDetailcheckBox.Checked)
+                    try
+                    {
+                        Globals.ThisAddIn.Application._Run2("ZM_IRS_Detail", dropDownStrategyDB.SelectedItem.ToString(), FI_StratSNLeditBox.Text.ToString(),
+                            PortfolioDatedropDown.SelectedItem.ToString());
+                    }
+                    catch (Exception er)
+                    {
+                        MessageBox.Show(er.ToString());
+                    }
+                //IRSDetail = true;
+
+                if (PMIRScheckBox.Checked)
+                    try
+                    {
+                        Globals.ThisAddIn.Application._Run2("ZM_IRS", dropDownStrategyDB.SelectedItem.ToString(), FI_StratSNLeditBox.Text.ToString(),
+                            PortfolioDatedropDown.SelectedItem.ToString());
+                    }
+                    catch (Exception er)
+                    {
+                        MessageBox.Show(er.ToString());
+                    }
+                //IRSSummary = true;
+
+                if (PMSectorSummarycheckBox.Checked)
+                    try
+                    {
+                        Globals.ThisAddIn.Application._Run2("ZM_SectorAllocation", dropDownStrategyDB.SelectedItem.ToString(), FI_StratSNLeditBox.Text.ToString(),
+                            PortfolioDatedropDown.SelectedItem.ToString());
+                    }
+                    catch (Exception er)
+                    {
+                        MessageBox.Show(er.ToString());
+                    }
+                //sectorSummary = true;
+
+                if (cash24checkBox.Checked)
+                    try
+                    {
+                        Globals.ThisAddIn.Application._Run2("ZM_Cash24", dropDownStrategyDB.SelectedItem.ToString(), FI_StratSNLeditBox.Text.ToString(),
+                            PortfolioDatedropDown.SelectedItem.ToString());
+                    }
+                    catch (Exception er)
+                    {
+                        MessageBox.Show(er.ToString());
+                    }
+                //cash24 = true;
+
+                if (cashYrlyCheckBox.Checked)
+                    try
+                    {
+                        Globals.ThisAddIn.Application._Run2("ZM_Cash_10YR", dropDownStrategyDB.SelectedItem.ToString(), FI_StratSNLeditBox.Text.ToString(),
+                            PortfolioDatedropDown.SelectedItem.ToString());
+                    }
+                    catch (Exception er)
+                    {
+                        MessageBox.Show(er.ToString());
+                    }
+                //cashYrly = true;
+
+                if (cashSectorCheckBox.Checked)
+                    try
+                    {
+                        Globals.ThisAddIn.Application._Run2("ZM_Cash_By_Sector", dropDownStrategyDB.SelectedItem.ToString(), FI_StratSNLeditBox.Text.ToString(),
+                            PortfolioDatedropDown.SelectedItem.ToString());
+                    }
+                    catch (Exception er)
+                    {
+                        MessageBox.Show(er.ToString());
+                    }
+                //cashSector = true;
+
+                if (PrePaycheckBox.Checked)
+                    try
+                    {
+                        Globals.ThisAddIn.Application._Run2("PM_CashSetup", PortfoliodropDown.SelectedItem.ToString(),
+                            PortfolioDatedropDown.SelectedItem.ToString());
+                    }
+                    catch (Exception er)
+                    {
+                        MessageBox.Show(er.ToString());
+                    }
+                //prePaySetup = true;
+
+                if (WatchlistcheckBox.Checked)
+                    try
+                    {
+                        Globals.ThisAddIn.Application._Run2("PM_WATCHLIST", PortfoliodropDown.SelectedItem.ToString(),
+                            PortfolioDatedropDown.SelectedItem.ToString());
+                    }
+                    catch (Exception er)
+                    {
+                        MessageBox.Show(er.ToString());
+                    }
+                //watchlist = true;
+
+                if (mtgFactorscheckBox.Checked)
+                    try
+                    {
+                        Globals.ThisAddIn.Application._Run2("PM_MTGFACTOR_SETUP", PortfoliodropDown.SelectedItem.ToString(),
+                            PortfolioDatedropDown.SelectedItem.ToString());
+                    }
+                    catch (Exception er)
+                    {
+                        MessageBox.Show(er.ToString());
+                    }
+                //mtgFactors = true;
+
+                if (PM_TotReturncheckBox.Checked)
+                    try
+                    {
+                        Globals.ThisAddIn.Application._Run2("ZM_TotRet_Detail", dropDownStrategyDB.SelectedItem.ToString(), FI_StratSNLeditBox.Text.ToString(),
+                            PortfolioDatedropDown.SelectedItem.ToString());
+                    }
+                    catch (Exception er)
+                    {
+                        MessageBox.Show(er.ToString());
+                    }
+
                 try
                 {
-                    Globals.ThisAddIn.Application._Run2("PM_Cash_By_Sector", PortfoliodropDown.SelectedItem.ToString(),
-                        PortfolioDatedropDown.SelectedItem.ToString());
-                }
-                catch(Exception er)
-                {
-                    MessageBox.Show(er.ToString());
-                }
-            //cashSector = true;
-
-            if (PrePaycheckBox.Checked)
-                try
-                {
-                    Globals.ThisAddIn.Application._Run2("PM_CashSetup", PortfoliodropDown.SelectedItem.ToString(),
-                        PortfolioDatedropDown.SelectedItem.ToString());
+                    Globals.ThisAddIn.Application._Run2("runPMreports", PortfoliodropDown.SelectedItem.ToString(),
+                        PortfolioDatedropDown.SelectedItem.ToString(), sectorDetail, sectorSummary, cash24, cashYrly,
+                        cashSector, prePaySetup, IRSSummary, IRSDetail, watchlist, mtgFactors);
                 }
                 catch (Exception er)
                 {
                     MessageBox.Show(er.ToString());
                 }
-            //prePaySetup = true;
-
-            if (WatchlistcheckBox.Checked)
-                try
-                {
-                    Globals.ThisAddIn.Application._Run2("PM_WATCHLIST", PortfoliodropDown.SelectedItem.ToString(),
-                        PortfolioDatedropDown.SelectedItem.ToString());
-                }
-                catch(Exception er)
-                {
-                    MessageBox.Show(er.ToString());
-                }
-            //watchlist = true;
-
-            if (mtgFactorscheckBox.Checked)
-                try
-                {
-                    Globals.ThisAddIn.Application._Run2("PM_MTGFACTOR_SETUP", PortfoliodropDown.SelectedItem.ToString(),
-                        PortfolioDatedropDown.SelectedItem.ToString());
-                }
-                catch(Exception er)
-                {
-                    MessageBox.Show(er.ToString()); 
-                }
-            //mtgFactors = true;
-
-            try
-            {
-                Globals.ThisAddIn.Application._Run2("runPMreports", PortfoliodropDown.SelectedItem.ToString(),
-                    PortfolioDatedropDown.SelectedItem.ToString(), sectorDetail, sectorSummary, cash24, cashYrly,
-                    cashSector, prePaySetup, IRSSummary, IRSDetail, watchlist, mtgFactors);
             }
-            catch(Exception er)
-            {
-                MessageBox.Show(er.ToString());
-            }
+
+
 
         }
 
         private void PortfoliodropDown_SelectionChanged(object sender, RibbonControlEventArgs e)
         {
-            fillAsOfDropDown();
+            if (dropDownStrategyDB.SelectedItem.ToString().Equals("ZM_GALLAGHER"))
+            {
+                fillAsOfDropDown();
+                fillFI_OptSNL_ID();
+            }
+            else
+            {
+                fill_PortfolioDateDropDown(dropDownStrategyDB.SelectedItem.ToString());
+                fillFI_StratSNL_ID(dropDownStrategyDB.SelectedItem.ToString());
+            }
+
         }
 
         private void RefreshDatabutton_Click(object sender, RibbonControlEventArgs e)
@@ -5626,6 +6359,250 @@ namespace traderTools
             putSpreadKellyeditBox.Text = eqty.kellyCallSpread.ToString("F3", CultureInfo.InvariantCulture);
 
         }
+
+        private void button1_Click_1(object sender, RibbonControlEventArgs e)
+        {
+            if (EquityTieToTemplatecheckBox.Checked == true)
+            {
+                try
+                {
+                    Globals.ThisAddIn.Application._Run2("equity_ticket_calc");
+                }
+                catch
+                {
+
+                }
+            }
+        }
+
+        private void buttonLastContact_Click(object sender, RibbonControlEventArgs e)
+        {
+            try
+            {
+                Globals.ThisAddIn.Application._Run2("BC_LASTCONTACT");
+            }
+            catch
+            {
+
+            }
+        }
+
+        private void button2_Click_1(object sender, RibbonControlEventArgs e)
+        {
+            //if ( checkBoxMasterAcctMgmt.Checked == false ) { MessageBox.Show("HELLO"); }
+            
+            //MessageBox.Show(checkBoxMasterAcctMgmt.Checked.ToString());
+            try
+            {
+
+                Globals.ThisAddIn.Application._Run2("CM_CLIENTPULL", dropDownAcctMgmtType.SelectedItem.ToString(), 
+                    dropDownAcctMgmtStatus.SelectedItem.ToString(), dropDownAcctMgmtAxeList.SelectedItem.ToString(), 
+                    checkBoxMasterAcctMgmt.Checked);
+            }
+            catch (Exception er)
+            {
+                MessageBox.Show(er.ToString());
+            }
+        }
+
+        private void buttonLogNotes_Click(object sender, RibbonControlEventArgs e)
+        {
+            try
+            {
+                Globals.ThisAddIn.Application._Run2("BC_LOG_ALL");
+            }
+            catch
+            {
+
+            }
+        }
+         
+        private void buttonUpdateProfile_Click(object sender, RibbonControlEventArgs e)
+        {
+            try
+            {
+                Globals.ThisAddIn.Application._Run2("BC_UPDATE_CONTACT_DETAIL");
+            }
+            catch
+            {
+
+            }
+        }
+
+        private void buttonGoToLog_Click(object sender, RibbonControlEventArgs e)
+        {
+            try
+            {
+                Globals.ThisAddIn.Application._Run2("BC_PULLLOG");
+            }
+            catch
+            {
+
+            }
+        }
+
+        private void checkBoxEquityTicket_Click(object sender, RibbonControlEventArgs e)
+        {
+            if (checkBoxEquityTicket.Checked)
+            {
+                EquityTicketgroup.Visible = true;
+            }
+            else
+            {
+                EquityTicketgroup.Visible = false;
+            }
+        }
+
+        private void checkBoxEquityOptions_Click(object sender, RibbonControlEventArgs e)
+        {
+            if (checkBoxEquityOptions.Checked)
+            {
+                OptionEvaluatorgroup.Visible = true;
+            }
+            else
+            {
+                OptionEvaluatorgroup.Visible = false;
+            }
+        }
+
+        private void EquityTieToTemplatecheckBox_Click(object sender, RibbonControlEventArgs e)
+        {
+            if (EquityTieToTemplatecheckBox.Checked)
+            {
+                EquityAccountgroup.Visible = true;
+            }
+            else
+            {
+                EquityAccountgroup.Visible = false;
+            }
+
+        }
+
+        private void buttonPullOptions_Click(object sender, RibbonControlEventArgs e)
+        {
+            try
+            {
+
+                if (ticketDatedropDown.SelectedItemIndex < 0)
+                {
+                    try
+                    {
+                    }
+                    catch { }
+                }
+                else
+                {
+                    try
+                    {
+                        Globals.ThisAddIn.Application._Run2("OPT_POSITION_PROB", tickerdropDown.SelectedItem.ToString(), ticketDatedropDown.SelectedItem.ToString());
+                    }
+                    catch { }
+
+                }
+
+            }
+            catch
+            {
+
+            }
+        }
+
+        private void buttonActivityReport_Click(object sender, RibbonControlEventArgs e)
+        {
+            try
+            {
+                Globals.ThisAddIn.Application._Run2("CM_ACTIVITY");
+            }
+            catch
+            {
+
+            }
+        }
+
+        private void userTemplateNameEditBox_TextChanged(object sender, RibbonControlEventArgs e)
+        {
+
+        }
+
+        private void saveUserTemplatebutton_Click(object sender, RibbonControlEventArgs e)
+        {
+
+        }
+
+        private void buttonWashImport_Click(object sender, RibbonControlEventArgs e)
+        {
+            try
+            {
+                Globals.ThisAddIn.Application._Run2("import_Raw_STOCK");
+            }
+            catch
+            {
+
+            }
+           
+        }
+
+        private void buttonUpdateAssign_Click(object sender, RibbonControlEventArgs e)
+        {
+            try
+            {
+                Globals.ThisAddIn.Application._Run2("CM_UPDATE_ASSIGN_BTN");
+            }
+            catch
+            {
+
+            }
+        }
+
+        private void buttonWash_Click(object sender, RibbonControlEventArgs e)
+        {
+            try
+            {
+                Globals.ThisAddIn.Application._Run2("BC_WASH");
+            }
+            catch
+            {
+
+            }
+        }
+
+        private void buttonAxeAdd_Click(object sender, RibbonControlEventArgs e)
+        {
+            try
+            {
+                createAxe(Environment.UserName.ToUpper().ToString(),editBoxAxeName.Text.ToString());
+            }
+            catch (Exception er)
+            {
+                MessageBox.Show(er.ToString());
+            }
+        }
+
+        private void buttonAxeClientAdd_Click(object sender, RibbonControlEventArgs e)
+        {
+            try
+            {
+                Globals.ThisAddIn.Application._Run2("CM_ADDCLIENTAXE", dropDownAxeList.SelectedItem.ToString());
+            }
+            catch (Exception er)
+            {
+                MessageBox.Show(er.ToString());
+            }
+        }
+
+        private void dropDownStrategyDB_SelectionChanged(object sender, RibbonControlEventArgs e)
+        {
+            try
+            {
+
+                fill_PortfolioDropDown(dropDownStrategyDB.SelectedItem.ToString());
+            }
+            catch (Exception er)
+            {
+                MessageBox.Show(er.ToString());
+            }
+        }
     }
+    
 }
 
