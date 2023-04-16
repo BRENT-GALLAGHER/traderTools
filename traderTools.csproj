@@ -65,6 +65,11 @@
       <ProductName>Microsoft .NET Framework 4.6.1 %28x86 and x64%29</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.8">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.8 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
       <Visible>False</Visible>
       <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
@@ -168,10 +173,10 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>traderTools_26_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>traderTools_28_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>A8C3889BAA5FFF642605DC909011FD3FCEDD0F50</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>69EDE2F624455B40048C08ED9971ECB9F17EEBE2</ManifestCertificateThumbprint>
   </PropertyGroup>
   <!--
     This section specifies references for the project.
@@ -443,6 +448,8 @@
     <None Include="traderTools_24_TemporaryKey.pfx" />
     <None Include="traderTools_25_TemporaryKey.pfx" />
     <None Include="traderTools_26_TemporaryKey.pfx" />
+    <None Include="traderTools_27_TemporaryKey.pfx" />
+    <None Include="traderTools_28_TemporaryKey.pfx" />
     <None Include="traderTools_2_TemporaryKey.pfx" />
     <None Include="traderTools_3_TemporaryKey.pfx" />
     <None Include="traderTools_4_TemporaryKey.pfx" />

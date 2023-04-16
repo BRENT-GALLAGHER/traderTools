@@ -2759,9 +2759,9 @@ namespace traderTools
                         equitySetupgroup.Visible =true;
                     }
 
-                    fillEquityAcctDropDown();
-                    fillEquityUserDropDown();
-                    fillOptionMethodDropDown();
+                   // fillEquityAcctDropDown();
+                   // fillEquityUserDropDown();
+                   // fillOptionMethodDropDown();
                     fillAcctMgmt_ClientTypeDropDown();
                     fillAcctMgmt_ClientStatusDropDown();
                 }
