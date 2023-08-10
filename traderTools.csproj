@@ -27,7 +27,7 @@
     <NoStandardLibraries>false</NoStandardLibraries>
     <RootNamespace>traderTools</RootNamespace>
     <AssemblyName>traderTools</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
     <DefineConstants>VSTO40</DefineConstants>
@@ -42,7 +42,7 @@
     <PublishUrl>U:\Trader-Install\</PublishUrl>
     <InstallUrl>\\BMC-NY-FS01\FIRM\FIXEDINCOME\BreanFIGribbon\</InstallUrl>
     <TargetCulture>en</TargetCulture>
-    <ApplicationVersion>1.0.0.39</ApplicationVersion>
+    <ApplicationVersion>1.0.0.41</ApplicationVersion>
     <AutoIncrementApplicationRevision>true</AutoIncrementApplicationRevision>
     <UpdateEnabled>true</UpdateEnabled>
     <UpdateInterval>0</UpdateInterval>
@@ -133,6 +133,7 @@
     <DefineConstants>$(DefineConstants);DEBUG;TRACE</DefineConstants>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <IntermediateOutputPath>C:\Users\BRENT~1.GAL\AppData\Local\Temp\vsDDC8.tmp\Debug\</IntermediateOutputPath>
   </PropertyGroup>
   <!--
     This section defines properties that are set when the "Release" configuration is selected.
@@ -158,6 +159,7 @@
     <DefineConstants>$(DefineConstants);TRACE</DefineConstants>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <IntermediateOutputPath>C:\Users\BRENT~1.GAL\AppData\Local\Temp\vsDDC8.tmp\Release\</IntermediateOutputPath>
   </PropertyGroup>
   <!--
     This section enables pre- and post-build steps. However, in VSTO use
@@ -173,10 +175,10 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>traderTools_28_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>traderTools_29_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>69EDE2F624455B40048C08ED9971ECB9F17EEBE2</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>C9D2411B5C27B0EF641B979873B62FD30CC6D87A</ManifestCertificateThumbprint>
   </PropertyGroup>
   <!--
     This section specifies references for the project.
@@ -450,6 +452,7 @@
     <None Include="traderTools_26_TemporaryKey.pfx" />
     <None Include="traderTools_27_TemporaryKey.pfx" />
     <None Include="traderTools_28_TemporaryKey.pfx" />
+    <None Include="traderTools_29_TemporaryKey.pfx" />
     <None Include="traderTools_2_TemporaryKey.pfx" />
     <None Include="traderTools_3_TemporaryKey.pfx" />
     <None Include="traderTools_4_TemporaryKey.pfx" />
@@ -477,7 +480,7 @@
       <FlavorProperties GUID="{BAA0C2D2-18E2-41B9-852F-F413020CAA33}">
         <ProjectProperties HostName="Excel" HostPackage="{29A7B9D7-A7F1-4328-8EF0-6B2D1A56B2C1}" OfficeVersion="15.0" VstxVersion="4.0" ApplicationType="Excel" Language="cs" TemplatesPath="VSTOTemplates" DebugInfoExeName="#Software\Microsoft\Office\16.0\Excel\InstallRoot\Path#excel.exe" DebugInfoCommandLine="/x " AddItemTemplatesGuid="{51063C3A-E220-4D12-8922-BDA915ACD783}" />
         <Host Name="Excel" GeneratedCodeNamespace="traderTools" PublishedHash="69C324AB27932AA2FBF2B7EA72250886FF164DE6" IconIndex="0">
-          <HostItem Name="ThisAddIn" Code="ThisAddIn.cs" CanonicalName="AddIn" PublishedHash="A8D41DFA87A3C4F766FBE12B3258D868E668DE82" CanActivate="false" IconIndex="1" Blueprint="ThisAddIn.Designer.xml" GeneratedCode="ThisAddIn.Designer.cs" />
+          <HostItem Name="ThisAddIn" Code="ThisAddIn.cs" CanonicalName="AddIn" PublishedHash="BFF38DB5FFFD885CE03CDFDBD977FD8D605C9C53" CanActivate="false" IconIndex="1" Blueprint="ThisAddIn.Designer.xml" GeneratedCode="ThisAddIn.Designer.cs" />
         </Host>
       </FlavorProperties>
     </VisualStudio>

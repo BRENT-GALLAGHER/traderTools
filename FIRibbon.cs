@@ -10,6 +10,9 @@ using System.Text.RegularExpressions;
 using System.Data.SqlClient;
 using System.Runtime.InteropServices;
 using System.Globalization;
+using Org.BouncyCastle.Asn1.X509;
+using Renci.SshNet;
+using System.IO;
 
 namespace traderTools
 {
@@ -446,7 +449,7 @@ namespace traderTools
         public void fillticketDatedropDown(string acctOwner, string acctName, string ticker)
         {
             int acctID = 0;
-            string dLabel = "";
+            //string dLabel = "";
 
             if (usingSQLServer == false)
             {
@@ -690,6 +693,65 @@ namespace traderTools
 
         }
 
+        public void dropAxe(string acctOwner, string acctName)
+        {
+
+            if (usingSQLServer == false)
+            {
+
+            }
+
+            if (usingSQLServer == true)
+            {
+
+                SqlConnection cn = new SqlConnection("Data Source=ZM-SQL-1;Initial Catalog=ZM_GALLAGHER; Integrated Security=SSPI;");
+
+                cn.Open();
+
+                SqlCommand cmd = new SqlCommand();
+                cmd = cn.CreateCommand();
+                cmd.CommandText = "delete from ACCOUNT_AXELIST where AXEKLIST_BROKER='" + acctOwner.ToString() + "' and AXELIST_AXE='" + acctName.ToString() + "';";
+                cmd.ExecuteNonQuery();
+
+                //cmd.CommandText = "insert into ACCOUNT_AXELIST VALUES ('" + acctOwner.ToString() + "','" + acctName.ToString() + "');";
+                //cmd.ExecuteNonQuery();
+                //cn.Close();
+
+                dropDownAxeList.Items.Clear();
+                dropDownAcctMgmtAxeList.Items.Clear();
+
+                RibbonDropDownItem rbnNew = this.Factory.CreateRibbonDropDownItem();
+                rbnNew.Label = "";
+
+                RibbonDropDownItem rbnAxes = this.Factory.CreateRibbonDropDownItem();
+                //rbnAxes.Label = "";
+
+                //dropDownAxeList.Items.Add(rbnAxes);
+                dropDownAcctMgmtAxeList.Items.Add(rbnNew);
+
+                cn.Open();
+
+                //SqlCommand cmd = new SqlCommand();
+                //cmd = cn.CreateCommand();
+                SqlDataReader rdr;
+                cmd.CommandText = "Select * FROM ACCOUNT_AXELIST WHERE AXEKLIST_BROKER='" + acctOwner.ToString() + "';";
+                rdr = cmd.ExecuteReader();
+
+                while (rdr.Read())
+                {
+                    RibbonDropDownItem rItem = this.Factory.CreateRibbonDropDownItem();
+                    RibbonDropDownItem rAxe = this.Factory.CreateRibbonDropDownItem();
+                    rItem.Label = rdr.GetValue(2).ToString();
+                    rAxe.Label = rdr.GetValue(2).ToString();
+                    dropDownAxeList.Items.Add(rAxe);
+                    dropDownAcctMgmtAxeList.Items.Add(rItem);
+                }
+                rdr.Close();
+                cn.Close();
+            }
+
+        }
+
         public void fillEquityAcctDropDown()
         {
             string user = Environment.UserName.ToString();
@@ -805,10 +867,9 @@ namespace traderTools
                 }
                 catch(Exception ex)
                 {
-
+                    MessageBox.Show(ex.ToString());
                 }
 
-                
                 cn.Close();
 
             }
@@ -1395,11 +1456,11 @@ namespace traderTools
                 cmd = cn.CreateCommand();
                 SqlDataReader Rdr;
 
-                cmd.CommandText = "select 'All' union all select 'Assigned' "
-                    + " union all select 'Talking' union all select 'Trading' as AcctType;";  //TEMPORARY
+               // cmd.CommandText = "select 'All' union all select 'Assigned' "
+               //     + " union all select 'Talking' union all select 'Trading' as AcctType;";  //TEMPORARY
 
-                //cmd.CommandText = "select distinct PW_CLIENT from PW_SECURITYDETAIL "
-                //   + " ORDER BY PW_CLIENT;";
+                cmd.CommandText = "select 'All' AS TYPE_NAME union all select distinct TYPE_NAME from ACCOUNT_STATUS_TYPE "
+                   + " ORDER BY TYPE_NAME;";
 
                 Rdr = cmd.ExecuteReader();
                 //PortfoliodropDown.Items.Clear();
@@ -1420,7 +1481,59 @@ namespace traderTools
 
         }
 
-        public void fill_TemplatesDropDown()
+        public void filldropDownUserList()
+        {
+            //dropDownAcctMgmtType
+            if (usingSQLServer == false)
+            {
+
+            }
+
+            if (usingSQLServer == true)
+            {
+                //createPMdetail();
+
+                SqlConnection cn = new SqlConnection("Data Source=ZM-SQL-1;" +
+                   "Initial Catalog=ZM_GALLAGHER; Integrated Security=SSPI;");
+
+                cn.Open();
+
+                SqlCommand cmd = new SqlCommand();
+                cmd = cn.CreateCommand();
+                SqlDataReader Rdr;
+
+                cmd.CommandText = "select BROKER_USERNAME from ACCOUNT_BROKER "
+                   + " ORDER BY BROKER_USERNAME;";
+
+                Rdr = cmd.ExecuteReader();
+                //PortfoliodropDown.Items.Clear();
+                dropDownUserList.Items.Clear();
+
+
+                //-----------------
+
+                RibbonDropDownItem rbnNew = this.Factory.CreateRibbonDropDownItem();
+                rbnNew.Label = "ALL";
+                dropDownUserList.Items.Add(rbnNew);
+                //-----------------
+
+
+                while (Rdr.Read())
+                {
+                    RibbonDropDownItem rbnItem = this.Factory.CreateRibbonDropDownItem();
+                    rbnItem.Label = Rdr.GetValue(0).ToString();
+
+                    //PortfoliodropDown.Items.Add(rbnItem);
+                    dropDownUserList.Items.Add(rbnItem);
+                }
+
+                Rdr.Close();
+                cn.Close();
+            }
+
+        }
+
+        public void fill_TemplatesDropDown_OLD()
         {
             if (usingSQLServer == false)
             {
@@ -1429,7 +1542,8 @@ namespace traderTools
 
             if (usingSQLServer == true)
             {
-                createPMdetail();
+                //createPMdetail();
+                TemplatesDropDown.Items.Clear();
 
                 SqlConnection cn = new SqlConnection("Data Source=ZM-SQL-1;" +
                    "Initial Catalog=ZM_GALLAGHER; Integrated Security=SSPI;");
@@ -1444,7 +1558,7 @@ namespace traderTools
                    + " ORDER BY PW_TEMPLATE_NAME;";
 
                 Rdr = cmd.ExecuteReader();
-                TemplatesDropDown.Items.Clear();
+                
                 
                 while (Rdr.Read())
                 {
@@ -1458,6 +1572,44 @@ namespace traderTools
                 Rdr.Close();
                 cn.Close();
             }
+
+        }
+        
+        public void fill_TemplatesDropDown()
+        {
+
+            string root = @"U:\Sales\Templates";
+
+            // Get a list of all subdirectories
+            try
+            {
+                TemplatesDropDown.Items.Clear();
+                var files = Directory.GetFiles(root, "*.xls*").Select(Path.GetFileName) ;
+                //Console.WriteLine("The number of files starting with c is {0}.", dirs.Length);
+                foreach (string file in files)
+                {
+                        RibbonDropDownItem rbnItem = this.Factory.CreateRibbonDropDownItem();
+                        rbnItem.Label = file.ToString();
+
+                        TemplatesDropDown.Items.Add(rbnItem);
+                }
+
+                //var files = from file in Directory.EnumerateFiles(root) select file;
+                //TemplatesDropDown.Items.Clear();
+
+                //foreach (var file in files)
+                //{
+                //    RibbonDropDownItem rbnItem = this.Factory.CreateRibbonDropDownItem();
+                //    rbnItem.Label = file.ToString();
+
+                //    TemplatesDropDown.Items.Add(rbnItem);
+
+                //}
+
+            }
+
+            catch { }
+
 
         }
 
@@ -2701,15 +2853,15 @@ namespace traderTools
             {
                 // MessageBox.Show(uLogIn.userID.ToString());
                 SingleSecuritycheckBox.Visible = true;
-                SingleSecuritycheckBox.Checked = true;
+                //SingleSecuritycheckBox.Checked = true;
                 Issues_onoffcheckBox.Visible = true;
-                Issues_onoffcheckBox.Checked = true;
+                //Issues_onoffcheckBox.Checked = true;
                 Issuesgroup.Visible = true;
-                QuickSwapgroup.Visible = true;
+                //QuickSwapgroup.Visible = true;
                 QuickSwapcheckBox.Visible = true;
-                QuickSwapcheckBox.Checked = true;
+                //QuickSwapcheckBox.Checked = true;
                 ZMinventorycheckBox.Visible = true;
-                ZMinventorycheckBox.Checked = true;
+                //ZMinventorycheckBox.Checked = true;
                 pullBloomBergcheckBox.Checked = true;
                 showSubTotalscheckBox.Checked = true;
 
@@ -2718,7 +2870,7 @@ namespace traderTools
                 fillQS_rowTasksdropDown();
                 QS_useAltcheckBox.Visible = true;
 
-                Reportinggroup.Visible = true;
+                //Reportinggroup.Visible = true;
                 fillReportingPortfolioDropDown();
                 templatesGroupcheckBox.Visible = true;
                 //TemplatesGroup.Visible = true;
@@ -2820,7 +2972,7 @@ namespace traderTools
 
                 ////SINGLE SECURITY CONTROLS
 
-                singleSecurityGroup.Visible = true;
+                //singleSecurityGroup.Visible = true;
                 cusipEditBox.Enabled = true;
                 priceEditBox.Enabled = true;
                 settlementEditBox.Enabled = true;
@@ -4159,8 +4311,10 @@ namespace traderTools
                 if (MuniDetailcheckBox.Checked)
                     try
                     {
-                        Globals.ThisAddIn.Application._Run2("PM_MUNIdetail", PortfoliodropDown.SelectedItem.ToString(),
-                            PortfolioDatedropDown.SelectedItem.ToString());
+                        //FI_StratSNLeditBox
+
+                        Globals.ThisAddIn.Application._Run2("ZM_MUNIdetail", dropDownStrategyDB.SelectedItem.ToString(), FI_StratSNLeditBox.Text.ToString(),
+                            PortfolioDatedropDown.SelectedItem.ToString(), PortfoliodropDown.SelectedItem.ToString());
                     }
                     catch (Exception er)
                     {
@@ -4170,8 +4324,8 @@ namespace traderTools
                 if (MuniSummarycheckBox.Checked)
                     try
                     {
-                        Globals.ThisAddIn.Application._Run2("PM_MUNI", PortfoliodropDown.SelectedItem.ToString(),
-                            PortfolioDatedropDown.SelectedItem.ToString());
+                        Globals.ThisAddIn.Application._Run2("ZM_MUNI", dropDownStrategyDB.SelectedItem.ToString(), FI_StratSNLeditBox.Text.ToString(),
+                            PortfolioDatedropDown.SelectedItem.ToString(), PortfoliodropDown.SelectedItem.ToString());
                     }
                     catch (Exception er)
                     {
@@ -4203,7 +4357,7 @@ namespace traderTools
                 if (CapitalImpactcheckBox.Checked)
                     try
                     {
-                        Globals.ThisAddIn.Application._Run2("PM_CAPITAL_IMPACT", PortfoliodropDown.SelectedItem.ToString(),
+                        Globals.ThisAddIn.Application._Run2("ZM_CAPITAL_IMPACT", PortfoliodropDown.SelectedItem.ToString(),
                             PortfolioDatedropDown.SelectedItem.ToString());
                     }
                     catch (Exception er)
@@ -6390,19 +6544,36 @@ namespace traderTools
         private void button2_Click_1(object sender, RibbonControlEventArgs e)
         {
             //if ( checkBoxMasterAcctMgmt.Checked == false ) { MessageBox.Show("HELLO"); }
-            
             //MessageBox.Show(checkBoxMasterAcctMgmt.Checked.ToString());
-            try
+ 
+            if (checkBoxMasterAcctMgmt.Checked==false)
             {
+                try
+                {
+                    Globals.ThisAddIn.Application._Run2("CM_CLIENTPULL", dropDownAcctMgmtType.SelectedItem.ToString(),
+                        dropDownAcctMgmtStatus.SelectedItem.ToString(), dropDownAcctMgmtAxeList.SelectedItem.ToString(),
+                        checkBoxMasterAcctMgmt.Checked);
+                }
+                catch (Exception er)
+                {
+                    MessageBox.Show(er.ToString());
+                }
+            }
 
-                Globals.ThisAddIn.Application._Run2("CM_CLIENTPULL", dropDownAcctMgmtType.SelectedItem.ToString(), 
-                    dropDownAcctMgmtStatus.SelectedItem.ToString(), dropDownAcctMgmtAxeList.SelectedItem.ToString(), 
-                    checkBoxMasterAcctMgmt.Checked);
-            }
-            catch (Exception er)
+            if (checkBoxMasterAcctMgmt.Checked == true)
             {
-                MessageBox.Show(er.ToString());
+                try
+                {
+                    Globals.ThisAddIn.Application._Run2("CM_CLIENTPULL", dropDownAcctMgmtType.SelectedItem.ToString(),
+                        dropDownAcctMgmtStatus.SelectedItem.ToString(), dropDownAcctMgmtAxeList.SelectedItem.ToString(),
+                        checkBoxMasterAcctMgmt.Checked,dropDownUserList.SelectedItem.ToString() );
+                }
+                catch (Exception er)
+                {
+                    MessageBox.Show(er.ToString());
+                }
             }
+
         }
 
         private void buttonLogNotes_Click(object sender, RibbonControlEventArgs e)
@@ -6596,6 +6767,128 @@ namespace traderTools
             {
 
                 fill_PortfolioDropDown(dropDownStrategyDB.SelectedItem.ToString());
+            }
+            catch (Exception er)
+            {
+                MessageBox.Show(er.ToString());
+            }
+        }
+
+        private void dropDownAcctMgmtStatus_SelectionChanged(object sender, RibbonControlEventArgs e)
+        {
+
+        }
+
+        private void checkBoxMasterAcctMgmt_Click(object sender, RibbonControlEventArgs e)
+        {
+            if (checkBoxMasterAcctMgmt.Checked)
+            {
+                filldropDownUserList();
+                groupAccountAdministrator.Visible = true;
+                
+            }
+            else
+            {
+                groupAccountAdministrator.Visible = false;
+            }
+        }
+
+        private void buttonWash_Click_1(object sender, RibbonControlEventArgs e)
+        {
+            try
+            {
+                Globals.ThisAddIn.Application._Run2("BC_WASH");
+            }
+            catch
+            {
+
+            }
+        }
+
+        private void buttonUpdateAssignment_Click(object sender, RibbonControlEventArgs e)
+        {
+            try
+            {
+                //Globals.ThisAddIn.Application._Run2("BC_ASSIGN_ACCTS");
+                Globals.ThisAddIn.Application._Run2("CM_UPDATE_ASSIGN_BTN");
+            }
+            catch
+            {
+
+            }
+        }
+
+        private void buttonAddUser_Click(object sender, RibbonControlEventArgs e)
+        {
+            try
+            {
+                Globals.ThisAddIn.Application._Run2("BC_ADD_USER");
+                filldropDownUserList();
+            }
+            catch
+            {
+
+            }
+        }
+
+        private void buttonDeleteUser_Click(object sender, RibbonControlEventArgs e)
+        {
+            try
+            {
+                Globals.ThisAddIn.Application._Run2("BC_DELETE_USER");
+                filldropDownUserList();
+            }
+            catch
+            {
+
+            }
+        }
+
+        private void dropDownUserList_SelectionChanged(object sender, RibbonControlEventArgs e)
+        {
+            if (!dropDownUserList.SelectedItem.ToString().Equals("ALL") )
+            {
+                try
+                {
+                    Globals.ThisAddIn.Application._Run2("BC_PULLBROKER_DROP", dropDownUserList.SelectedItem.ToString());
+                }
+                catch (Exception er)
+                {
+                    MessageBox.Show(er.ToString());
+                }
+
+            }
+        }
+
+        private void dropDownAxeList_SelectionChanged(object sender, RibbonControlEventArgs e)
+        {
+            //try
+            //{
+            //    Globals.ThisAddIn.Application._Run2("BC_LOG_ALL");
+            //}
+            //catch
+            //{
+
+            //}
+        }
+
+        private void buttonDeleteAccount_Click(object sender, RibbonControlEventArgs e)
+        {
+            try
+            {
+                Globals.ThisAddIn.Application._Run2("CM_DELETE_ACCOUNT");
+            }
+            catch
+            {
+
+            }
+        }
+
+        private void buttonAxeDrop_Click(object sender, RibbonControlEventArgs e)
+        {
+            try
+            {
+                dropAxe(Environment.UserName.ToUpper().ToString(), editBoxAxeName.Text.ToString());
             }
             catch (Exception er)
             {

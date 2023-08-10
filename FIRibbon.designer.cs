@@ -312,6 +312,13 @@
             this.CallSpreadKellyEditBox = this.Factory.CreateRibbonEditBox();
             this.putSpreadKellyeditBox = this.Factory.CreateRibbonEditBox();
             this.tabAccountManagement = this.Factory.CreateRibbonTab();
+            this.groupAccountAdministrator = this.Factory.CreateRibbonGroup();
+            this.dropDownUserList = this.Factory.CreateRibbonDropDown();
+            this.buttonUpdateAssignment = this.Factory.CreateRibbonButton();
+            this.buttonAddUser = this.Factory.CreateRibbonButton();
+            this.buttonDeleteUser = this.Factory.CreateRibbonButton();
+            this.buttonWash = this.Factory.CreateRibbonButton();
+            this.buttonDeleteAccount = this.Factory.CreateRibbonButton();
             this.groupAcctMngmtMain = this.Factory.CreateRibbonGroup();
             this.labelUser = this.Factory.CreateRibbonLabel();
             this.checkBoxMasterAcctMgmt = this.Factory.CreateRibbonCheckBox();
@@ -321,7 +328,6 @@
             this.separator16 = this.Factory.CreateRibbonSeparator();
             this.buttonPullAcctList = this.Factory.CreateRibbonButton();
             this.buttonGoToLog = this.Factory.CreateRibbonButton();
-            this.buttonWash = this.Factory.CreateRibbonButton();
             this.groupAcctMngmtActions = this.Factory.CreateRibbonGroup();
             this.buttonLastContact = this.Factory.CreateRibbonButton();
             this.buttonUpdateAssign = this.Factory.CreateRibbonButton();
@@ -334,6 +340,7 @@
             this.separator17 = this.Factory.CreateRibbonSeparator();
             this.dropDownAxeList = this.Factory.CreateRibbonDropDown();
             this.buttonAxeClientAdd = this.Factory.CreateRibbonButton();
+            this.buttonAxeDrop = this.Factory.CreateRibbonButton();
             this.tabCort.SuspendLayout();
             this.userManagementGroup.SuspendLayout();
             this.Inventories.SuspendLayout();
@@ -362,6 +369,7 @@
             this.EquityTicketgroup.SuspendLayout();
             this.OptionEvaluatorgroup.SuspendLayout();
             this.tabAccountManagement.SuspendLayout();
+            this.groupAccountAdministrator.SuspendLayout();
             this.groupAcctMngmtMain.SuspendLayout();
             this.groupAcctMngmtActions.SuspendLayout();
             this.groupAxeManager.SuspendLayout();
@@ -1134,6 +1142,7 @@
             // 
             this.TemplatesDropDown.Label = "Templates";
             this.TemplatesDropDown.Name = "TemplatesDropDown";
+            this.TemplatesDropDown.ShowItemImage = false;
             this.TemplatesDropDown.SizeString = "DISCOUNT CALLABLE ANALYSIS";
             this.TemplatesDropDown.SelectionChanged += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.TemplatesDropDown_SelectionChanged);
             // 
@@ -1949,6 +1958,7 @@
             // 
             this.AcctSaveChangesbutton.Label = "Save Changes";
             this.AcctSaveChangesbutton.Name = "AcctSaveChangesbutton";
+            this.AcctSaveChangesbutton.ShowImage = true;
             this.AcctSaveChangesbutton.SuperTip = "EAG_SAVECHANGES";
             this.AcctSaveChangesbutton.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.AcctSaveChangesbutton_Click);
             // 
@@ -2178,12 +2188,61 @@
             // 
             // tabAccountManagement
             // 
+            this.tabAccountManagement.Groups.Add(this.groupAccountAdministrator);
             this.tabAccountManagement.Groups.Add(this.groupAcctMngmtMain);
             this.tabAccountManagement.Groups.Add(this.groupAcctMngmtActions);
             this.tabAccountManagement.Groups.Add(this.groupAxeManager);
             this.tabAccountManagement.Label = "Account Management";
             this.tabAccountManagement.Name = "tabAccountManagement";
             this.tabAccountManagement.Visible = false;
+            // 
+            // groupAccountAdministrator
+            // 
+            this.groupAccountAdministrator.Items.Add(this.dropDownUserList);
+            this.groupAccountAdministrator.Items.Add(this.buttonUpdateAssignment);
+            this.groupAccountAdministrator.Items.Add(this.buttonAddUser);
+            this.groupAccountAdministrator.Items.Add(this.buttonDeleteUser);
+            this.groupAccountAdministrator.Items.Add(this.buttonWash);
+            this.groupAccountAdministrator.Items.Add(this.buttonDeleteAccount);
+            this.groupAccountAdministrator.Label = "Administrator";
+            this.groupAccountAdministrator.Name = "groupAccountAdministrator";
+            this.groupAccountAdministrator.Visible = false;
+            // 
+            // dropDownUserList
+            // 
+            this.dropDownUserList.Label = "Users";
+            this.dropDownUserList.Name = "dropDownUserList";
+            this.dropDownUserList.SelectionChanged += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.dropDownUserList_SelectionChanged);
+            // 
+            // buttonUpdateAssignment
+            // 
+            this.buttonUpdateAssignment.Label = "Update Assignments";
+            this.buttonUpdateAssignment.Name = "buttonUpdateAssignment";
+            this.buttonUpdateAssignment.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonUpdateAssignment_Click);
+            // 
+            // buttonAddUser
+            // 
+            this.buttonAddUser.Label = "Add User";
+            this.buttonAddUser.Name = "buttonAddUser";
+            this.buttonAddUser.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonAddUser_Click);
+            // 
+            // buttonDeleteUser
+            // 
+            this.buttonDeleteUser.Label = "Delete User";
+            this.buttonDeleteUser.Name = "buttonDeleteUser";
+            this.buttonDeleteUser.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonDeleteUser_Click);
+            // 
+            // buttonWash
+            // 
+            this.buttonWash.Label = "Wash";
+            this.buttonWash.Name = "buttonWash";
+            this.buttonWash.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonWash_Click_1);
+            // 
+            // buttonDeleteAccount
+            // 
+            this.buttonDeleteAccount.Label = "Delete Account";
+            this.buttonDeleteAccount.Name = "buttonDeleteAccount";
+            this.buttonDeleteAccount.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonDeleteAccount_Click);
             // 
             // groupAcctMngmtMain
             // 
@@ -2195,7 +2254,6 @@
             this.groupAcctMngmtMain.Items.Add(this.separator16);
             this.groupAcctMngmtMain.Items.Add(this.buttonPullAcctList);
             this.groupAcctMngmtMain.Items.Add(this.buttonGoToLog);
-            this.groupAcctMngmtMain.Items.Add(this.buttonWash);
             this.groupAcctMngmtMain.Label = "Account Management";
             this.groupAcctMngmtMain.Name = "groupAcctMngmtMain";
             // 
@@ -2208,6 +2266,7 @@
             // 
             this.checkBoxMasterAcctMgmt.Label = "Admin";
             this.checkBoxMasterAcctMgmt.Name = "checkBoxMasterAcctMgmt";
+            this.checkBoxMasterAcctMgmt.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.checkBoxMasterAcctMgmt_Click);
             // 
             // dropDownAcctMgmtType
             // 
@@ -2218,6 +2277,7 @@
             // 
             this.dropDownAcctMgmtStatus.Label = "     Status";
             this.dropDownAcctMgmtStatus.Name = "dropDownAcctMgmtStatus";
+            this.dropDownAcctMgmtStatus.SelectionChanged += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.dropDownAcctMgmtStatus_SelectionChanged);
             // 
             // dropDownAcctMgmtAxeList
             // 
@@ -2239,12 +2299,6 @@
             this.buttonGoToLog.Label = "Go To Log";
             this.buttonGoToLog.Name = "buttonGoToLog";
             this.buttonGoToLog.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonGoToLog_Click);
-            // 
-            // buttonWash
-            // 
-            this.buttonWash.Label = "Wash";
-            this.buttonWash.Name = "buttonWash";
-            this.buttonWash.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonWash_Click);
             // 
             // groupAcctMngmtActions
             // 
@@ -2293,6 +2347,7 @@
             this.groupAxeManager.Items.Add(this.separator17);
             this.groupAxeManager.Items.Add(this.dropDownAxeList);
             this.groupAxeManager.Items.Add(this.buttonAxeClientAdd);
+            this.groupAxeManager.Items.Add(this.buttonAxeDrop);
             this.groupAxeManager.Label = "Axe Manager";
             this.groupAxeManager.Name = "groupAxeManager";
             // 
@@ -2317,12 +2372,19 @@
             // 
             this.dropDownAxeList.Label = "Axes";
             this.dropDownAxeList.Name = "dropDownAxeList";
+            this.dropDownAxeList.SelectionChanged += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.dropDownAxeList_SelectionChanged);
             // 
             // buttonAxeClientAdd
             // 
             this.buttonAxeClientAdd.Label = "Add Client Axe";
             this.buttonAxeClientAdd.Name = "buttonAxeClientAdd";
             this.buttonAxeClientAdd.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonAxeClientAdd_Click);
+            // 
+            // buttonAxeDrop
+            // 
+            this.buttonAxeDrop.Label = "Axe Drop";
+            this.buttonAxeDrop.Name = "buttonAxeDrop";
+            this.buttonAxeDrop.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonAxeDrop_Click);
             // 
             // FIGribbon
             // 
@@ -2390,6 +2452,8 @@
             this.OptionEvaluatorgroup.PerformLayout();
             this.tabAccountManagement.ResumeLayout(false);
             this.tabAccountManagement.PerformLayout();
+            this.groupAccountAdministrator.ResumeLayout(false);
+            this.groupAccountAdministrator.PerformLayout();
             this.groupAcctMngmtMain.ResumeLayout(false);
             this.groupAcctMngmtMain.PerformLayout();
             this.groupAcctMngmtActions.ResumeLayout(false);
@@ -2645,7 +2709,6 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonSeparator separator16;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton buttonPullAcctList;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton buttonLogNotes;
-        internal Microsoft.Office.Tools.Ribbon.RibbonButton buttonUpdateProfile;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton buttonGoToLog;
         internal Microsoft.Office.Tools.Ribbon.RibbonCheckBox checkBoxEquityTicket;
         internal Microsoft.Office.Tools.Ribbon.RibbonCheckBox checkBoxEquityOptions;
@@ -2653,7 +2716,6 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonButton buttonActivityReport;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton buttonWashImport;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton buttonUpdateAssign;
-        internal Microsoft.Office.Tools.Ribbon.RibbonButton buttonWash;
         internal Microsoft.Office.Tools.Ribbon.RibbonGroup groupAxeManager;
         internal Microsoft.Office.Tools.Ribbon.RibbonEditBox editBoxAxeName;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton buttonAxeAdd;
@@ -2667,6 +2729,15 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonEditBox FI_StratSNLeditBox;
         internal Microsoft.Office.Tools.Ribbon.RibbonCheckBox PM_TotReturncheckBox;
         internal Microsoft.Office.Tools.Ribbon.RibbonCheckBox checkBoxMasterAcctMgmt;
+        internal Microsoft.Office.Tools.Ribbon.RibbonGroup groupAccountAdministrator;
+        internal Microsoft.Office.Tools.Ribbon.RibbonDropDown dropDownUserList;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton buttonUpdateAssignment;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton buttonAddUser;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton buttonDeleteUser;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton buttonWash;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton buttonDeleteAccount;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton buttonAxeDrop;
+        private Microsoft.Office.Tools.Ribbon.RibbonButton buttonUpdateProfile;
     }
 
     partial class ThisRibbonCollection

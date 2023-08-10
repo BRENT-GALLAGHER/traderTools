@@ -1078,8 +1078,8 @@ namespace traderTools
         private void updateFinderField(int colNum )
         {
 
-            String fieldToUpdate;
-            int idCol;
+           // String fieldToUpdate;
+           // int idCol;
 
             if (Globals.ThisAddIn.Application.Workbooks.Count == 0)
                 Globals.ThisAddIn.Application.Workbooks.Add();
