@@ -27,7 +27,7 @@
     <NoStandardLibraries>false</NoStandardLibraries>
     <RootNamespace>traderTools</RootNamespace>
     <AssemblyName>traderTools</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
     <DefineConstants>VSTO40</DefineConstants>
@@ -175,10 +175,10 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>traderTools_29_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>traderTools_30_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>C9D2411B5C27B0EF641B979873B62FD30CC6D87A</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>C44F23DF4BCC3F2A5508AB0AD8789402CEDFCB0D</ManifestCertificateThumbprint>
   </PropertyGroup>
   <!--
     This section specifies references for the project.
@@ -331,11 +331,13 @@
       <DependentUpon>BWIC.cs</DependentUpon>
     </Compile>
     <Compile Include="equity.cs" />
-    <Compile Include="FIRibbon.cs">
+    <Compile Include="C:\Users\Brent.Gallagher\GitHub\FIFinal\FIRibbon.cs">
       <SubType>Component</SubType>
+      <Link>FIRibbon.cs</Link>
     </Compile>
-    <Compile Include="FIRibbon.designer.cs">
+    <Compile Include="C:\Users\Brent.Gallagher\GitHub\FIFinal\FIRibbon.designer.cs">
       <DependentUpon>FIRibbon.cs</DependentUpon>
+      <Link>FIRibbon.designer.cs</Link>
     </Compile>
     <Compile Include="FIUser.cs" />
     <Compile Include="optParameters.cs">
@@ -384,9 +386,10 @@
     <EmbeddedResource Include="BWIC.resx">
       <DependentUpon>BWIC.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FIRibbon.resx">
+    <EmbeddedResource Include="C:\Users\Brent.Gallagher\GitHub\FIFinal\FIRibbon.resx">
       <DependentUpon>FIRibbon.cs</DependentUpon>
       <SubType>Designer</SubType>
+      <Link>FIRibbon.resx</Link>
     </EmbeddedResource>
     <EmbeddedResource Include="optParameters.resx">
       <DependentUpon>optParameters.cs</DependentUpon>
@@ -454,6 +457,7 @@
     <None Include="traderTools_28_TemporaryKey.pfx" />
     <None Include="traderTools_29_TemporaryKey.pfx" />
     <None Include="traderTools_2_TemporaryKey.pfx" />
+    <None Include="traderTools_30_TemporaryKey.pfx" />
     <None Include="traderTools_3_TemporaryKey.pfx" />
     <None Include="traderTools_4_TemporaryKey.pfx" />
     <None Include="traderTools_5_TemporaryKey.pfx" />
