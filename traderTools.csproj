@@ -27,7 +27,7 @@
     <NoStandardLibraries>false</NoStandardLibraries>
     <RootNamespace>traderTools</RootNamespace>
     <AssemblyName>traderTools</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
     <DefineConstants>VSTO40</DefineConstants>
@@ -175,10 +175,10 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>traderTools_29_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>traderTools_31_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>C9D2411B5C27B0EF641B979873B62FD30CC6D87A</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>BE7C0071410CEA31A7A70F63688AD1EFC53B099F</ManifestCertificateThumbprint>
   </PropertyGroup>
   <!--
     This section specifies references for the project.
@@ -454,6 +454,7 @@
     <None Include="traderTools_28_TemporaryKey.pfx" />
     <None Include="traderTools_29_TemporaryKey.pfx" />
     <None Include="traderTools_2_TemporaryKey.pfx" />
+    <None Include="traderTools_31_TemporaryKey.pfx" />
     <None Include="traderTools_3_TemporaryKey.pfx" />
     <None Include="traderTools_4_TemporaryKey.pfx" />
     <None Include="traderTools_5_TemporaryKey.pfx" />
